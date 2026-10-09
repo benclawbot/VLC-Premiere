@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">Альбомов: 1</item>
+        <item quantity="few">Альбомов: %d</item>
+        <item quantity="many">Альбомов: %d</item>
+        <item quantity="other">Альбомов: %d</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 медиафайл</item>
+        <item quantity="few">Медиафайлов: %d</item>
+        <item quantity="many">Медиафайлов: %d</item>
+        <item quantity="other">Медиафайлов: %d</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">Медиафайлов: 1</item>
+        <item quantity="few">Медиафайлов: %d</item>
+        <item quantity="many">Медиафайлов: %d</item>
+        <item quantity="other">Медиафайлов: %d</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 видео</item>
+        <item quantity="few">%dвидео</item>
+        <item quantity="many">%d видео</item>
+        <item quantity="other">%d видео</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d новое уведомление</item>
+        <item quantity="few">%d новых уведомления</item>
+        <item quantity="many">%d новых уведомлений</item>
+        <item quantity="other">%d нового уведомления</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">Результатов поиска: %d</item>
+        <item quantity="few">Результатов поиска: %d</item>
+        <item quantity="many">Результатов поиска: %d</item>
+        <item quantity="other">Результатов поиска: %d</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">Подпапок: 1</item>
+        <item quantity="few">Подпапок: %d</item>
+        <item quantity="many">Подпапок: %d</item>
+        <item quantity="other">Подпапок: %d</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"Каналов: 1
+"</item>
+        <item quantity="few">"Каналов: %1$d
+"</item>
+        <item quantity="many">"Каналов: %1$d
+"</item>
+        <item quantity="other">"Каналов: %1$d
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 дорожка</item>
+        <item quantity="few">Дорожек: %d</item>
+        <item quantity="many">Дорожек: %d</item>
+        <item quantity="other">Дорожек: %d</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">Добавлено дорожек: %d</item>
+        <item quantity="few">Добавлено дорожек: %d</item>
+        <item quantity="many">Добавлено дорожек: %d</item>
+        <item quantity="other">Добавлено дорожек: %d</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">Вставлено дорожек: %d</item>
+        <item quantity="few">Вставлено дорожек: %d</item>
+        <item quantity="many">Вставлено дорожек: %d</item>
+        <item quantity="other">Вставлено дорожек: %d</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 ТВ-шоу</item>
+        <item quantity="few">%d ТВ-шоу</item>
+        <item quantity="many">%d ТВ-шоу</item>
+        <item quantity="other">%d ТВ-сериал(а)</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 видео</item>
+        <item quantity="few">%d видео</item>
+        <item quantity="many">%d видео</item>
+        <item quantity="other">%d видео</item>
+    </plurals>
+</resources>

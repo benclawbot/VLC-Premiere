@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="other">%d ta albom</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">%d ta media fayl</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d ta yangi bildirishnoma</item>
+        <item quantity="other">%d ta yangi bildirishnoma</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="other">%d ta natija topildi</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="other">%d ta tagjild</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="other">"%1$d ta kanallar
+"</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">%d ta video</item>
+    </plurals>
+</resources>

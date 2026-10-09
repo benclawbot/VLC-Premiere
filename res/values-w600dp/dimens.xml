@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_context_width">512.0dp</dimen>
+    <dimen name="mrl_panel_min_width">380.0dp</dimen>
+    <dimen name="subs_dl_dialog_width">512.0dp</dimen>
+    <dimen name="wizard_dialog_width">448.0dp</dimen>
+</resources>

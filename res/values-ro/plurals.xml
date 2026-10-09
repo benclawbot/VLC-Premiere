@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 album</item>
+        <item quantity="few">%d albume</item>
+        <item quantity="other">%d de albume</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 dintre elementele selectate se află deja în \" %s \" playlist.</item>
+        <item quantity="few">%1$d dintre elementele selectate se află deja în \" %2$s \" playlist .</item>
+        <item quantity="other">%1$d dintre elementele selectate se află deja în \" %2$s \" de playlist .</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Acest element se află deja în \"1%s\" playlist.</item>
+        <item quantity="few">Aceste elemente se află deja în \"1%s\" playlist.</item>
+        <item quantity="other">Aceste elemente se află deja în \"1%s\" de playlist.</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 fișier media</item>
+        <item quantity="few">%d fișiere media</item>
+        <item quantity="other">%d de fișiere media</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 fișier media</item>
+        <item quantity="few">%d fișiere media</item>
+        <item quantity="other">%d de fișiere media</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="few">%d filme</item>
+        <item quantity="other">%d de filme</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d notificare nouă</item>
+        <item quantity="few">%d notificări noi</item>
+        <item quantity="other">%d de notificări noi</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">Un marcaj salvat</item>
+        <item quantity="few">%d marcaje salvate</item>
+        <item quantity="other">%d de marcaje salvate</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d rezultat găsit</item>
+        <item quantity="few">%d rezultate găsite</item>
+        <item quantity="other">%d de rezultate găsite</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 subdosar</item>
+        <item quantity="few">%d subdosare</item>
+        <item quantity="other">%d de subdosare</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 canal
+"</item>
+        <item quantity="few">"%1$d canale
+"</item>
+        <item quantity="other">"%1$d de canale
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 track</item>
+        <item quantity="few">%d track-uri</item>
+        <item quantity="other">%d de track-uri</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d pistă atașată</item>
+        <item quantity="few">%d piste atașate</item>
+        <item quantity="other">%d de piste atașate</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d pistă inserată</item>
+        <item quantity="few">%d piste inserate</item>
+        <item quantity="other">%d de piste inserate</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 emisiune TV</item>
+        <item quantity="few">%d emisiuni TV</item>
+        <item quantity="other">%d de emisiuni TV</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 videoclip</item>
+        <item quantity="few">%d videoclipuri</item>
+        <item quantity="other">%d de videoclipuri</item>
+    </plurals>
+</resources>

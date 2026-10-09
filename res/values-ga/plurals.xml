@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 albam amháin</item>
+        <item quantity="two">%dalbam</item>
+        <item quantity="few">%dalbam</item>
+        <item quantity="many">%dn-albam</item>
+        <item quantity="other">%dalbam</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 mheán amháin</item>
+        <item quantity="two">%d mheán</item>
+        <item quantity="few">%d mheán</item>
+        <item quantity="many">%d meán</item>
+        <item quantity="other">%d meán</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d toradh aimsithe</item>
+        <item quantity="two">%d thoradh aimsithe</item>
+        <item quantity="few">%d thoradh aimsithe</item>
+        <item quantity="many">%d dtoradh aimsithe</item>
+        <item quantity="other">%d dtoradh aimsithe</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 fhofhillteán amháin</item>
+        <item quantity="two">%dfhofhillteán</item>
+        <item quantity="few">%d fhofhillteán</item>
+        <item quantity="many">%dbhfofhillteán</item>
+        <item quantity="other">%dfofhillteán</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 bhealach amháin</item>
+        <item quantity="two">"%1$dbhealach
+"</item>
+        <item quantity="few">"%1$d bhealach
+"</item>
+        <item quantity="many">"%1$dmbealach
+"</item>
+        <item quantity="other">"%1$d bealach
+"</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 fhíseán amháin</item>
+        <item quantity="two">%d fhíseán</item>
+        <item quantity="few">%d fhíseán</item>
+        <item quantity="many">%d bhfíseán</item>
+        <item quantity="other">%d físeán</item>
+    </plurals>
+</resources>

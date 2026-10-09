@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt">
+    <objectAnimator android:interpolator="@android:interpolator/fast_out_slow_in" android:duration="228" android:valueFrom="M 2.778 2.117 L 3.836 2.117 L 3.836 6.35 L 2.778 6.35 Z" android:valueTo="M 2.778 4.498 L 3.836 4.498 L 3.836 6.35 L 2.778 6.35 Z" android:valueType="pathType" android:propertyName="pathData" />
+    <objectAnimator android:interpolator="@android:interpolator/fast_out_slow_in" android:duration="286" android:startOffset="228" android:valueFrom="M 2.778 4.498 L 3.836 4.498 L 3.836 6.35 L 2.778 6.35 Z" android:valueTo="M 2.778 2.91 L 3.836 2.91 L 3.836 6.35 L 2.778 6.35 Z" android:valueType="pathType" android:propertyName="pathData" />
+    <objectAnimator android:interpolator="@android:interpolator/fast_out_slow_in" android:duration="277" android:startOffset="514" android:valueFrom="M 2.778 2.91 L 3.836 2.91 L 3.836 6.35 L 2.778 6.35 Z" android:valueTo="M 2.778 6.085 L 3.836 6.085 L 3.836 6.35 L 2.778 6.35 Z" android:valueType="pathType" android:propertyName="pathData" />
+    <objectAnimator android:interpolator="@android:interpolator/fast_out_slow_in" android:duration="259" android:startOffset="791" android:valueFrom="M 2.778 6.085 L 3.836 6.085 L 3.836 6.35 L 2.778 6.35 Z" android:valueTo="M 2.778 0.529 L 3.836 0.529 L 3.836 6.35 L 2.778 6.35 Z" android:valueType="pathType" android:propertyName="pathData" />
+    <objectAnimator android:interpolator="@android:interpolator/fast_out_slow_in" android:duration="150" android:startOffset="1050" android:valueFrom="M 2.778 0.529 L 3.836 0.529 L 3.836 6.35 L 2.778 6.35 Z" android:valueTo="M 2.778 2.117 L 3.836 2.117 L 3.836 6.35 L 2.778 6.35 Z" android:valueType="pathType" android:propertyName="pathData" />
+</set>

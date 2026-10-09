@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:vlc="http://schemas.android.com/apk/res-auto">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@id/coordinator" android:layout_width="match_parent" android:layout_height="match_parent">
+        <include layout="@layout/toolbar" />
+        <androidx.fragment.app.FragmentContainerView android:id="@id/fragment_placeholder" android:layout_width="match_parent" android:layout_height="match_parent" android:keyboardNavigationCluster="true" />
+        <androidx.appcompat.widget.ViewStubCompat android:layout_gravity="bottom" android:id="@id/scan_viewstub" android:layout="@layout/scan_progress" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <include layout="@layout/audioplayercontainer" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton android:id="@id/fab" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="16.0dp" android:tint="@color/grey50" vlc:borderWidth="0.0dp" vlc:layout_anchor="@id/fragment_placeholder" vlc:layout_anchorGravity="end|bottom" vlc:layout_behavior="org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior" vlc:rippleColor="@color/orange50" vlc:srcCompat="@drawable/ic_fab_add" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <androidx.appcompat.widget.ViewStubCompat android:id="@id/audio_playlist_tips" android:layout="@layout/audio_playlist_tips" android:layout_width="match_parent" android:layout_height="match_parent" />
+    <androidx.appcompat.widget.ViewStubCompat android:id="@id/audio_player_tips" android:layout="@layout/audio_player_tips" android:layout_width="match_parent" android:layout_height="match_parent" />
+</merge>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen android:title="@string/preferences"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="@string/widget_theme">
+        <ListPreference android:entries="@array/widget_themes_entries" android:title="@string/widget_theme" android:key="widget_theme" android:summary="%s" android:defaultValue="0" android:entryValues="@array/widget_themes_values" />
+        <ListPreference android:entries="@array/widget_type_entries" android:title="@string/widget_type" android:key="widget_type" android:summary="%s" android:defaultValue="0" android:entryValues="@array/widget_type_values" />
+        <CheckBoxPreference android:title="@string/light_theme" android:key="widget_light_theme" android:defaultValue="true" app:singleLineTitle="false" />
+        <SeekBarPreference android:max="100" android:title="@string/opacity" android:key="opacity" android:defaultValue="100" android:iconSpaceReserved="false" app:iconSpaceReserved="false" app:min="0" />
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat android:title="@string/widget_background" android:key="background_color" android:defaultValue="@color/black" app:cpv_showAlphaSlider="false" />
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat android:title="@string/widget_foreground" android:key="foreground_color" android:defaultValue="@color/black" app:cpv_showAlphaSlider="false" />
+        <CheckBoxPreference android:title="@string/widget_show_cover" android:key="widget_show_cover" android:defaultValue="true" />
+        <CheckBoxPreference android:title="@string/widget_show_seek" android:key="widget_show_seek" android:defaultValue="true" />
+        <org.videolan.vlc.gui.view.NumberPickerPreference android:dependency="widget_show_seek" android:defaultValue="10" app:key="widget_forward_delay" app:title="@string/widget_forward_delay" />
+        <org.videolan.vlc.gui.view.NumberPickerPreference android:dependency="widget_show_seek" android:defaultValue="10" app:key="widget_rewind_delay" app:title="@string/widget_rewind_delay" />
+        <CheckBoxPreference android:title="@string/widget_show_configure" android:key="widget_show_configure" android:defaultValue="false" app:singleLineTitle="false" app:summary="@string/widget_show_configure_summary" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

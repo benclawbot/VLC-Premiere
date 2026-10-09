@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/screenshotContainer" android:focusable="false" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:id="@id/screenshot_actions" android:background="@drawable/rounded_corners_white" android:visibility="gone" android:layout_width="0.0dp" android:layout_height="56.0dp" android:alpha="0.0">
+        <ImageView android:layout_gravity="end|center" android:id="@id/screenshot_share" android:background="@drawable/rounded_corners_orange" android:padding="4.0dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/ic_share" android:layout_marginEnd="8.0dp" app:tint="@color/white" />
+    </FrameLayout>
+    <View android:id="@id/screenshot_bitmap_background" android:background="@drawable/rounded_corners_white" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:alpha="0.0" />
+    <ImageView android:id="@id/screenshot_bitmap" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" app:layout_constrainedWidth="true" />
+    <View android:id="@id/screenshot_flash" android:background="@color/white_transparent_75" android:visibility="gone" android:layout_width="0.0dp" android:layout_height="0.0dp" android:alpha="0.0" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" />
+</FrameLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/widget_container" android:tag="layout/widget_mini_0" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/player_container_background" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/widget_rectangle_background" android:layout_alignParentTop="true" android:layout_alignParentBottom="true" android:contentDescription="@null" android:layout_alignParentStart="true" android:layout_alignParentEnd="true" />
+    <RelativeLayout android:id="@id/cover_parent" android:layout_width="wrap_content" android:layout_height="match_parent">
+        <ImageView android:id="@id/app_icon" android:layout_width="48.0dp" android:layout_height="48.0dp" android:src="@null" android:layout_centerInParent="true" android:contentDescription="@string/open_vlc" />
+    </RelativeLayout>
+    <ImageView android:id="@id/cover" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignLeft="@id/cover_parent" android:layout_alignTop="@id/cover_parent" android:layout_alignRight="@id/cover_parent" android:layout_alignBottom="@id/cover_parent" android:contentDescription="@null" />
+    <ImageView android:id="@id/separator" android:layout_width="1.0dp" android:layout_height="match_parent" android:contentDescription="@null" android:layout_toEndOf="@id/cover_parent" />
+    <LinearLayout android:orientation="horizontal" android:id="@id/text_container" android:paddingTop="8.0dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="8.0dp" android:layout_marginEnd="8.0dp" android:layout_toEndOf="@id/separator">
+        <TextView android:textSize="16.0sp" android:textColor="@color/white" android:ellipsize="end" android:id="@id/songName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" />
+        <TextView android:textColor="@color/white" android:ellipsize="end" android:id="@id/artist" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" />
+    </LinearLayout>
+    <TextView android:textSize="16.0sp" android:textColor="@color/white" android:gravity="center" android:id="@id/app_name" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4.0dp" android:text="@string/widget_default_text" android:fontFamily="sans-serif-medium" android:layout_toEndOf="@id/cover_parent" />
+    <FrameLayout android:tag="binding_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="4.0dp" android:layout_alignParentBottom="true" android:layout_toEndOf="@id/cover_parent">
+        <include android:id="@id/controls" layout="@layout/widget_content_full_player" />
+    </FrameLayout>
+    <ImageView android:id="@id/widget_configure" android:background="@drawable/widget_touch_background" android:layout_width="48.0dp" android:layout_height="48.0dp" android:scaleType="center" android:layout_alignParentTop="true" android:layout_alignParentRight="true" android:contentDescription="@string/configure_widget" />
+</RelativeLayout>

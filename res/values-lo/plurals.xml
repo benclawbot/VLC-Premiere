@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="other">%d ອາລະບ້ຳ</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">%d ໄຟລ໌ມີເດຍ</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d ການແຈ້ງເຕືອນໃໝ່</item>
+        <item quantity="other">%d ການແຈ້ງເຕືອນໃໝ່</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="other">%d ຜົນໄດ້ຮັບທີ່ພົບ</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="other">%d ໂຟນເດີຍ່ອຍ</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="other">"%1$d ຊ່ອງ
+"</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">%d ວິດີໂອ</item>
+    </plurals>
+</resources>

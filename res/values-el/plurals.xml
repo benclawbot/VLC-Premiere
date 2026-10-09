@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 άλμπουμ</item>
+        <item quantity="other">%d άλμπουμ</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 από τα επιλεγμένα στοιχεία βρίσκεται ήδη στη λίστα αναπαραγωγής «%s».</item>
+        <item quantity="other">%1$d από τα επιλεγμένα στοιχεία βρίσκονται ήδη στη λίστα αναπαραγωγής «%2$s».</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Αυτό το στοιχείο βρίσκεται ήδη στη λίστα αναπαραγωγής «%s».</item>
+        <item quantity="other">Αυτά τα στοιχεία βρίσκονται ήδη στη λίστα αναπαραγωγής «%s».</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 αρχείο πολυμέσων</item>
+        <item quantity="other">%d αρχεία πολυμέσων</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 αρχείο πολυμέσων</item>
+        <item quantity="other">%d αρχεία πολυμέσων</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 ταινία</item>
+        <item quantity="other">%d ταινίες</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d νέα ειδοποίηση</item>
+        <item quantity="other">%d νέες ειδοποιήσεις</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 αποθηκευμένος σελιδοδείκτης</item>
+        <item quantity="other">%d αποθηκευμένοι σελιδοδείκτες</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">Βρέθηκε %d αποτέλεσμα</item>
+        <item quantity="other">Βρέθηκαν %d αποτελέσματα</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 υποφάκελος</item>
+        <item quantity="other">%d υποφάκελοι</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 κανάλι
+"</item>
+        <item quantity="other">"%1$d κανάλια
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 κομμάτι</item>
+        <item quantity="other">%d κομμάτια</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">Προσαρτήθηκε %dκομμάτι</item>
+        <item quantity="other">Προσαρτήθηκαν %d κομμάτια</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">Εισήχθη %dκομμάτι</item>
+        <item quantity="other">Εισήχθησαν %d κομμάτια</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 τηλεοπτική εκπομπή</item>
+        <item quantity="other">%d τηλεοπτικές εκπομπές</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 βίντεο</item>
+        <item quantity="other">%d βίντεο</item>
+    </plurals>
+</resources>

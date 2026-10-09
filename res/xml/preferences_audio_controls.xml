@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen android:title="@string/video_prefs_category" android:key="video_category"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="@string/controls_prefs_category" app:iconSpaceReserved="false">
+        <org.videolan.vlc.gui.view.NumberPickerPreference android:summary="%ss" android:defaultValue="10" app:key="audio_jump_delay" app:title="@string/jump_delay" />
+        <org.videolan.vlc.gui.view.NumberPickerPreference android:summary="%ss" android:defaultValue="20" app:key="audio_long_jump_delay" app:title="@string/long_jump_delay" />
+        <CheckBoxPreference android:title="@string/force_shuffle_title" android:key="audio_force_shuffle" android:summary="@string/force_shuffle_summary" android:defaultValue="false" app:singleLineTitle="false" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/interface_prefs_screen" app:iconSpaceReserved="false">
+        <CheckBoxPreference android:title="@string/blurred_cover_background_title" android:key="blurred_cover_background" android:summary="@string/blurred_cover_background_summary" android:defaultValue="true" app:singleLineTitle="false" />
+        <CheckBoxPreference android:title="@string/albums_show_track_numbers" android:key="audio_show_track_numbers" android:defaultValue="false" app:singleLineTitle="false" />
+        <CheckBoxPreference android:title="@string/show_chapter_buttons" android:key="audio_show_chapter_buttons" android:summary="@string/show_chapter_buttons_summary" android:defaultValue="true" app:singleLineTitle="false" />
+        <CheckBoxPreference android:title="@string/show_bookmark_buttons" android:key="audio_show_bookmark_buttons" android:summary="@string/show_bookmark_buttons_summary" android:defaultValue="true" app:singleLineTitle="false" />
+        <CheckBoxPreference android:title="@string/show_bookmark_markers" android:key="audio_show_bookmark_markers" android:summary="@string/show_bookmark_markers_summary" android:dependency="audio_show_bookmark_buttons" android:defaultValue="true" app:singleLineTitle="false" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

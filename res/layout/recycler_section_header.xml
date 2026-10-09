@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView android:textSize="20.0sp" android:textColor="?audio_browser_separator" android:gravity="center_vertical" android:id="@id/section_header" android:background="?header_background" android:layout_width="match_parent" android:layout_height="@dimen/recycler_section_header_height" android:singleLine="true" android:paddingStart="20.0dp" android:paddingEnd="28.0dp"
+  xmlns:android="http://schemas.android.com/apk/res/android" />

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:icon="@drawable/ic_information" android:id="@id/action_mode_audio_info" android:title="@string/info" app:showAsAction="always" />
+    <item android:icon="@drawable/ic_share" android:id="@id/action_mode_audio_share" android:title="@string/share" app:showAsAction="always" />
+    <item android:icon="@drawable/ic_play" android:id="@id/action_mode_audio_play" android:title="@string/play" app:showAsAction="always" />
+    <item android:icon="@drawable/ic_fav_add" android:id="@id/action_mode_favorite_add" android:title="@string/favorites_add" app:showAsAction="ifRoom" />
+    <item android:icon="@drawable/ic_fav_add" android:id="@id/action_mode_favorite_remove" android:title="@string/favorites_remove" app:showAsAction="ifRoom" />
+    <item android:icon="@drawable/ic_play_append" android:id="@id/action_mode_audio_append" android:title="@string/append" app:showAsAction="ifRoom" />
+    <item android:icon="@drawable/ic_add_to_playlist" android:id="@id/action_mode_audio_add_playlist" android:title="@string/add_to_playlist" app:showAsAction="ifRoom" />
+    <item android:icon="@drawable/ic_delete" android:id="@id/action_mode_audio_delete" android:visible="false" android:title="@string/delete" app:showAsAction="ifRoom" />
+    <group android:id="@id/phone_only">
+        <item android:icon="@drawable/ic_set_ringtone" android:id="@id/action_mode_audio_set_song" android:visible="false" android:title="@string/set_song" app:showAsAction="always" />
+    </group>
+    <item android:icon="@drawable/ic_go_to_folder" android:id="@id/action_mode_go_to_folder" android:visible="false" android:title="@string/go_to_folder" app:showAsAction="ifRoom" />
+</menu>

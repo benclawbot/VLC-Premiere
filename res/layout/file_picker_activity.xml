@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:background="?background_default_darker" android:layout_width="@dimen/file_picker_width" android:layout_height="@dimen/file_picker_height" android:minHeight="320.0dp"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/imageView12" android:background="?selectableItemBackgroundBorderless" android:layout_width="24.0dp" android:layout_height="24.0dp" android:layout_marginTop="8.0dp" android:onClick="onCloseClick" android:layout_marginEnd="8.0dp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/ic_close_small" />
+    <FrameLayout android:id="@id/fragment_placeholder" android:layout_width="0.0dp" android:layout_height="0.0dp" android:layout_marginTop="8.0dp" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/imageView12" />
+</androidx.constraintlayout.widget.ConstraintLayout>

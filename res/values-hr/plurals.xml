@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 album</item>
+        <item quantity="few">%d albuma</item>
+        <item quantity="other">%d albuma</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 medij</item>
+        <item quantity="few">%d medija</item>
+        <item quantity="other">%d medija</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 medijska datoteka</item>
+        <item quantity="few">%d medijske datoteke</item>
+        <item quantity="other">%d medijskih datoteka</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="few">%d filma</item>
+        <item quantity="other">%d filmova</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d nova obavijest</item>
+        <item quantity="few">%d nove obavijesti</item>
+        <item quantity="other">%d novih obavijesti</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">Pronađen je %d rezultat</item>
+        <item quantity="few">Pronađena su %d rezultata</item>
+        <item quantity="other">Pronađeno je %d rezultata</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 podmapa</item>
+        <item quantity="few">%d podmape</item>
+        <item quantity="other">%d podmapa</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 kanal
+"</item>
+        <item quantity="few">"%1$d kanala
+"</item>
+        <item quantity="other">"%1$d kanala
+"</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV emisija</item>
+        <item quantity="few">%d TV emisije</item>
+        <item quantity="other">%d TV emisija</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 video snimka</item>
+        <item quantity="few">%d video snimke</item>
+        <item quantity="other">%d video snimki</item>
+    </plurals>
+</resources>

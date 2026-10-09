@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut android:icon="@drawable/ic_shortcut_resume_playback" android:enabled="true" android:shortcutId="last_playlist" android:shortcutShortLabel="@string/resume_audio_playback_short_title" android:shortcutLongLabel="@string/resume_audio_playback_long_title">
+        <intent android:targetPackage="org.videolan.vlc" android:action="vlc.shortcut.resume" android:targetClass="org.videolan.vlc.StartActivity" />
+        <categories android:name="vlc.shortcut.category" />
+    </shortcut>
+    <shortcut android:icon="@drawable/ic_shortcut_folder" android:enabled="true" android:shortcutId="browser" android:shortcutShortLabel="@string/directories" android:shortcutLongLabel="@string/directories">
+        <intent android:targetPackage="org.videolan.vlc" android:action="vlc.shortcut.browser" android:targetClass="org.videolan.vlc.StartActivity" />
+        <categories android:name="vlc.shortcut.category" />
+    </shortcut>
+    <shortcut android:icon="@drawable/ic_shortcut_video" android:enabled="false" android:shortcutId="video" android:shortcutShortLabel="@string/video" android:shortcutLongLabel="@string/video">
+        <intent android:targetPackage="org.videolan.vlc" android:action="vlc.shortcut.video" android:targetClass="org.videolan.vlc.StartActivity" />
+        <categories android:name="vlc.shortcut.category" />
+    </shortcut>
+    <shortcut android:icon="@drawable/ic_shortcut_audio" android:enabled="false" android:shortcutId="audio" android:shortcutShortLabel="@string/audio" android:shortcutLongLabel="@string/audio">
+        <intent android:targetPackage="org.videolan.vlc" android:action="vlc.shortcut.audio" android:targetClass="org.videolan.vlc.StartActivity" />
+        <categories android:name="vlc.shortcut.category" />
+    </shortcut>
+</shortcuts>

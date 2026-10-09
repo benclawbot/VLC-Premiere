@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 álbum</item>
+        <item quantity="many">%d álbumes</item>
+        <item quantity="other">%d álbumes</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 medio</item>
+        <item quantity="many">%d medios</item>
+        <item quantity="other">%d medios</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 archivo de medio</item>
+        <item quantity="many">%d archivos de medio</item>
+        <item quantity="other">%d archivos de medio</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 película</item>
+        <item quantity="many">%d películas</item>
+        <item quantity="other">%d películas</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d notificación nueva</item>
+        <item quantity="other">%d notificaciones nuevas</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d resultado encontrado</item>
+        <item quantity="many">%d resultados encontrados</item>
+        <item quantity="other">%d resultados encontrados</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 subcarpeta</item>
+        <item quantity="many">%d subcarpetas</item>
+        <item quantity="other">%d subcarpetas</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 canal
+"</item>
+        <item quantity="many">"%1$d canales
+"</item>
+        <item quantity="other">"%1$d canales
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 pista</item>
+        <item quantity="many">%d pistas</item>
+        <item quantity="other">%d pistas</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d pista añadida</item>
+        <item quantity="many">%d pistas añadidas</item>
+        <item quantity="other">%d pistas añadidas</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d pista insertada</item>
+        <item quantity="many">%d pistas insertadas</item>
+        <item quantity="other">%d pistas insertadas</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 programa de TV</item>
+        <item quantity="many">%d programas de TV</item>
+        <item quantity="other">%d programas de TV</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 vídeo</item>
+        <item quantity="many">%d vídeos</item>
+        <item quantity="other">%d vídeos</item>
+    </plurals>
+</resources>

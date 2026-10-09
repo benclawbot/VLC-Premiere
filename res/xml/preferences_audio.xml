@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen android:title="@string/audio_prefs_category" android:key="audio_category"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <CheckBoxPreference android:title="@string/resume_playback_title" android:key="resume_playback" android:summary="@string/resume_playback_summary" android:defaultValue="true" app:singleLineTitle="false" />
+    <CheckBoxPreference android:title="@string/audio_task_cleared_title" android:key="audio_task_removed" android:summary="@string/audio_task_cleared_summary" android:defaultValue="false" app:singleLineTitle="false" />
+    <CheckBoxPreference android:title="@string/audio_digital_title" android:key="audio_digital_output" android:defaultValue="false" app:singleLineTitle="false" />
+    <ListPreference android:persistent="true" android:title="@string/audio_preferred_language" android:key="audio_preferred_language" android:defaultValue="" />
+    <ListPreference android:entries="@array/ask_confirmation_entries" android:title="@string/confirm_resume_audio_title" android:key="audio_confirm_resume" android:summary="%s" android:defaultValue="0" android:entryValues="@array/ask_confirmation_values" app:singleLineTitle="false" />
+    <PreferenceCategory android:title="@string/headset_prefs_category" android:key="headset_prefs_category">
+        <CheckBoxPreference android:title="@string/enable_headset_detection" android:key="enable_headset_detection" android:summary="@string/enable_headset_detection_summary" android:defaultValue="true" app:singleLineTitle="false" />
+        <CheckBoxPreference android:title="@string/enable_play_on_headset_insertion" android:key="enable_play_on_headset_insertion" android:summary="@string/enable_play_on_headset_insertion_summary" android:dependency="enable_headset_detection" android:defaultValue="false" app:singleLineTitle="false" />
+        <CheckBoxPreference android:layout_width="wrap_content" android:layout_height="wrap_content" android:title="@string/ignore_headset_media_button_presses" android:key="ignore_headset_media_button_presses" android:summary="@string/ignore_headset_media_button_presses_summary" android:defaultValue="false" app:singleLineTitle="false" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/replaygain_prefs_category">
+        <CheckBoxPreference android:defaultValue="false" app:key="audio-replay-gain-enable" app:singleLineTitle="false" app:summary="@string/replaygain_enable_summary" app:title="@string/replaygain_enable" />
+        <ListPreference android:entries="@array/replaygain" android:title="@string/replaygain_mode" android:key="audio-replay-gain-mode" android:summary="@string/replaygain_mode_summary" android:dependency="audio-replay-gain-enable" android:defaultValue="track" android:entryValues="@array/replaygain_values" />
+        <EditTextPreference android:title="@string/replaygain_preamp" android:key="audio-replay-gain-preamp" android:summary="@string/replaygain_preamp_summary" android:dependency="audio-replay-gain-enable" android:defaultValue="0.0" />
+        <EditTextPreference android:title="@string/replaygain_default" android:key="audio-replay-gain-default" android:summary="@string/replaygain_default_summary" android:dependency="audio-replay-gain-enable" android:defaultValue="-7.0" />
+        <CheckBoxPreference android:title="@string/replaygain_peak_protection" android:key="audio-replay-gain-peak-protection" android:summary="@string/replaygain_peak_protection_summary" android:dependency="audio-replay-gain-enable" android:defaultValue="true" app:singleLineTitle="false" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/advanced_prefs_category">
+        <CheckBoxPreference android:title="@string/audio_ducking_title" android:key="audio_ducking" android:summary="@string/audio_ducking_summary" android:defaultValue="true" app:singleLineTitle="false" />
+        <PreferenceScreen android:title="@string/soundfont" android:key="soundfont" android:summary="@string/soundfont_summary" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

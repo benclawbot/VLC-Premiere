@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="other">အခွေ %dခွေ</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="other">မီဒီယာ %dခု</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">မီဒီယာ ဖိုင်%dဖိုင်</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="other">ရုပ်ရှင် %dကား</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">အကြောင်းကြားချက်အသစ် %d ခု</item>
+        <item quantity="other">အကြောင်းကြားချက်အသစ် %d ခု</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="other">ရလဒ် %dခု တွေ့ရှိသည်</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="other">ဖိုဒါ %dခု</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="other">တီဗီဖျော်ဖြေပွဲ %d ပွဲ</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">ဗီဒီယို%dကား</item>
+    </plurals>
+</resources>

@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView android:id="@id/separator_title" android:tag="layout/browser_item_separator_0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dp" android:layout_marginTop="10.0dp" android:layout_marginBottom="10.0dp" android:layout_marginStart="20.0dp"
+  xmlns:android="http://schemas.android.com/apk/res/android" />

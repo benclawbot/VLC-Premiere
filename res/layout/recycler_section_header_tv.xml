@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="match_parent" android:layout_height="48.0dp"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="20.0sp" android:textColor="@color/white" android:id="@id/section_header" android:background="?header_background" android:paddingTop="@dimen/audio_item_header_padding" android:paddingBottom="@dimen/audio_item_header_padding" android:layout_width="wrap_content" android:layout_height="match_parent" android:singleLine="true" android:paddingStart="@dimen/tv_overscan_horizontal" android:paddingEnd="28.0dp" />
+</FrameLayout>

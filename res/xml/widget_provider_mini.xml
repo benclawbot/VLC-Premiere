@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider android:minWidth="250.0dp" android:minHeight="40.0dp" android:updatePeriodMillis="86400000" android:initialLayout="@layout/widget_mini_initial" android:configure="org.videolan.vlc.widget.MiniPlayerConfigureActivity" android:previewImage="@drawable/widget_preview_mini" android:resizeMode="horizontal|vertical" android:minResizeWidth="120.0dp" android:minResizeHeight="32.0dp" android:widgetFeatures="reconfigurable" android:targetCellWidth="4" android:targetCellHeight="1"
+  xmlns:android="http://schemas.android.com/apk/res/android" />

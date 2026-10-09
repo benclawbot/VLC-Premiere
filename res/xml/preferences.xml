@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen android:title="@string/preferences"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="@string/medialibrary">
+        <PreferenceScreen android:title="@string/medialibrary_directories" android:key="directories" android:summary="@string/directories_summary" />
+        <CheckBoxPreference android:title="@string/auto_rescan" android:key="auto_rescan" android:summary="@string/auto_rescan_summary" android:defaultValue="true" app:singleLineTitle="false" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/video_prefs_category">
+        <ListPreference android:entries="@array/video_app_switch_action_titles" android:title="@string/video_app_switch_title" android:key="video_action_switch" android:summary="@string/video_app_switch_summary" android:defaultValue="0" android:entryValues="@array/video_app_switch_action_values" />
+        <ListPreference android:entries="@array/hardware_acceleration_list" android:title="@string/hardware_acceleration" android:key="hardware_acceleration" android:summary="@string/hardware_acceleration_summary" android:defaultValue="-1" android:entryValues="@array/hardware_acceleration_values" />
+        <ListPreference android:entries="@array/screen_orientation_list" android:title="@string/screen_orientation" android:key="screen_orientation" android:summary="%s" android:defaultValue="99" android:entryValues="@array/screen_orientation_values" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/network">
+        <ListPreference android:entries="@array/metered_connection_list" android:title="@string/metered_connection" android:key="metered_connection" android:summary="%s" android:defaultValue="0" android:entryValues="@array/metered_connection_values" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/permissions" android:key="permissions_title">
+        <PreferenceScreen android:title="@string/permissions" android:key="permissions" android:summary="@string/permissions_summary" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/history">
+        <CheckBoxPreference android:title="@string/playback_history_title" android:key="playback_history" android:summary="@string/playback_history_summary" android:defaultValue="true" android:disableDependentsState="true" app:singleLineTitle="false" />
+        <CheckBoxPreference android:title="@string/video_resume_playback_title" android:key="video_resume_playback" android:summary="@string/video_resume_playback_summary" android:dependency="playback_history" android:defaultValue="true" app:singleLineTitle="false" />
+        <CheckBoxPreference android:title="@string/audio_resume_playback_title" android:key="audio_resume_playback" android:summary="@string/audio_resume_playback_summary" android:dependency="playback_history" android:defaultValue="true" app:singleLineTitle="false" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/extra_prefs_category">
+        <Preference android:icon="@drawable/ic_ui" android:title="@string/interface_prefs_screen" android:key="ui_category" android:fragment="org.videolan.television.ui.preferences.PreferencesUi" />
+        <Preference android:icon="@drawable/ic_pref_video" android:title="@string/video_prefs_category" android:key="video_category" android:fragment="org.videolan.television.ui.preferences.PreferencesVideo" />
+        <Preference android:icon="@drawable/ic_pref_subtitles" android:title="@string/subtitles_prefs_category" android:key="subtitles_category" android:fragment="org.videolan.television.ui.preferences.PreferencesSubtitles" />
+        <Preference android:icon="@drawable/ic_pref_audio" android:title="@string/audio_prefs_category" android:key="audio_category" android:fragment="org.videolan.television.ui.preferences.PreferencesAudio" />
+        <Preference android:icon="@drawable/ic_pref_equalizer" android:title="@string/equalizer" android:key="equalizer" />
+        <Preference android:icon="@drawable/ic_renderer" android:title="@string/casting_category" android:key="casting_category" />
+        <PreferenceScreen android:icon="@drawable/ic_pref_parental_control" android:singleLine="false" android:title="@string/parental_control" android:key="parental_control" android:fragment="org.videolan.television.ui.preferences.PreferencesParentalControl" />
+        <Preference android:icon="@drawable/ic_pref_remote_access" android:title="@string/remote_access" android:key="remote_access_category" android:fragment="org.videolan.television.ui.preferences.PreferencesRemoteAccess" />
+        <Preference android:icon="@drawable/ic_pref_android_auto" android:title="@string/android_auto" android:key="android_auto_category" android:fragment="org.videolan.television.ui.preferences.PreferencesAndroidAuto" />
+        <Preference android:icon="@drawable/ic_pref_advanced_settings" android:title="@string/advanced_prefs_category" android:key="adv_category" android:fragment="org.videolan.television.ui.preferences.PreferencesAdvanced" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 альбом</item>
+        <item quantity="few">%d альбомы</item>
+        <item quantity="many">%d альбомаў</item>
+        <item quantity="other">%d альбомаў</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 медыяфайл</item>
+        <item quantity="few">%d медыяфайлы</item>
+        <item quantity="many">%d медыяфайлаў</item>
+        <item quantity="other">%d медыяфайлаў</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 медыяфайл</item>
+        <item quantity="few">%d медыяфайлы</item>
+        <item quantity="many">%d медыяфайлаў</item>
+        <item quantity="other">%d медыяфайлаў</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 відэа</item>
+        <item quantity="few">%d відэа</item>
+        <item quantity="many">%d відэа</item>
+        <item quantity="other">%d відэа</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d новае апавяшчэнне</item>
+        <item quantity="few">%d новыя апавяшчэнні</item>
+        <item quantity="many">%d новых апавяшчэнняў</item>
+        <item quantity="other">%d новага апавяшчэння</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 захаваная закладка</item>
+        <item quantity="few">%d захаваныя закладкі</item>
+        <item quantity="many">%d захаваных закладак</item>
+        <item quantity="other">%d захаваных закладак</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d вынік</item>
+        <item quantity="few">%d вынікі</item>
+        <item quantity="many">%d вынікаў</item>
+        <item quantity="other">%d вынікаў</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 падпапка</item>
+        <item quantity="few">%d падпапкі</item>
+        <item quantity="many">%d падпапак</item>
+        <item quantity="other">%d падпапак</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 канал
+"</item>
+        <item quantity="few">"%1$d каналы
+"</item>
+        <item quantity="many">"%1$d каналаў
+"</item>
+        <item quantity="other">"%1$d каналаў
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 дарожка</item>
+        <item quantity="few">%d дарожкі</item>
+        <item quantity="many">%d дарожак</item>
+        <item quantity="other">%d дарожак</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">Дададзена %d дарожка</item>
+        <item quantity="few">Дададзена %d дарожкі</item>
+        <item quantity="many">Дададзена %d дарожак</item>
+        <item quantity="other">Дададзена %d дарожак</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">Устаўлена %d дарожка</item>
+        <item quantity="few">Устаўлена %d дарожкі</item>
+        <item quantity="many">Устаўлена %d дарожак</item>
+        <item quantity="other">Устаўлена %d дарожак</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 тэлеперадача</item>
+        <item quantity="few">%d тэлеперадачы</item>
+        <item quantity="many">%d тэлеперадач</item>
+        <item quantity="other">%d тэлеперадач</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 відэа</item>
+        <item quantity="few">%d відэа</item>
+        <item quantity="many">%d відэа</item>
+        <item quantity="other">%d відэа</item>
+    </plurals>
+</resources>

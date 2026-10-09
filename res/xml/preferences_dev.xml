@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen android:title="@string/developer_prefs_category"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <CheckBoxPreference android:title="@string/enable_verbose_mode" android:key="enable_verbose_mode" android:summary="@string/enable_verbose_mode_summary" android:defaultValue="true" app:singleLineTitle="false" />
+    <PreferenceScreen android:title="@string/debug_logs" android:key="debug_logs" />
+</androidx.preference.PreferenceScreen>

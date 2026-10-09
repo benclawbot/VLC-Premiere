@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 albom</item>
+        <item quantity="two">%d a albomoù</item>
+        <item quantity="few">%d a albomoù</item>
+        <item quantity="many">%d a albomoù</item>
+        <item quantity="other">%d a albomoù</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 media</item>
+        <item quantity="two">%d a vediaoù</item>
+        <item quantity="few">%d a vediaoù</item>
+        <item quantity="many">%d a vediaoù</item>
+        <item quantity="other">%d a vediaoù</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 restr media</item>
+        <item quantity="two">%d a restroù media</item>
+        <item quantity="few">%d a restroù media</item>
+        <item quantity="many">%d a restroù media</item>
+        <item quantity="other">%d a restroù media</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="two">%d a filmoù</item>
+        <item quantity="few">%d a filmoù</item>
+        <item quantity="many">%d a filmoù</item>
+        <item quantity="other">%d a filmoù</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">"%d disoc'h kavet"</item>
+        <item quantity="two">"%d a zisoc'hoù kavet"</item>
+        <item quantity="few">"%d a zisoc'hoù kavet"</item>
+        <item quantity="many">"%d a zisoc'hoù kavet"</item>
+        <item quantity="other">"%d a zisoc'hoù kavet"</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 isteuliad</item>
+        <item quantity="two">%d a isteuliadoù</item>
+        <item quantity="few">%d a isteuliadoù</item>
+        <item quantity="many">%d a isteuliadoù</item>
+        <item quantity="other">%d a isteuliadoù</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 chadenn
+"</item>
+        <item quantity="two">"%1$d sanell
+"</item>
+        <item quantity="few">"%1$d sanell
+"</item>
+        <item quantity="many">"%1$d sanell
+"</item>
+        <item quantity="other">"%1$d sanell
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 roud</item>
+        <item quantity="two">%d a roudoù</item>
+        <item quantity="few">%d a roudoù</item>
+        <item quantity="many">%d a roudoù</item>
+        <item quantity="other">%d a roudoù</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d roudenn staget</item>
+        <item quantity="two">%d a roudennoù staget</item>
+        <item quantity="few">%d a roudennoù staget</item>
+        <item quantity="many">%d a roudennoù staget</item>
+        <item quantity="other">%d a roudennoù staget</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">"%d roudenn ensoc'het"</item>
+        <item quantity="two">"%d a roudennoù ensoc'het"</item>
+        <item quantity="few">"%d a roudennoù ensoc'het"</item>
+        <item quantity="many">"%d a roudennoù ensoc'het"</item>
+        <item quantity="other">"%d a roudennoù ensoc'het"</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 abadenn TV</item>
+        <item quantity="two">%d a abadennoù TV</item>
+        <item quantity="few">%d a abadennoù TV</item>
+        <item quantity="many">%d a abadennoù TV</item>
+        <item quantity="other">%d a abadennoù TV</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 video</item>
+        <item quantity="two">%d a videoioù</item>
+        <item quantity="few">%d a videoioù</item>
+        <item quantity="many">%d a videoioù</item>
+        <item quantity="other">%d a videoioù</item>
+    </plurals>
+</resources>

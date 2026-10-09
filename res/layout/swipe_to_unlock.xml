@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:background="@drawable/swipe_to_unlock_background" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textColor="@color/white" android:id="@id/swipe_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/swipe_unlock" android:textAllCaps="true" android:layout_marginStart="76.0dp" android:layout_marginEnd="24.0dp" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.Guideline android:orientation="vertical" android:id="@id/swipe_guideline" android:layout_width="wrap_content" android:layout_height="wrap_content" app:layout_constraintGuide_begin="28.0dp" />
+    <androidx.appcompat.widget.AppCompatImageView android:id="@id/swipe_icon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dp" android:layout_marginBottom="4.0dp" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toStartOf="@id/swipe_guideline" app:layout_constraintStart_toStartOf="@id/swipe_guideline" app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/ic_swipe_unlock" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:tag="layout/remote_access_connection_item_0" android:layout_width="match_parent" android:layout_height="48.0dp"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:id="@id/connection_title" android:layout_width="0.0dp" android:layout_height="wrap_content" android:layout_weight="1.0" />
+    <ImageView android:id="@id/connection_delete" android:padding="12.0dp" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" app:srcCompat="@drawable/ic_delete" />
+</LinearLayout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="other">%d アルバム</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="other">選択された %1$d の項目は既に \"%2$s\" のプレイリストに存在します。</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="other">これらの項目は既に \"%s\" のプレイリストに存在します。</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="other">%d メディア</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">%d メディアファイル</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="other">%d 映画</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d 件の新しい通知</item>
+        <item quantity="other">%d 件の新しい通知</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="other">%d のブックマークを保存しました</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="other">%d 件見つかりました</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="other">%d サブフォルダー</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="other">"%1$d チャンネル
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="other">%d トラック</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="other">%d トラックが追加されました</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="other">%d トラックが挿入されました</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="other">%d TVショー</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">%d ビデオ</item>
+    </plurals>
+</resources>

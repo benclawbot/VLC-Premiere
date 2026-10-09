@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:icon="@drawable/ic_information" android:id="@id/action_history_info" android:visible="false" android:title="@string/info" app:showAsAction="always" />
+    <item android:icon="@drawable/ic_play" android:id="@id/action_history_play" android:title="@string/play" app:showAsAction="always" />
+    <item android:icon="@drawable/ic_play_append" android:id="@id/action_history_append" android:title="@string/append" app:showAsAction="always" />
+    <item android:icon="@drawable/ic_go_to_folder" android:id="@id/action_go_to_folder" android:title="@string/go_to_folder" app:showAsAction="always" />
+</menu>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 албум</item>
+        <item quantity="few">%d албума</item>
+        <item quantity="other">%d албума</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 медиј</item>
+        <item quantity="few">%d медија</item>
+        <item quantity="other">%d медија</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 медијска датотека</item>
+        <item quantity="few">%d медијске датотеке</item>
+        <item quantity="other">%d медијских датотека</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 филм</item>
+        <item quantity="few">%d филма</item>
+        <item quantity="other">%d филмова</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d ново обавештење</item>
+        <item quantity="few">%d нова обавештења</item>
+        <item quantity="other">%d нових обавештења</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">Пронађен је %d резултат</item>
+        <item quantity="few">Пронађена су %d резултата</item>
+        <item quantity="other">Пронађено је %d резултата</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 потфасцикла</item>
+        <item quantity="few">%d потфасцикле</item>
+        <item quantity="other">%d потфасцикли</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 канал
+"</item>
+        <item quantity="few">"%1$d канала
+"</item>
+        <item quantity="other">"%1$d канала
+"</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 ТВ серија</item>
+        <item quantity="few">%d ТВ серије</item>
+        <item quantity="other">%d ТВ серија</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">видео</item>
+        <item quantity="few">%d видео</item>
+        <item quantity="other">%d видео</item>
+    </plurals>
+</resources>

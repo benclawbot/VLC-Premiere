@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 album</item>
+        <item quantity="other">%d album</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 av de markerade objekten finns redan i spellistan \"%s\".</item>
+        <item quantity="other">%1$d av de markerade objekten finns redan i spellistan \"%2$s\".</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Detta objekt finns redan i spellistan \"%s\".</item>
+        <item quantity="other">Dessa objekt finns redan i spellistan \"%s\".</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 mediafil</item>
+        <item quantity="other">%d mediafiler</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 mediafil</item>
+        <item quantity="other">%d mediafiler</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="other">%d filmer</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d ny avisering</item>
+        <item quantity="other">%d nya aviseringar</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 sparat bokmärke</item>
+        <item quantity="other">%d sparade bokmärken</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d resultat hittades</item>
+        <item quantity="other">%d resultat hittades</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 undermapp</item>
+        <item quantity="other">%d undermappar</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 kanal
+"</item>
+        <item quantity="other">"%1$d kanaler
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 spår</item>
+        <item quantity="other">%d spår</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d spår lades till i slutet</item>
+        <item quantity="other">%d spår lades till i slutet</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d spår lades till</item>
+        <item quantity="other">%d spår lades till</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV-program</item>
+        <item quantity="other">%d TV-program</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 video</item>
+        <item quantity="other">%d videor</item>
+    </plurals>
+</resources>

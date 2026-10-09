@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">Album bat</item>
+        <item quantity="other">%d album</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">multimedia-fitxategi 1</item>
+        <item quantity="other">%d multimedia-fitxategi</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">Multimedia-fitxategi bat</item>
+        <item quantity="other">%d multimedia-fitxategi</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">Pelikula 1</item>
+        <item quantity="other">%d pelikula</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d jakinarazpen berri</item>
+        <item quantity="other">%d jakinarazpen berri</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">Gordetako laster-marka 1</item>
+        <item quantity="other">Gordetako %d laster-marka</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">Emaitza %d aurkitu da</item>
+        <item quantity="other">%d emaitza aurkitu dira</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">Azpikarpeta bat</item>
+        <item quantity="other">%d azpikarpeta</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"Kanal 1
+"</item>
+        <item quantity="other">"%1$d kanal
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">Pista 1</item>
+        <item quantity="other">%d pista</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">Pista %d erantsita</item>
+        <item quantity="other">%d pista erantsita</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">Pista %d txertatuta</item>
+        <item quantity="other">%d pista txertatuta</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">TB saio 1</item>
+        <item quantity="other">%d TB saio</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">Bideo bat</item>
+        <item quantity="other">%d bideo</item>
+    </plurals>
+</resources>

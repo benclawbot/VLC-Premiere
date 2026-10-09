@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 अल्बम</item>
+        <item quantity="other">%d अल्बम</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 मीडिया फाईल</item>
+        <item quantity="other">%d मीडिया फाईल</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d नवीन सूचना</item>
+        <item quantity="other">%d नवीन सूचना</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%1$d शोध-निकाल प्राप्त</item>
+        <item quantity="other">%1$d शोध-निकाल प्राप्त</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 उपफोल्डर</item>
+        <item quantity="other">%d उपफोल्डर</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 चॅनेल</item>
+        <item quantity="other">"%1$d चॅनेल
+"</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 चित्रफीत</item>
+        <item quantity="other">%d चित्रफिती</item>
+    </plurals>
+</resources>

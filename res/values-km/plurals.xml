@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="other">%d អាល់ប៊ុម</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">ឯកសារ​មេឌៀ %d</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">ការជូនដំណឹងថ្មី %d</item>
+        <item quantity="other">ការជូនដំណឹងថ្មី %d</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="other">រក​ឃើញ​លទ្ធផល %d</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="other">ថត​រង %d</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">%d វីដេអូ</item>
+    </plurals>
+</resources>

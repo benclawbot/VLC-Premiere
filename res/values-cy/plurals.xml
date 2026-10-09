@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 albwm</item>
+        <item quantity="two">%d albwm</item>
+        <item quantity="many">%d o albymau</item>
+        <item quantity="other">%d albwm</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 cyfrwng</item>
+        <item quantity="two">%d gyfrwng</item>
+        <item quantity="many">%d chyfrwng</item>
+        <item quantity="other">%d cyfrwng</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 ffeil cyfrwng</item>
+        <item quantity="two">%d ffeil cyfrwng</item>
+        <item quantity="many">%d o ffeiliau cyfrwng</item>
+        <item quantity="other">%d ffeil cyfrwng</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 ffilm</item>
+        <item quantity="two">%d ffilm</item>
+        <item quantity="many">%d ffilm</item>
+        <item quantity="other">%d ffilm</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">Canfuwyd %d canlyniad</item>
+        <item quantity="two">Canfuwyd %d canlyniad</item>
+        <item quantity="many">Canfuwyd %d o ganlyniadau</item>
+        <item quantity="other">Canfuwyd %d canlyniad</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 is-ffolder</item>
+        <item quantity="two">%d is-ffolder</item>
+        <item quantity="many">%d o is-ffolderi</item>
+        <item quantity="other">%d is-ffolder</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 sianel
+"</item>
+        <item quantity="two">"%1$d sianel
+"</item>
+        <item quantity="many">"%1$d sianel
+"</item>
+        <item quantity="other">"%1$d sianel
+"</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">Ychwanegwyd %d trac</item>
+        <item quantity="two">Ychwanegwyd %d drac</item>
+        <item quantity="many">Ychwanegwyd %d thrac</item>
+        <item quantity="other">Ychwanegwyd %d trac</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">Mewnosodwyd %d trac</item>
+        <item quantity="two">Mewnosodwyd %d drac</item>
+        <item quantity="many">Mewnosodwyd %d thrac</item>
+        <item quantity="other">Mewnosodwyd %d trac</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 rhaglen deledu</item>
+        <item quantity="two">%d raglen deledu</item>
+        <item quantity="many">%d rhaglen deledu</item>
+        <item quantity="other">%d rhaglen deledu</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 fideo</item>
+        <item quantity="two">%d fideo</item>
+        <item quantity="many">%d o fideos</item>
+        <item quantity="other">%d fideo</item>
+    </plurals>
+</resources>

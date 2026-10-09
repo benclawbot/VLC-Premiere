@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 album</item>
+        <item quantity="few">%d alba</item>
+        <item quantity="many">%d alb</item>
+        <item quantity="other">%d alb</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 z vybraných položek je již v seznamu skladeb \"%s\".</item>
+        <item quantity="few">%1$d z vybraných položek je již v seznamu skladeb \"%2$s\".</item>
+        <item quantity="many">%1$d z vybraných položek je již v seznamu skladeb \"%2$s\".</item>
+        <item quantity="other">%1$d z vybraných položek je již v seznamu skladeb \"%2$s\".</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Tato položka již je v seznamu skladeb \"%s\".</item>
+        <item quantity="few">Tyto položky již jsou v seznamu skladeb \"%s\".</item>
+        <item quantity="many">Tyto položky již jsou v seznamu skladeb \"%s\".</item>
+        <item quantity="other">Tyto položky již jsou v seznamu skladeb \"%s\".</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 médium</item>
+        <item quantity="few">%d média</item>
+        <item quantity="many">%d médií</item>
+        <item quantity="other">%d médií</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 mediální soubor</item>
+        <item quantity="few">%d mediální soubory</item>
+        <item quantity="many">%d mediálních souborů</item>
+        <item quantity="other">%d mediálních souborů</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="few">%d filmy</item>
+        <item quantity="many">%d filmů</item>
+        <item quantity="other">%d filmů</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d nové oznámení</item>
+        <item quantity="few">%d nová oznámení</item>
+        <item quantity="many">%d nového oznámení</item>
+        <item quantity="other">%d nových oznámení</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 uložená záložka</item>
+        <item quantity="few">%d uložené záložky</item>
+        <item quantity="many">%d uložených záložek</item>
+        <item quantity="other">%d uložených záložek</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">1 nalezený výsledek</item>
+        <item quantity="few">%d nalezené výsledky</item>
+        <item quantity="many">%d nalezených výsledků</item>
+        <item quantity="other">%d nalezených výsledků</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 podsložka</item>
+        <item quantity="few">%d podsložky</item>
+        <item quantity="many">%d podsložek</item>
+        <item quantity="other">%d podsložek</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"Počet kanálů: 1 kanál
+"</item>
+        <item quantity="few">"Počet kanálů: %1$d kanály
+"</item>
+        <item quantity="many">"Počet kanálů: %1$d kanálů
+"</item>
+        <item quantity="other">"Počet kanálů: %1$d kanálů
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 skladba</item>
+        <item quantity="few">%d skladby</item>
+        <item quantity="many">%d skladeb</item>
+        <item quantity="other">%d skladeb</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">1 skladba připojena</item>
+        <item quantity="few">%d skladby připojeny</item>
+        <item quantity="many">%d skladeb připojeno</item>
+        <item quantity="other">%d skladeb připojeno</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">1 skladba vložena</item>
+        <item quantity="few">%d skladby vloženy</item>
+        <item quantity="many">%d skladeb vloženo</item>
+        <item quantity="other">%d skladeb vloženo</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV pořad</item>
+        <item quantity="few">%d TV pořady</item>
+        <item quantity="many">%d TV pořadů</item>
+        <item quantity="other">%d TV pořadů</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 video</item>
+        <item quantity="few">%d videa</item>
+        <item quantity="many">%d videí</item>
+        <item quantity="other">%d videí</item>
+    </plurals>
+</resources>

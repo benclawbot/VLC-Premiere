@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 album</item>
+        <item quantity="other">%d albums</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 of the selected items is already in \"%s\" playlist.</item>
+        <item quantity="other">%1$d of the selected items are already in \"%2$s\" playlist.</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">This item is already in \"%s\" playlist.</item>
+        <item quantity="other">These items are already in \"%s\" playlist.</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 media</item>
+        <item quantity="other">%d media</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 media file</item>
+        <item quantity="other">%d media files</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 movie</item>
+        <item quantity="other">%d movies</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d new notification</item>
+        <item quantity="other">%d new notifications</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 Saved Bookmark</item>
+        <item quantity="other">%d Saved Bookmarks</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d result found</item>
+        <item quantity="other">%d results found</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 subfolder</item>
+        <item quantity="other">%d subfolders</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 channel
+"</item>
+        <item quantity="other">"%1$d channels
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 track</item>
+        <item quantity="other">%d tracks</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d Track appended</item>
+        <item quantity="other">%d Tracks appended</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d Track inserted</item>
+        <item quantity="other">%d Tracks inserted</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV show</item>
+        <item quantity="other">%d TV shows</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 video</item>
+        <item quantity="other">%d videos</item>
+    </plurals>
+</resources>

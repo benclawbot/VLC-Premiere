@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">᱑ ᱮᱞᱵᱟᱹᱢ</item>
+        <item quantity="two">%d ᱮᱞᱵᱟᱹᱢ ᱠᱚ</item>
+        <item quantity="other">%d ᱮᱞᱵᱟᱹᱢ ᱠᱚ</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">᱑ ᱢᱤᱰᱤᱭᱟ</item>
+        <item quantity="two">%d ᱢᱤᱰᱤᱭᱟ</item>
+        <item quantity="other">%d ᱢᱤᱰᱤᱭᱟ</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">᱑ ᱢᱤᱰᱤᱭᱟ ᱨᱮᱫᱽ</item>
+        <item quantity="two">%d ᱢᱤᱰᱤᱭᱟ ᱨᱮᱫᱽ ᱠᱚ</item>
+        <item quantity="other">%d ᱢᱤᱰᱤᱭᱟ ᱨᱮᱫᱽ ᱠᱚ</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">᱑ ᱥᱤᱱᱮᱢᱟ</item>
+        <item quantity="two">%d ᱥᱤᱱᱮᱢᱟ ᱠᱚ</item>
+        <item quantity="other">%d ᱥᱤᱱᱮᱢᱟ ᱠᱚ</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d ᱛᱮᱞᱟ ᱧᱟᱢᱮᱱᱟ</item>
+        <item quantity="two">%d ᱛᱮᱞᱟᱠᱚ ᱧᱟᱢᱮᱱᱟ</item>
+        <item quantity="other">%d ᱛᱮᱞᱟᱠᱚ ᱧᱟᱢᱮᱱᱟ</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">᱑ ᱯᱚᱴᱼᱯᱚᱴᱚᱢ</item>
+        <item quantity="two">%d ᱯᱚᱴᱼᱯᱚᱴᱚᱢ ᱠᱚ</item>
+        <item quantity="other">%d ᱯᱚᱴᱼᱯᱚᱴᱚᱢ ᱠᱚ</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"᱑ ᱪᱟᱱᱱᱮᱞ
+"</item>
+        <item quantity="two">"%1$d ᱪᱟᱱᱱᱮᱞᱠᱚ
+"</item>
+        <item quantity="other">"%1$d ᱪᱟᱱᱱᱮᱞᱠᱚ
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 ᱴᱨᱮᱠ</item>
+        <item quantity="two">%d ᱴᱨᱮᱠ ᱠᱚ</item>
+        <item quantity="other">%d ᱴᱨᱮᱠ ᱠᱚ</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d ᱴᱨᱮᱠ ᱠᱷᱟᱹᱲ ᱮᱱᱟ</item>
+        <item quantity="two">%d ᱴᱨᱮᱠ ᱠᱚ ᱠᱷᱟᱹᱲ ᱮᱱᱟ</item>
+        <item quantity="other">%d ᱴᱨᱮᱠ ᱠᱚ ᱠᱷᱟᱹᱲ ᱮᱱᱟ</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">᱑ TV ᱥᱷᱚ</item>
+        <item quantity="two">%d TV ᱥᱷᱚ ᱠᱚ</item>
+        <item quantity="other">%d TV ᱥᱷᱚ ᱠᱚ</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">᱑ ᱣᱤᱰᱤᱭᱚ</item>
+        <item quantity="two">%d ᱣᱤᱰᱤᱭᱚ ᱠᱚ</item>
+        <item quantity="other">%d ᱣᱤᱰᱤᱭᱚ ᱠᱚ</item>
+    </plurals>
+</resources>

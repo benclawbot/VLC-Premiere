@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">൧ അല്‍ബം</item>
+        <item quantity="other">%d ആല്‍ബങ്ങള്‍</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 മീഡിയ</item>
+        <item quantity="other">%d മീഡിയ</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">൧ മീഡിയ ഫയല്‍</item>
+        <item quantity="other">%d മീഡിയ ഫയലുകള്‍</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 സിനിമ</item>
+        <item quantity="other">%d സിനിമകൾ</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d പുതിയ അറിയിപ്പ്</item>
+        <item quantity="other">%d പുതിയ അറിയിപ്പുകൾ</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d ഫലം ലഭിച്ചു</item>
+        <item quantity="other">%d ഫലങ്ങള്‍ ലഭിച്ചു</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">൧ സബ്ഫോള്‍ഡര്‍</item>
+        <item quantity="other">%d സബ്ഫോള്‍ഡറുകള്‍</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 ചാനല
+"</item>
+        <item quantity="other">"%1$d ചാനലുകൾ
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 ചാലുകൾ </item>
+        <item quantity="other">%d ചാലുകൾ</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d ട്രാക്കുകൾ കൂട്ടിച്ചേർത്തു</item>
+        <item quantity="other">%d ട്രാക്കുകൾ കൂട്ടിച്ചേർത്തു</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d ട്രാക്കുകൾ ചേർത്തു</item>
+        <item quantity="other">%d ട്രാക്കുകൾ ചേർത്തു</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 ടിവി ഷോ</item>
+        <item quantity="other">%d ടിവി ഷോകൾ</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 വീഡിയോ</item>
+        <item quantity="other">%dവീഡിയോകൾ</item>
+    </plurals>
+</resources>

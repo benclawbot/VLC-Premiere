@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen android:title="@string/android_auto" android:key="android_auto_category"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="@string/interface_prefs_screen">
+        <SeekBarPreference android:max="100" android:title="@string/title_size" android:key="android_auto_title_scale_val" android:defaultValue="100" android:iconSpaceReserved="false" app:iconSpaceReserved="false" app:min="50" app:updatesContinuously="true" />
+        <SeekBarPreference android:max="100" android:title="@string/subtitle_size" android:key="android_auto_subtitle_scale_val" android:defaultValue="100" android:iconSpaceReserved="false" app:iconSpaceReserved="false" app:min="50" app:updatesContinuously="true" />
+        <ListPreference android:entries="@array/android_auto_queue_position" android:title="@string/queue_info" android:key="android_auto_queue_info_pos" android:summary="%s" android:defaultValue="3" android:entryValues="@array/android_auto_queue_position_values" />
+        <ListPreference android:entries="@array/android_auto_queue_format_entries" android:title="@string/queue_format" android:key="android_auto_queue_format" android:summary="%s" android:defaultValue="1" android:entryValues="@array/android_auto_queue_format_values" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/controls_prefs_category">
+        <CheckBoxPreference android:title="@string/audio_playback_speed_global" android:key="playback_speed_audio_global" android:summary="@string/audio_playback_speed_global_summary" android:defaultValue="false" app:singleLineTitle="false" />
+        <CheckBoxPreference android:title="@string/enable_android_auto_speed_buttons" android:key="enable_android_auto_speed_buttons" android:summary="@string/enable_android_auto_speed_buttons_summary" android:defaultValue="false" app:singleLineTitle="false" />
+        <CheckBoxPreference android:title="@string/enable_android_auto_seek_buttons" android:key="enable_android_auto_seek_buttons" android:summary="@string/enable_android_auto_seek_buttons_summary" android:defaultValue="false" app:singleLineTitle="false" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 தொகுப்பு</item>
+        <item quantity="other">%d தொகுப்புகள்</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 ஊடக கோப்பு</item>
+        <item quantity="other">%d ஊடக கோப்புகள்</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d புதிய அறிவிப்பு</item>
+        <item quantity="other">%d புதிய அறிவிப்புகள்</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">முடிவு %d</item>
+        <item quantity="other">முடிவுகள் %d</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 கிளை அடைவு</item>
+        <item quantity="other">%d கிளை அடைவுகள்</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 வழித்தடம்
+"</item>
+        <item quantity="other">"%1$d வழித்தடங்கள்
+"</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 காணொளி</item>
+        <item quantity="other">%d காணொளிகள்</item>
+    </plurals>
+</resources>

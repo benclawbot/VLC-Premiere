@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView android:textColor="@color/standard_selection_control_normal_primary" android:id="@id/tab_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawablePadding="8.0dp" android:textAllCaps="true" android:fontFamily="sans-serif-medium" android:letterSpacing="0.1" app:drawableTint="@color/standard_selection_control_normal_primary" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" />

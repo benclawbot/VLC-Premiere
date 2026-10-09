@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="other">%d album</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="other">%1$dtrong các đối tượng được chọn đã có trong danh sách \"%2$s\".</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="other">Những đối tượng này đã có trong danh sách \"%s\".</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="other">%d đa phương tiện</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">%d tập tin media</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="other">Có %d bộ phim</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d thông báo mới</item>
+        <item quantity="other">%d thông báo mới</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="other">%d kết quả được tìm thấy</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="other">%d thư mục con</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="other">"%1$d kênh
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="other">%d bài hát</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="other">%d tập tin được thêm vào cuối danh sách</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="other">%d tập tin được thêm vào</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="other">Có %d chương trình truyền hình</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">%d video</item>
+    </plurals>
+</resources>

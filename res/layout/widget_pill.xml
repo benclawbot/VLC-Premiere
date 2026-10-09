@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:layout_gravity="center" android:layout_width="120.0dp" android:layout_height="62.0dp">
+        <ImageView android:id="@id/player_container_background" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/widget_pill_neutral" android:layout_centerInParent="true" android:contentDescription="@null" />
+        <ImageView android:id="@id/progress_round" android:layout_width="120.0dp" android:layout_height="62.0dp" android:layout_centerInParent="true" />
+        <ImageView android:id="@id/cover" android:layout_width="48.0dp" android:layout_height="48.0dp" android:layout_centerVertical="true" android:layout_marginStart="8.0dp" android:layout_alignParentStart="true" />
+        <ImageView android:id="@id/app_icon" android:layout_width="32.0dp" android:layout_height="32.0dp" android:src="@null" android:layout_centerVertical="true" android:contentDescription="@string/open_vlc" android:layout_marginStart="16.0dp" />
+        <ImageView android:id="@id/cover_background" android:layout_width="48.0dp" android:layout_height="48.0dp" android:src="@drawable/widget_circle" android:layout_alignLeft="@id/cover" android:layout_alignTop="@id/cover" android:layout_alignRight="@id/cover" android:layout_alignBottom="@id/cover" android:contentDescription="@null" />
+        <ImageView android:id="@id/play_pause" android:background="@drawable/widget_touch_background" android:padding="8.0dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@null" android:layout_centerVertical="true" android:contentDescription="@string/resume_playback_short_title" android:layout_marginStart="48.0dp" android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+</FrameLayout>

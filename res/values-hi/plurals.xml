@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 एल्बम</item>
+        <item quantity="other">%d गीतमालाएं</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">चुनें हुए \"%s\" में से 1 पहले से ही प्लेलिस्ट में हैं।</item>
+        <item quantity="other">चुनें हुए \"%1$s\" में से %2$d पहले से ही प्लेलिस्ट में हैं।</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">ये पहले से प्लेलिस्ट \"%s\" में मौजूद है।</item>
+        <item quantity="other">ये सभी पहले से प्लेलिस्ट \"%s\" में मौजूद हैं।</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 कलाकृति</item>
+        <item quantity="other">%d कलाकृतियाँ</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 कलाकृति</item>
+        <item quantity="other">%d कलाकृतियाँ</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 सिनेमा</item>
+        <item quantity="other">%d सिनेमा</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d नई सूचनाएं</item>
+        <item quantity="other">%d नई सूचनाएं</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d परिणाम मिल गया</item>
+        <item quantity="other">%d परिणाम मिले</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 अंदरूनीफोल्डर</item>
+        <item quantity="other">%d अंदरूनीफोल्डर</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 चैनल
+"</item>
+        <item quantity="other">"%1$d चैनल
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 ट्रैक</item>
+        <item quantity="other">%d पगडंडीयां</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 टीवी शो</item>
+        <item quantity="other">%d टीवी शो</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 वीडियो</item>
+        <item quantity="other">%d वीडियो</item>
+    </plurals>
+</resources>

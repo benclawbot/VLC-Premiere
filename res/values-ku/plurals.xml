@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">albûmek</item>
+        <item quantity="other">%d albûm</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">medyayek</item>
+        <item quantity="other">%d medya</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">dosyeyek medyayê</item>
+        <item quantity="other">%d dosyeyên medyayê</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">filîmek</item>
+        <item quantity="other">%d filîm</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d encam hat dîtin</item>
+        <item quantity="other">%d encam hatin dîtin</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">bin-peldankek</item>
+        <item quantity="other">%d bin-peldank</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"kanalek
+"</item>
+        <item quantity="other">"%1$d kanal
+"</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">Rêzefilîmek</item>
+        <item quantity="other">%d Rêzefilîm</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">vîdyoyek</item>
+        <item quantity="other">%d vîdyo</item>
+    </plurals>
+</resources>

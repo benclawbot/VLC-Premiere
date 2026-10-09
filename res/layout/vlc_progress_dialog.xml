@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:tag="layout/vlc_progress_dialog_0" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:padding="8.0dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView android:id="@id/text" android:tag="binding_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="8.0dp" android:layout_alignParentTop="true" />
+        <androidx.core.widget.ContentLoadingProgressBar android:id="@id/progress" android:tag="binding_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:max="100" android:layout_below="@id/text" />
+        <Button android:textSize="14.0sp" android:id="@id/cancel" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cancel" android:layout_below="@id/progress" android:layout_marginEnd="8.0dp" android:layout_alignParentEnd="true" style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" /> tools:visibility="visible"/> </RelativeLayout>
+</ScrollView>

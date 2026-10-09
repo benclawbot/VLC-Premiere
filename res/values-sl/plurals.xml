@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">%d album</item>
+        <item quantity="two">%d albuma</item>
+        <item quantity="few">%d albumi</item>
+        <item quantity="other">%d albumov</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">Eden od izbranih predmetov je že na seznamu predvajanja \"%s\"</item>
+        <item quantity="two">%1$d izbrana predmeta sta že na seznamu predvajanja \"%2$s\".</item>
+        <item quantity="few">%1$d izbrani predmeti so že na seznamu predvajanja \"%2$s\".</item>
+        <item quantity="other">%1$d izbranih predmetov je že na seznamu predvajanja \"%2$s\".</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Ta predmet se že nahaja na seznamu predvajanja \"%s\".</item>
+        <item quantity="two">Ta predmeta se že nahajata na seznamu predvajanja \"%s\".</item>
+        <item quantity="few">Ti predmeti se že nahajajo na seznamu predvajanja \"%s\".</item>
+        <item quantity="other">Ti predmeti se že nahajajo na seznamu predvajanja \"%s\".</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 predstavna vsebina</item>
+        <item quantity="two">%dpredstavni vsebini</item>
+        <item quantity="few">%d predstavne vsebine</item>
+        <item quantity="other">%d predstavnih vsebin</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 predstavna datoteka</item>
+        <item quantity="two">%d predstavni datoteki</item>
+        <item quantity="few">%d predstavne datoteke</item>
+        <item quantity="other">%d predstavnih datotek</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="two">%d filma</item>
+        <item quantity="few">%dfilmi</item>
+        <item quantity="other">%dfilmov</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d novo obvestilo</item>
+        <item quantity="two">%d novi obvestili</item>
+        <item quantity="few">%d nova obvestila</item>
+        <item quantity="other">%d novih obvestil</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 shranjen zaznamek</item>
+        <item quantity="two">%d shranjena zaznamka</item>
+        <item quantity="few">%d shranjeni zaznamki</item>
+        <item quantity="other">%d shranjenih zaznamkov</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d zadetek</item>
+        <item quantity="two">%d zadetka</item>
+        <item quantity="few">%d zadetki</item>
+        <item quantity="other">%d zadetkov</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">%d podmapa</item>
+        <item quantity="two">%d podmapi</item>
+        <item quantity="few">%d podmape</item>
+        <item quantity="other">%d podmap</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 kanal
+"</item>
+        <item quantity="two">"%1$d kanala
+"</item>
+        <item quantity="few">"%1$d kanali
+"</item>
+        <item quantity="other">"%1$d kanalov
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 skladba</item>
+        <item quantity="two">%d skladbi</item>
+        <item quantity="few">%d skladbe</item>
+        <item quantity="other">%d skladb</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">Dodana je %d vsebina</item>
+        <item quantity="two">Dodani sta %d vsebini</item>
+        <item quantity="few">Dodane so %d vsebine</item>
+        <item quantity="other">Dodanih je %d vsebin</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">Vrinjena je %d vsebina</item>
+        <item quantity="two">Vrinjeni sta %d vsebini</item>
+        <item quantity="few">Vrinjene so %d vsebine</item>
+        <item quantity="other">Vrinjenih je %d vsebin</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV oddaja</item>
+        <item quantity="two">%d TV oddaji</item>
+        <item quantity="few">%d TV oddaje</item>
+        <item quantity="other">%d TV oddaj</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 video</item>
+        <item quantity="two">%d videa</item>
+        <item quantity="few">%d videi</item>
+        <item quantity="other">%d videov</item>
+    </plurals>
+</resources>

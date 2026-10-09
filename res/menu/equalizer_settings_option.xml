@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:vlc="http://schemas.android.com/apk/res-auto">
+    <item android:icon="@drawable/ic_options_equalizer" android:id="@id/show_equalizer" android:orderInCategory="1" android:title="@string/equalizer" vlc:showAsAction="ifRoom" />
+    <item android:icon="@drawable/ic_import" android:id="@id/equalizer_import" android:orderInCategory="2" android:title="@string/import_equalizer" vlc:showAsAction="ifRoom" />
+    <item android:id="@id/equalizer_show_all" android:orderInCategory="2" android:title="@string/show_all" vlc:showAsAction="never" />
+    <item android:id="@id/equalizer_hide_all" android:orderInCategory="2" android:title="@string/hide_all" vlc:showAsAction="never" />
+    <item android:id="@id/equalizer_export_all" android:orderInCategory="2" android:title="@string/export_all" vlc:showAsAction="never" />
+    <item android:id="@id/equalizer_import_all" android:orderInCategory="2" android:title="@string/import_all" vlc:showAsAction="never" />
+</menu>

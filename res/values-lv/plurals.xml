@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="zero">%d</item>
+        <item quantity="one">1 albums</item>
+        <item quantity="other">%d albumi</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="zero">%d multivides failu</item>
+        <item quantity="one">1 multivides fails</item>
+        <item quantity="other">%d multivides faili</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="zero">%d multivides faili</item>
+        <item quantity="one">1 multivides fails</item>
+        <item quantity="other">%d multivides faili</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="zero">%d jaunu paziņojumu</item>
+        <item quantity="one">%d jauns paziņojums</item>
+        <item quantity="other">%d jauni paziņojumi</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="zero">%d rezultāti atrasti</item>
+        <item quantity="one">%d rezultāts atrasts</item>
+        <item quantity="other">%d rezultāti atrasti</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="zero">%d</item>
+        <item quantity="one">1 apakšmape</item>
+        <item quantity="other">%d apakšmapes</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="zero">"%1$d kanālu
+"</item>
+        <item quantity="one">"1 kanāls
+"</item>
+        <item quantity="other">"%1$d kanāli
+"</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="zero">%d video</item>
+        <item quantity="one">1 videos</item>
+        <item quantity="other">%d video</item>
+    </plurals>
+</resources>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">%d альбом</item>
+        <item quantity="few">%d альбоми</item>
+        <item quantity="many">%d альбомів</item>
+        <item quantity="other">%d альбомів</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 з обраних елементів вже наявний у списку \"%s\".</item>
+        <item quantity="few">%1$d з обраних елементів вже наявні у списку \"%2$s\".</item>
+        <item quantity="many">%1$d з обраних елементів вже наявні у списку \"%2$s\".</item>
+        <item quantity="other">%1$d з обраних елементів вже наявні у списку \"%2$s\".</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Цей елемент вже наявний у списку \"%s\".</item>
+        <item quantity="few">Ці елементи вже наявні у списку \"%s\".</item>
+        <item quantity="many">Ці елементи вже наявні у списку \"%s\".</item>
+        <item quantity="other">Ці елементи вже наявні у списку \"%s\".</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 медіа</item>
+        <item quantity="few">%d медіа</item>
+        <item quantity="many">%d медіа</item>
+        <item quantity="other">%d медіа</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">%d медіа файл</item>
+        <item quantity="few">%d медіа файли</item>
+        <item quantity="many">%d медіа файлів</item>
+        <item quantity="other">%d медіа файлів</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 фільм</item>
+        <item quantity="few">%d фільми</item>
+        <item quantity="many">%d фільмів</item>
+        <item quantity="other">%d фільму</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d нове сповіщення</item>
+        <item quantity="few">%d нові сповіщення</item>
+        <item quantity="many">%d нових сповіщень</item>
+        <item quantity="other">%d нового сповіщення</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 збережена закладка</item>
+        <item quantity="few">%d збережені закладки</item>
+        <item quantity="many">%d збережених закладок</item>
+        <item quantity="other">%dзбереженої закладки</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">знайдено %d результат</item>
+        <item quantity="few">знайдено %d результати</item>
+        <item quantity="many">знайдено %d результатів</item>
+        <item quantity="other">знайдено %d результатів</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">%d підтека</item>
+        <item quantity="few">%d підтеки</item>
+        <item quantity="many">%d підтек</item>
+        <item quantity="other">%d підтек</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 канал
+"</item>
+        <item quantity="few">"%1$d канали
+"</item>
+        <item quantity="many">"%1$d каналів
+"</item>
+        <item quantity="other">"%1$d каналів
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 доріжка</item>
+        <item quantity="few">%d доріжки</item>
+        <item quantity="many">%d доріжок</item>
+        <item quantity="other">%d доріжки</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d доріжка додана</item>
+        <item quantity="few">%d доріжки додані</item>
+        <item quantity="many">%d доріжок додано</item>
+        <item quantity="other">%d доріжки додано</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d доріжка вставлена</item>
+        <item quantity="few">%d доріжки вставлені</item>
+        <item quantity="many">%d доріжок вставлено</item>
+        <item quantity="other">%d доріжки вставлено</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 серіал</item>
+        <item quantity="few">%d серіали</item>
+        <item quantity="many">%d серіалів</item>
+        <item quantity="other">%d серіала</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">%d відео</item>
+        <item quantity="few">%d відео</item>
+        <item quantity="many">%d відео</item>
+        <item quantity="other">%d відео</item>
+    </plurals>
+</resources>

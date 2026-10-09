@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 hljómplata</item>
+        <item quantity="other">%d hljómplötur</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 margmiðlunarskrá</item>
+        <item quantity="other">%d margmiðlunarskrár</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 margmiðlunarskrá</item>
+        <item quantity="other">%d margmiðlunarskrár</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 kvikmynd</item>
+        <item quantity="other">%d kvikmyndir</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d ný tilkynning</item>
+        <item quantity="other">%d nýjar tilkynningar</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d niðurstaða fannst</item>
+        <item quantity="other">%d niðurstöður fundust</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 undirmappa</item>
+        <item quantity="other">%d undirmöppur</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 rás
+"</item>
+        <item quantity="other">"%1$d rásir
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 lag</item>
+        <item quantity="other">%d lög</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d lagi bætt við</item>
+        <item quantity="other">%d lögum bætt við</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d lag sett inn</item>
+        <item quantity="other">%d lög sett inn</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 sjónvarpsþáttur</item>
+        <item quantity="other">%d sjónvarpsþættir</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 myndskeið</item>
+        <item quantity="other">%d myndskeið</item>
+    </plurals>
+</resources>

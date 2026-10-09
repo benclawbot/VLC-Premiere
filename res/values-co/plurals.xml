@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">Un albumu</item>
+        <item quantity="other">%d albumi</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 trà l’elementi selezziunati hè dighjà in a lista di lettura « %s ».</item>
+        <item quantity="other">%1$d trà l’elementi selezziunati sò dighjà in a lista di lettura « %2$s ».</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">St’elementu hè dighjà in a lista di lettura « %s ».</item>
+        <item quantity="other">St’elementi sò dighjà in a lista di lettura « %s ».</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 schedariu multimedià</item>
+        <item quantity="other">%d schedarii multimedià</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 schedariu medià</item>
+        <item quantity="other">%d schedarii medià</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 filmu</item>
+        <item quantity="other">%d filmi</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 indetta arregistrata</item>
+        <item quantity="other">%d indette arregistrate</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d risultatu trovu</item>
+        <item quantity="other">%d risultati trovi</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">Un sottucartularu</item>
+        <item quantity="other">%d sottucartulari</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 canale
+"</item>
+        <item quantity="other">"%1$d canali
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 traccia</item>
+        <item quantity="other">%d traccie</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d Traccia annessata</item>
+        <item quantity="other">%d Traccie annessate</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d Traccia frametta</item>
+        <item quantity="other">%d Traccie framette</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 spettaculu TV</item>
+        <item quantity="other">%d spettaculi TV</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">Una video</item>
+        <item quantity="other">%d video</item>
+    </plurals>
+</resources>

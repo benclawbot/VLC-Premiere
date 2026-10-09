@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 album</item>
+        <item quantity="other">%d album</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 media</item>
+        <item quantity="other">%d media</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 mediafiler</item>
+        <item quantity="other">%d mediafiler</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="other">%d filmar</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 lagra bokmerke</item>
+        <item quantity="other">%d lagra bokmerke</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d resultat funne</item>
+        <item quantity="other">%d resultat funne</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 undermappe</item>
+        <item quantity="other">%d undermapper</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 kanal
+"</item>
+        <item quantity="other">"%1$d kanalar
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 spor</item>
+        <item quantity="other">%d spor</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV-show</item>
+        <item quantity="other">%d TV-show</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 video</item>
+        <item quantity="other">%d videoar</item>
+    </plurals>
+</resources>

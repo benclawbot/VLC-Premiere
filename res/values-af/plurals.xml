@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d nuwe kennisgewing</item>
+        <item quantity="other">%d nuwe kennisgewings</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d resultaat gevind</item>
+        <item quantity="other">%d resultate gevind</item>
+    </plurals>
+</resources>

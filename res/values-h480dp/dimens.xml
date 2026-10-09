@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="audio_browser_item_size">48.0dp</dimen>
+    <dimen name="audio_item_header_padding">8.0dp</dimen>
+    <dimen name="audio_item_padding_botom">8.0dp</dimen>
+    <dimen name="audio_item_title_size">16.0sp</dimen>
+    <dimen name="audio_player_cover_margin">16.0dp</dimen>
+    <dimen name="subs_dl_dialog_height">350.0dp</dimen>
+    <dimen name="tab_layout_height">32.0dp</dimen>
+</resources>

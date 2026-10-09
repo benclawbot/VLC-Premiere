@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 አልበም</item>
+        <item quantity="other">%d አልበሞች</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 የ መገናኛ ፋይል</item>
+        <item quantity="other">%d 1 የ መገናኛ ፋይሎች</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d አዲስ ማሳወቂያዎች</item>
+        <item quantity="other">%d አዲስ ማሳወቂያዎች</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d ውጤቶች ተገኝተዋል</item>
+        <item quantity="other">%d ውጤቶች ተገኝተዋል</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 ንዑስ ፎልደር</item>
+        <item quantity="other">%d subfolders</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 ቪዲዮ</item>
+        <item quantity="other">%d ቪዲዮ</item>
+    </plurals>
+</resources>

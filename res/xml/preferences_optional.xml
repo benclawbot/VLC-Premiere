@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen android:title="@string/optional_features" android:key="optional_features"
+  xmlns:android="http://schemas.android.com/apk/res/android" />

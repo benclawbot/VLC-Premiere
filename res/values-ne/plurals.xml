@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">१ सङग्रह</item>
+        <item quantity="other">%d एल्बमहरू</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 media</item>
+        <item quantity="other">%dमिडिया</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">१ मेडिया फाईल</item>
+        <item quantity="other">%d मिडिया फाइलहरू</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 movie</item>
+        <item quantity="other">%dचलचित्रहरू</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d नयाँ सूचना</item>
+        <item quantity="other">%d नयाँ सूचनाहरू</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d नतिजा भेटियो</item>
+        <item quantity="other">%d नतिजाहरू भेटिए</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">१ सहफोल्डर</item>
+        <item quantity="other">%d सबफोल्डरहरू</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 channel
+"</item>
+        <item quantity="other">"%1$dच्यानलहरू
+"</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV show</item>
+        <item quantity="other">%dटिभी कार्यक्रमहरू</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 वीडियो</item>
+        <item quantity="other">%d भिडियोहरू</item>
+    </plurals>
+</resources>

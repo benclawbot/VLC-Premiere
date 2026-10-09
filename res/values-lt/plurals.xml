@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 albumas</item>
+        <item quantity="few">%d albumai</item>
+        <item quantity="many">%d albumų</item>
+        <item quantity="other">%d albumų</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 iš pasirinktų elementų jau yra grojaraštyje: „%s“.</item>
+        <item quantity="few">%1$d iš pasirinktų elementų jau yra grojaraštyje: „%2$s“.</item>
+        <item quantity="many">%1$d iš pasirinktų elementų jau yra grojaraštyje: „%2$s“.</item>
+        <item quantity="other">%1$d iš pasirinktų elementų jau yra grojaraštyje: „%2$s“.</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Šis elementas jau yra grojaraštyje: „%s“.</item>
+        <item quantity="few">Šie elementai jau yra grojaraštyje: „%s“.</item>
+        <item quantity="many">Šie elementai jau yra grojaraštyje: „%s“.</item>
+        <item quantity="other">Šie elementai jau yra grojaraštyje: „%s“.</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 kūrinio rinkmena</item>
+        <item quantity="few">%d kūrinių rinkmenos</item>
+        <item quantity="many">%d kūrinių rinkmenų</item>
+        <item quantity="other">%d kūrinių rinkmenų</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 kūrinio rinkmena</item>
+        <item quantity="few">%d kūrinių rinkmenos</item>
+        <item quantity="many">%d kūrinių rinkmenų</item>
+        <item quantity="other">%d kūrinių rinkmenų</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 vaizdo įrašas</item>
+        <item quantity="few">%d vaizdo įrašai</item>
+        <item quantity="many">%d vaizdo įrašų</item>
+        <item quantity="other">%d vaizdo įrašų</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d naujas pranešimas</item>
+        <item quantity="few">%d nauji pranešimai</item>
+        <item quantity="many">%d naujo pranešimo</item>
+        <item quantity="other">%d naujų pranešimų</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 išsaugota žymelė</item>
+        <item quantity="few">%d išsaugotos žymelės</item>
+        <item quantity="many">%d išsaugotų žymelių</item>
+        <item quantity="other">%d išsaugotų žymelių</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">Rastas %d kūrinys</item>
+        <item quantity="few">Rasti %d kūriniai</item>
+        <item quantity="many">Rasta %d kūrinių</item>
+        <item quantity="other">Rasta %d kūrinių</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 poaplankis</item>
+        <item quantity="few">%d poaplankiai</item>
+        <item quantity="many">%d poaplankių</item>
+        <item quantity="other">%d poaplankių</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 kanalas
+"</item>
+        <item quantity="few">"%1$d kanalai
+"</item>
+        <item quantity="many">"%1$d kanalų
+"</item>
+        <item quantity="other">"%1$d kanalų
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 takelis</item>
+        <item quantity="few">%d takeliai</item>
+        <item quantity="many">%d takelių</item>
+        <item quantity="other">%d takelių</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">Pridėtas %d takelis</item>
+        <item quantity="few">Pridėti %d takeliai</item>
+        <item quantity="many">Pridėta %d takelių</item>
+        <item quantity="other">Pridėta %d takelių</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">Įtrauktas %d takelis</item>
+        <item quantity="few">Įtraukti %d takeliai</item>
+        <item quantity="many">Įtraukta %d takelių</item>
+        <item quantity="other">Įtraukta %d takelių</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 serialas</item>
+        <item quantity="few">%d serialai</item>
+        <item quantity="many">%d serialų</item>
+        <item quantity="other">%d serialų</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 vaizdo įrašas</item>
+        <item quantity="few">%d vaizdo įrašai</item>
+        <item quantity="many">%d vaizdo įrašų</item>
+        <item quantity="other">%d vaizdo įrašų</item>
+    </plurals>
+</resources>

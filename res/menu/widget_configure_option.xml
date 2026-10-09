@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:vlc="http://schemas.android.com/apk/res-auto">
+    <item android:icon="@drawable/ic_information" android:id="@id/widget_info" android:orderInCategory="1" android:title="@string/info" vlc:showAsAction="always" />
+    <item android:icon="@drawable/ic_options_check" android:id="@id/widget_configure_done" android:orderInCategory="2" android:title="@string/done" vlc:showAsAction="always" />
+</menu>

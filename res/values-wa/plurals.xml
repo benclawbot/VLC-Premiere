@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 albom</item>
+        <item quantity="other">%d alboms</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d rizultat trové</item>
+        <item quantity="other">%d rizultats trovés</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 sorridant</item>
+        <item quantity="other">%d sorridants</item>
+    </plurals>
+</resources>

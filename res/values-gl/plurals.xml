@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 álbum</item>
+        <item quantity="other">%d álbums</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 multimedia</item>
+        <item quantity="other">%d multimedia</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 ficheiro multimedia</item>
+        <item quantity="other">%d ficheiros multimedia</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 película</item>
+        <item quantity="other">%d películas</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d notificación nova</item>
+        <item quantity="other">%d notificacións novas</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">encontrouse %d resultado</item>
+        <item quantity="other">encontráronse %d resultados</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 subcartafol</item>
+        <item quantity="other">%d subcartafoles</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 canle
+"</item>
+        <item quantity="other">"%1$d canles
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 pista</item>
+        <item quantity="other">%d pistas</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d pista anexada</item>
+        <item quantity="other">%d pistas anexadas</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d pista inserida</item>
+        <item quantity="other">%d pistas inseridas</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 programa de TV</item>
+        <item quantity="other">%d programas de TV</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 vídeo</item>
+        <item quantity="other">%d vídeos</item>
+    </plurals>
+</resources>

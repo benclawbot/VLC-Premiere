@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">"Un'album"</item>
+        <item quantity="other">%d albums</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">"1 de sos elementos seletzionados est giai in s'iscalita \"%s\"."</item>
+        <item quantity="other">"%1$d de sos elementos seletzionados sunt giai in s'iscalita \"%2$s\"."</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">"Custu elementu est giai in s'iscalita \"%s\"."</item>
+        <item quantity="other">"Custos elementos sunt giai in s'iscalita \"%s\"."</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 cuntenutu multimediale</item>
+        <item quantity="other">%d cuntenutos multimediales</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 documentu multimediale</item>
+        <item quantity="other">%d documentos multimediales</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="other">%d films</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 sinnalibru sarvadu</item>
+        <item quantity="other">%d sinnalibros sarvados</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d risultadu agatadu</item>
+        <item quantity="other">%d risultados agatados</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">Una sutacartella</item>
+        <item quantity="other">%d sutacartellas</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 canale
+"</item>
+        <item quantity="other">"%1$d canales
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 rasta</item>
+        <item quantity="other">%d rastas</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d rasta annànghida</item>
+        <item quantity="other">%d rastas annànghidas</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d rasta insertada</item>
+        <item quantity="other">%d rastas insertadas</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 programma televisivu</item>
+        <item quantity="other">%d programmas televisivos</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 vìdeu</item>
+        <item quantity="other">%d vìdeos</item>
+    </plurals>
+</resources>

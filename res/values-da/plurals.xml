@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 album</item>
+        <item quantity="other">%d album</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 af de valgte elementer er allerede på afspilningsliste \"%s\".</item>
+        <item quantity="other">%1$d af de valgte elementer er allerde på afspilningsliste \"%2$s\".</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Dette element er allerede på afspilningsliste \"%s\".</item>
+        <item quantity="other">Disse elementer er allerede på afspilningsliste \"%s\".</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 medie</item>
+        <item quantity="other">%d medier</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 mediefil</item>
+        <item quantity="other">%d mediefiler</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="other">%d film</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d ny notifikation</item>
+        <item quantity="other">%d nye notifikationer</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 Gemt bogmærke</item>
+        <item quantity="other">%d Gemte bogmærker</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">Fandt %d forekomst</item>
+        <item quantity="other">Fandt %d forekomster</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 undermappe</item>
+        <item quantity="other">%d undermapper</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 kanal
+"</item>
+        <item quantity="other">"%1$d kanaler
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 spor</item>
+        <item quantity="other">%d spor</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d spor tilføjet</item>
+        <item quantity="other">%d spor tilføjet</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d spor indsat</item>
+        <item quantity="other">%d spor indsat</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV-udsendelse</item>
+        <item quantity="other">%d TV-udsendelser</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 video</item>
+        <item quantity="other">%d videoer</item>
+    </plurals>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen android:title="@string/remote_access" android:key="audio_category"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceScreen android:title="@string/remote_access_info" android:key="remote_access_info" app:isPreferenceVisible="false" />
+    <CheckBoxPreference android:title="@string/enable_remote_access" android:key="enable_remote_access" android:defaultValue="false" android:switchTextOn="Enabled" android:switchTextOff="Disabled" app:singleLineTitle="false" />
+    <PreferenceScreen android:title="@string/remote_access_status" android:key="remote_access_status" android:summary="@string/remote_access_status_summary" android:dependency="enable_remote_access" />
+    <PreferenceCategory android:title="@string/remote_access_content">
+        <MultiSelectListPreference android:dependency="enable_remote_access" app:defaultValue="@array/remote_access_content_values" app:dialogTitle="@string/remote_access_medialibrary_content" app:entries="@array/remote_access_content_entries" app:entryValues="@array/remote_access_content_values" app:key="remote_access_medialibrary_content" app:title="@string/remote_access_medialibrary_content" />
+        <CheckBoxPreference android:title="@string/remote_access_file_browser_content" android:key="remote_access_file_browser_content" android:dependency="enable_remote_access" android:defaultValue="false" />
+        <CheckBoxPreference android:title="@string/remote_access_network_browser_content" android:key="remote_access_network_browser_content" android:dependency="enable_remote_access" android:defaultValue="false" />
+        <CheckBoxPreference android:title="@string/history" android:key="remote_access_history_content" android:dependency="enable_remote_access" android:defaultValue="false" />
+        <CheckBoxPreference android:title="@string/remote_access_playback_control" android:key="remote_access_playback_control" android:dependency="enable_remote_access" android:defaultValue="true" />
+        <CheckBoxPreference android:title="@string/remote_access_logs" android:key="remote_access_logs" android:dependency="enable_remote_access" android:defaultValue="false" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

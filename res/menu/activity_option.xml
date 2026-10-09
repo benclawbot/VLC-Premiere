@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:vlc="http://schemas.android.com/apk/res-auto">
+    <item android:icon="@drawable/ic_pin_lock" android:id="@id/pin_relocked" android:visible="false" android:orderInCategory="0" android:title="@string/lock_with_pin" vlc:showAsAction="always" />
+    <item android:icon="@drawable/ic_play" android:id="@id/play_all" android:visible="false" android:orderInCategory="0" android:title="@string/play_all" vlc:showAsAction="always" />
+    <item android:icon="@drawable/ic_shuffle" android:id="@id/shuffle_all" android:visible="false" android:orderInCategory="0" android:title="@string/shuffle_all_title" vlc:showAsAction="always" />
+    <item android:icon="@drawable/ic_renderer" android:id="@id/ml_menu_renderers" android:visible="false" android:orderInCategory="1" android:title="@string/cast_option_title" vlc:showAsAction="always|collapseActionView" />
+    <item android:icon="@drawable/ic_search" android:id="@id/ml_menu_filter" android:orderInCategory="1" android:title="@string/searchable_hint" vlc:actionViewClass="androidx.appcompat.widget.SearchView" vlc:showAsAction="always|collapseActionView" />
+    <item android:icon="@drawable/ic_last_playqueue" android:id="@id/ml_menu_last_playlist" android:visible="false" android:orderInCategory="2" android:title="@string/resume_playback_short_title" vlc:showAsAction="ifRoom|collapseActionView" />
+    <item android:icon="@drawable/ic_display_settings" android:id="@id/ml_menu_display_options" android:visible="false" android:orderInCategory="2" android:title="@string/display_settings" vlc:showAsAction="ifRoom|collapseActionView" />
+    <item android:id="@id/incognito_mode" android:visible="true" android:orderInCategory="2" android:title="@string/incognito_mode" android:checkable="true" vlc:showAsAction="never" />
+    <item android:icon="@drawable/ic_add_to_scan" android:id="@id/ml_menu_scan" android:visible="false" android:orderInCategory="3" android:title="@string/add_to_scanned" vlc:showAsAction="ifRoom|collapseActionView" />
+    <item android:icon="@drawable/ic_view_list" android:id="@id/ml_menu_display_list" android:visible="false" android:orderInCategory="3" android:title="@string/display_in_list" vlc:showAsAction="never" />
+    <item android:id="@id/browse_network" android:visible="false" android:orderInCategory="3" android:title="@string/browse_network" android:checkable="true" vlc:showAsAction="never" />
+    <item android:icon="@drawable/ic_view_grid" android:id="@id/ml_menu_display_grid" android:visible="false" android:orderInCategory="3" android:title="@string/display_in_grid" vlc:showAsAction="never" />
+    <item android:icon="@drawable/ic_sort" android:id="@id/ml_menu_sortby" android:visible="false" android:orderInCategory="2" android:title="@string/sortby" android:contentDescription="@string/sortby" vlc:showAsAction="ifRoom|collapseActionView">
+        <menu>
+            <item android:id="@id/ml_menu_sortby_name" android:orderInCategory="2" android:title="@string/sortby_name" />
+            <item android:id="@id/ml_menu_sortby_filename" android:orderInCategory="2" android:title="@string/sortby_filename" />
+            <item android:id="@id/ml_menu_sortby_artist_name" android:visible="false" android:orderInCategory="2" android:title="@string/sortby_artist_name" />
+            <item android:id="@id/ml_menu_sortby_album_name" android:visible="false" android:orderInCategory="2" android:title="@string/sortby_album_name" />
+            <item android:id="@id/ml_menu_sortby_length" android:visible="false" android:orderInCategory="2" android:title="@string/sortby_length" />
+            <item android:id="@id/ml_menu_sortby_date" android:visible="false" android:orderInCategory="2" android:title="@string/sortby_date" />
+            <item android:id="@id/ml_menu_sortby_last_modified" android:visible="false" android:orderInCategory="2" android:title="@string/sortby_last_modified_date" />
+            <item android:id="@id/ml_menu_sortby_insertion_date" android:visible="false" android:orderInCategory="2" android:title="@string/sortby_insertion" />
+            <item android:id="@id/ml_menu_sortby_number" android:visible="false" android:orderInCategory="2" android:title="@string/sortby_number" />
+            <item android:id="@id/ml_menu_sortby_media_number" android:orderInCategory="2" android:title="@string/sortby_media_number" />
+        </menu>
+    </item>
+    <item android:id="@id/ml_menu_add_playlist" android:visible="false" android:orderInCategory="3" android:title="@string/add_to_playlist" vlc:showAsAction="never">
+        <menu>
+            <item android:id="@id/folder_add_playlist" android:orderInCategory="2" android:title="@string/this_folder" />
+            <item android:id="@id/subfolders_add_playlist" android:orderInCategory="2" android:title="@string/all_subfolders" />
+        </menu>
+    </item>
+    <item android:id="@id/add_server_favorite" android:visible="false" android:orderInCategory="3" android:title="@string/add_server_favorite" vlc:showAsAction="never" />
+    <item android:icon="@drawable/ic_pin_unlock" android:id="@id/pin_unlock" android:visible="false" android:orderInCategory="4" android:title="@string/unlock_with_pin" vlc:showAsAction="never" />
+    <item android:icon="@drawable/ic_refresh" android:id="@id/ml_menu_refresh" android:orderInCategory="4" android:title="@string/refresh" vlc:showAsAction="never" />
+    <item android:id="@id/ml_menu_custom_dir" android:visible="false" android:orderInCategory="3" android:title="@string/add_custom_path" android:contentDescription="@string/add_custom_path_description" />
+    <item android:icon="@drawable/ic_edit" android:id="@id/rename_group" android:visible="false" android:orderInCategory="5" android:title="@string/rename_group" vlc:showAsAction="ifRoom" />
+    <item android:icon="@drawable/ic_delete" android:id="@id/ungroup" android:visible="false" android:orderInCategory="5" android:title="@string/ungroup" vlc:showAsAction="ifRoom" />
+</menu>

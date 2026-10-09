@@ -1,0 +1,24 @@
+version: 3.0.3
+apkFileName: VLC.apk
+usesFramework:
+  ids:
+  - 1
+sdkInfo:
+  minSdkVersion: 30
+  targetSdkVersion: 36
+versionInfo:
+  versionCode: 13070109
+  versionName: 3.7.1
+resourcesInfo:
+  packageId: 127
+doNotCompress:
+- arsc
+- dex
+- ogg
+- png
+- androidsupportmultidexversion.txt
+- assets/dexopt/baseline.prof
+- assets/dexopt/baseline.profm
+- car-app-api.level
+- okhttp3/internal/publicsuffix/publicsuffixes.gz
+- org/fusesource/jansi/jansi.properties

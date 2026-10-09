@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <org.videolan.vlc.gui.view.SwipeRefreshLayout android:layout_gravity="center_horizontal" android:id="@id/swipeLayout" android:background="?background_default" android:layout_width="@dimen/default_content_width" android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent" android:layout_height="match_parent">
+            <include android:layout_width="wrap_content" android:layout_height="wrap_content" app:layout_constraintLeft_toLeftOf="parent" app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toTopOf="parent" layout="@layout/button_search" />
+            <androidx.recyclerview.widget.RecyclerView android:id="@id/list" android:paddingTop="10.0dp" android:paddingBottom="@dimen/listview_bottom_padding" android:clipToPadding="false" android:layout_width="0.0dp" android:layout_height="0.0dp" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintLeft_toLeftOf="parent" app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toBottomOf="@id/searchButton" />
+            <TextView android:textSize="20.0sp" android:gravity="center" android:id="@id/empty" android:paddingTop="30.0dp" android:visibility="gone" android:layout_width="0.0dp" android:layout_height="0.0dp" android:text="@string/nohistory" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintLeft_toLeftOf="parent" app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toBottomOf="@id/searchButton" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </org.videolan.vlc.gui.view.SwipeRefreshLayout>
+</FrameLayout>

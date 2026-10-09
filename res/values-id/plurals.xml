@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="other">%d album</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="other">%d media</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">%d berkas media</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="other">%d film</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="other">%d hasil ditemukan</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="other">%d subfolder</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="other">"%1$d saluran
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="other">%d trek</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="other">%d trek ditambahkan</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="other">%d trek dimasukkan</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="other">%dTayangan TV</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">%d video</item>
+    </plurals>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="192.0dp" android:layout_height="192.0dp"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/player_container_background" android:layout_width="128.0dp" android:layout_height="128.0dp" android:src="@drawable/widget_round_white" android:layout_centerInParent="true" android:contentDescription="@null" />
+    <ImageView android:id="@id/cover" android:layout_width="128.0dp" android:layout_height="128.0dp" android:layout_centerInParent="true" />
+    <ImageView android:id="@id/app_icon" android:layout_width="72.0dp" android:layout_height="72.0dp" android:src="@null" android:layout_centerInParent="true" android:contentDescription="@string/open_vlc" />
+    <ImageView android:id="@id/progress_round" android:layout_width="128.0dp" android:layout_height="128.0dp" android:layout_centerInParent="true" />
+    <ImageView android:id="@id/play_pause_background" android:layout_width="52.0dp" android:layout_height="52.0dp" android:layout_marginTop="-32.0dp" android:src="@drawable/widget_rectangle_background" android:layout_below="@id/cover" android:layout_alignStart="@id/cover" />
+    <ImageView android:id="@id/play_pause" android:background="@drawable/widget_touch_background" android:padding="6.0dp" android:layout_width="52.0dp" android:layout_height="52.0dp" android:layout_marginTop="-32.0dp" android:src="@null" android:layout_below="@id/cover" android:layout_alignStart="@id/cover" />
+    <ImageView android:id="@id/widget_configure" android:background="@drawable/widget_touch_background" android:layout_width="48.0dp" android:layout_height="48.0dp" android:scaleType="center" android:layout_alignTop="@id/player_container_background" android:layout_alignRight="@id/player_container_background" android:contentDescription="@string/configure_widget" />
+</RelativeLayout>

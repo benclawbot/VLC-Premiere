@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 album</item>
+        <item quantity="few">%d albumy</item>
+        <item quantity="many">%d albumów</item>
+        <item quantity="other">%d albumy</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 plik multimedialny</item>
+        <item quantity="few">%d pliki multimedialne</item>
+        <item quantity="many">%d plików multimedialnych</item>
+        <item quantity="other">%d pliki multimedialne</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 plik multimedialny</item>
+        <item quantity="few">%d pliki multimedialne</item>
+        <item quantity="many">%d plików multimedialnych</item>
+        <item quantity="other">%d pliki multimedialne</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="few">%d filmy</item>
+        <item quantity="many">%d filmów</item>
+        <item quantity="other">%d filmy</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d nowe powiadomienie</item>
+        <item quantity="few">%d nowe powiadomienia</item>
+        <item quantity="many">%d nowych powiadomień</item>
+        <item quantity="other">%d nowego powiadomienia</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">Znaleziono %d pozycję</item>
+        <item quantity="few">Znaleziono %d pozycje</item>
+        <item quantity="many">Znaleziono %d pozycji</item>
+        <item quantity="other">Znaleziono %d pozycji</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 podfolder</item>
+        <item quantity="few">%d podfoldery</item>
+        <item quantity="many">%d podfolderów</item>
+        <item quantity="other">%d podfoldery</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 kanał
+"</item>
+        <item quantity="few">"%1$d kanały
+"</item>
+        <item quantity="many">"%1$d kanałów
+"</item>
+        <item quantity="other">"%1$d kanałów
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 utwór</item>
+        <item quantity="few">%d utwory</item>
+        <item quantity="many">%d utworów</item>
+        <item quantity="other">%d utwory</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">Dołączono %d utwór</item>
+        <item quantity="few">Dołączono %d utworów</item>
+        <item quantity="many">Dołączono %d utwory</item>
+        <item quantity="other">Dołączono %d utworów</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">Wstawiono %d utwór</item>
+        <item quantity="few">Wstawiono %d utworów</item>
+        <item quantity="many">Wstawiono %d utwory</item>
+        <item quantity="other">Wstawiono %d utworów</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 serial</item>
+        <item quantity="few">%d seriale</item>
+        <item quantity="many">%d serialów</item>
+        <item quantity="other">%d seriale</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="few">%d filmy</item>
+        <item quantity="many">%d filmów</item>
+        <item quantity="other">%d filmy</item>
+    </plurals>
+</resources>

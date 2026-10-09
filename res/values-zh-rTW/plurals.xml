@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="other">%d 個專輯</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="other">選定項目中的 %1$d 個已在「%2$s」播放清單中。</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="other">這些項目已在「%s」播放清單中。</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="other">%d 個媒體</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">%d 個媒體檔案</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="other">%d 部電影</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d 則新通知</item>
+        <item quantity="other">%d 則新通知</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="other">%d 個已儲存的書籤</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="other">找到 %d 個結果</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="other">%d 個子目錄</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="other">"%1$d 聲道
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="other">%d 個軌道</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="other">%d 軌道已附加</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="other">%d 軌道已插入</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="other">%d 部電視節目</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">%d 個影片</item>
+    </plurals>
+</resources>

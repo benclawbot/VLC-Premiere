@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen android:title="@string/video_prefs_category" android:key="video_category"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <CheckBoxPreference android:title="@string/always_fast_seek" android:key="always_fast_seek" android:summary="@string/always_fast_seek_summary" android:defaultValue="false" app:singleLineTitle="false" />
+    <CheckBoxPreference android:title="@string/popup_force_legacy_title" android:key="popup_force_legacy" android:summary="@string/popup_force_legacy_summary" android:defaultValue="false" app:singleLineTitle="false" />
+    <CheckBoxPreference android:title="@string/restore_background_video_title" android:key="restore_background_video" android:summary="@string/restore_background_video_summary" android:defaultValue="false" app:singleLineTitle="false" />
+    <CheckBoxPreference android:title="@string/video_match_frame_rate_title" android:key="video_match_frame_rate" android:summary="@string/video_match_frame_rate_summary" android:defaultValue="false" app:singleLineTitle="false" />
+    <ListPreference android:entries="@array/preferred_resolution" android:title="@string/preferred_resolution" android:key="preferred_resolution" android:summary="@string/preferred_resolution_summary" android:defaultValue="-1" android:entryValues="@array/preferred_resolution_values" />
+    <PreferenceCategory android:title="@string/interface_secondary_display_category_title" android:key="secondary_display_category">
+        <Preference android:key="secondary_display_category_summary" android:summary="@string/interface_secondary_display_category_summary" />
+        <CheckBoxPreference android:title="@string/enable_clone_mode" android:key="enable_clone_mode" android:summary="@string/enable_clone_mode_summary" android:defaultValue="false" app:singleLineTitle="false" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

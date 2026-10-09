@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">%d آلبوم</item>
+        <item quantity="other">%d آلبوم</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 رسانه</item>
+        <item quantity="other">%d رسانه</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 پرونده رسانه</item>
+        <item quantity="other">%d فایل رسانه</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 فیلم</item>
+        <item quantity="other">%d فیلم</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d اعلان جدید</item>
+        <item quantity="other">%d اعلان جدید</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d نتیجه یافت شد</item>
+        <item quantity="other">%d نتیجه یافت شد</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">%d زیرپوشه</item>
+        <item quantity="other">%d زیرپوشه</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"۱ کانال
+"</item>
+        <item quantity="other">کانال %1$d</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 قطعه</item>
+        <item quantity="other">%d صدا</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 نمایش تلویزیونی</item>
+        <item quantity="other">%d نمایش تلویزیونی</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 ویدیو</item>
+        <item quantity="other">%d ویدیو</item>
+    </plurals>
+</resources>

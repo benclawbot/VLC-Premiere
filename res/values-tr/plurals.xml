@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 albüm</item>
+        <item quantity="other">%d albüm</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">Seçilmiş ögelerin 1 tanesi zaten \"%s\" oynatma listesinde var.</item>
+        <item quantity="other">Seçilmiş ögelerin %1$d tanesi zaten \"%2$s\" oynatma listesinde var.</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Bu öge zaten \"%s\" oynatma listesinde var.</item>
+        <item quantity="other">Bu ögeler zaten \"%s\" oynatma listesinde var.</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 ortam</item>
+        <item quantity="other">%d ortam</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 ortam dosyası</item>
+        <item quantity="other">%d ortam dosyası</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="other">%d film</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d yeni bildirim</item>
+        <item quantity="other">%d yeni bildirim</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 yer imi kaydedilmiş</item>
+        <item quantity="other">%d yer imi kaydedilmiş</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d sonuç bulundu</item>
+        <item quantity="other">%d sonuç bulundu</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 alt klasör</item>
+        <item quantity="other">%d alt klasör</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 kanal
+"</item>
+        <item quantity="other">"%1$d kanal
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 iz</item>
+        <item quantity="other">%d iz</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d kayıt sona eklendi</item>
+        <item quantity="other">%d kayıt sona eklendi</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d kayıt eklendi</item>
+        <item quantity="other">%d kayıt eklendi</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV dizisi</item>
+        <item quantity="other">%d TV dizisi</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 görüntü</item>
+        <item quantity="other">%d görüntü</item>
+    </plurals>
+</resources>

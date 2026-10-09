@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 ალბომი</item>
+        <item quantity="other">%d ალბომი</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">1 შერჩეული ჩანაწერებიდან უკვე არის სიაში „%s“.</item>
+        <item quantity="other">%1$d შერჩეული ჩანაწერებიდან უკვე არის სიაში „%2$s“.</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">ამ ჩანაწერს უკვე შეიცავს „%s“ სია.</item>
+        <item quantity="other">ამ ჩანაწერებს უკვე შეიცავს „%s“ სია.</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 მედიაფაილი</item>
+        <item quantity="other">%d მედიაფაილი</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 მედიაფაილი</item>
+        <item quantity="other">%d მედიაფაილი</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 ფილმი</item>
+        <item quantity="other">%d ფილმი</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d ახალი შეტყობინება</item>
+        <item quantity="other">%d ახალი შეტყობინება</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 შენახული სანიშნი</item>
+        <item quantity="other">%d შენახული სანიშნი</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d შედეგია ნაპოვნი</item>
+        <item quantity="other">%d შედეგია ნაპოვნი</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 ქვესაქაღალდე</item>
+        <item quantity="other">%d ქვესაქაღალდე</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 არხი
+"</item>
+        <item quantity="other">"%1$d არხი
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 ჩანაწერი</item>
+        <item quantity="other">%d ჩანაწერი</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d ჩანაწერი მიემატა</item>
+        <item quantity="other">%d ჩანაწერი მიემატა</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d ჩანაწერი ჩაემატა</item>
+        <item quantity="other">%d ჩანაწერი ჩაემატა</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 გადაცემა</item>
+        <item quantity="other">%d გადაცემა</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 ვიდეო</item>
+        <item quantity="other">%d ვიდეო</item>
+    </plurals>
+</resources>

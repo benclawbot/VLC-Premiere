@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="other">%d альбом</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">%d медиа файл</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="other">%d нәтиҗә табылды</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="other">%d аспапка</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="other">"%1$d канал
+"</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">%d видео</item>
+    </plurals>
+</resources>

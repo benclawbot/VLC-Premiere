@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="other">앨범 %d개</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="other">선택한 항목 중 %1$d개가 이미 \"%2$s\" 재생 목록에 있습니다.</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="other">이미 \"%s\" 재생 목록에 있는 항목입니다.</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="other">미디어 %d개</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">미디어 파일 %d개</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="other">%d개 영화</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">새 알림 %d개</item>
+        <item quantity="other">새 알림 %d개</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="other">%d개의 북마크가 저장되었습니다</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="other">검색 결과 %d개</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="other">하위폴더 %d개</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="other">"%1$d 채널
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="other">트랙 %d개</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="other">%d개 트랙 추가됨</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="other">%d개 트랙 삽입됨</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="other">TV 프로그램 %d개</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">동영상 %d개</item>
+    </plurals>
+</resources>

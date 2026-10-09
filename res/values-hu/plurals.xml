@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 album</item>
+        <item quantity="other">%d album</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">A kiválasztott elemek közül 1 már rajta van a(z) „%s” lejátszólistán.</item>
+        <item quantity="other">A kiválasztott elemek közül %1$d már rajta van a(z) „%2$s” lejátszólistán.</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">Ez az elem már rajta van a(z) „%s” lejátszólistán.</item>
+        <item quantity="other">Ezek az elemek már rajta vannak a(z) „%s” lejátszólistán.</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 média</item>
+        <item quantity="other">%d média</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 médiafájl</item>
+        <item quantity="other">%d médiafájl</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="other">%d film</item>
+    </plurals>
+    <plurals name="mtrl_badge_content_description">
+        <item quantity="one">%d új értesítés</item>
+        <item quantity="other">%d új értesítés</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">1 mentett könyvjelző</item>
+        <item quantity="other">%d mentett könyvjelző</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d találat</item>
+        <item quantity="other">%d találat</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 almappa</item>
+        <item quantity="other">%d almappa</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"1 csatorna
+"</item>
+        <item quantity="other">"%1$d csatorna
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">1 szám</item>
+        <item quantity="other">%d szám</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d szám hozzáfűzve</item>
+        <item quantity="other">%d szám hozzáfűzve</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d szám beszúrva</item>
+        <item quantity="other">%d szám beszúrva</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 sorozat</item>
+        <item quantity="other">%d sorozat</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 videó</item>
+        <item quantity="other">%d videó</item>
+    </plurals>
+</resources>

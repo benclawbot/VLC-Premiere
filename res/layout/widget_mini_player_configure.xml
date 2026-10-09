@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:tag="layout/widget_mini_player_configure_0" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:vlc="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+    <View android:id="@id/status_view" android:background="?background_default" android:layout_width="match_parent" android:layout_height="28.0dp" />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@id/coordinator" android:tag="binding_1" android:layout_width="match_parent" android:layout_height="match_parent">
+        <include layout="@layout/toolbar" />
+        <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true" vlc:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <LinearLayout android:orientation="vertical" android:id="@id/widget_mini_player_scroll" android:layout_width="match_parent" android:layout_height="match_parent">
+                <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <ImageView android:layout_gravity="center_horizontal" android:id="@id/widget_preview" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="24.0dp" />
+                    <LinearLayout android:layout_gravity="end" android:orientation="vertical" android:background="?widget_preview_rounded_bg" android:paddingLeft="16.0dp" android:paddingTop="8.0dp" android:paddingRight="16.0dp" android:paddingBottom="8.0dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="24.0dp">
+                        <TextView android:textSize="18.0sp" android:textColor="?font_default" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/widget_preview" android:fontFamily="sans-serif-medium" />
+                        <androidx.appcompat.widget.SwitchCompat android:id="@id/preview_playing" android:layout_width="match_parent" android:layout_height="wrap_content" android:checked="true" android:text="@string/playing" />
+                    </LinearLayout>
+                </LinearLayout>
+                <FrameLayout android:id="@id/fragment_placeholder" android:background="?background_default" android:layout_width="match_parent" android:layout_height="match_parent" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:tag="layout/video_grid_0" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include android:layout_width="wrap_content" android:layout_height="wrap_content" app:layout_constraintLeft_toLeftOf="parent" app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toTopOf="parent" layout="@layout/button_search" />
+    <org.videolan.vlc.gui.view.SwipeRefreshLayout android:id="@id/swipeLayout" android:tag="binding_1" android:layout_width="0.0dp" android:layout_height="0.0dp" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintLeft_toLeftOf="parent" app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toBottomOf="@id/searchButton">
+        <org.videolan.vlc.gui.view.AutoFitRecyclerView android:gravity="center" android:id="@id/video_grid" android:scrollbars="none" android:fadingEdge="none" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="match_parent" android:stretchMode="none" android:numColumns="auto_fit" android:fastScrollEnabled="true" />
+    </org.videolan.vlc.gui.view.SwipeRefreshLayout>
+    <org.videolan.vlc.gui.view.EmptyLoadingStateView android:id="@id/empty_loading" android:layout_width="0.0dp" android:layout_height="0.0dp" app:empty_text="@string/nomedia" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" />
+    <org.videolan.vlc.gui.view.FastScroller android:id="@id/fast_scroller" android:layout_width="wrap_content" android:layout_height="match_parent" app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="albums_quantity">
+        <item quantity="one">אלבום אחד</item>
+        <item quantity="two">%d אלבומים</item>
+        <item quantity="many">%d אלבומים</item>
+        <item quantity="other">%d אלבומים</item>
+    </plurals>
+    <plurals name="duplicate_three_options_secondary">
+        <item quantity="one">אחד מהפריטים האלה כבר נמצא ברשימת הנגינה „%s”.</item>
+        <item quantity="two">%1$d מהפריטים האלה כבר נמצאים ברשימת הנגינה „%2$s”.</item>
+        <item quantity="many">%1$d מהפריטים האלה כבר נמצאים ברשימת הנגינה „%2$s”.</item>
+        <item quantity="other">%1$d מהפריטים האלה כבר נמצאים ברשימת הנגינה „%2$s”.</item>
+    </plurals>
+    <plurals name="duplicate_two_options_secondary">
+        <item quantity="one">הפריט הזה כבר נמצא ברשימת הנגינה „%s”.</item>
+        <item quantity="two">הפריטים האלה כבר נמצאים ברשימת הנגינה „%s”.</item>
+        <item quantity="many">הפריטים האלה כבר נמצאים ברשימת הנגינה „%s”.</item>
+        <item quantity="other">הפריטים האלה כבר נמצאים ברשימת הנגינה „%s”.</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">מדיה אחת</item>
+        <item quantity="two">%d מדיה</item>
+        <item quantity="other">%d מדיה</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">קובץ מדיה אחד</item>
+        <item quantity="two">%d קובצי מדיה</item>
+        <item quantity="other">%d קובצי מדיה</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">סרט אחד</item>
+        <item quantity="two">%d סרטים</item>
+        <item quantity="many">%d סרטים</item>
+        <item quantity="other">%d סרטים</item>
+    </plurals>
+    <plurals name="saved_bookmarks_quantity">
+        <item quantity="one">סימנייה שמורה</item>
+        <item quantity="two">%d סימניות שמורות</item>
+        <item quantity="other">%d סימניות שמורות</item>
+    </plurals>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">נמצאה תוצאה אחת</item>
+        <item quantity="two">נמצאו %d תוצאות</item>
+        <item quantity="many">נמצאו %d תוצאות</item>
+        <item quantity="other">נמצאו %d תוצאות</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">תת־תיקייה אחת</item>
+        <item quantity="two">%d תת־תיקיות</item>
+        <item quantity="other">%d תת־תיקיות</item>
+    </plurals>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">"ערוץ אחד
+"</item>
+        <item quantity="two">"%1$d ערוצים
+"</item>
+        <item quantity="many">"%1$d ערוצים
+"</item>
+        <item quantity="other">"%1$d ערוצים
+"</item>
+    </plurals>
+    <plurals name="track_quantity">
+        <item quantity="one">רצועה אחת</item>
+        <item quantity="two">%d רצועות</item>
+        <item quantity="many">%d רצועות</item>
+        <item quantity="other">%d רצועות</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">רצועה %d נוספה לסוף</item>
+        <item quantity="two">%d רצועות נוספו לסוף</item>
+        <item quantity="other">%d רצועות נוספו לסוף</item>
+    </plurals>
+    <plurals name="tracks_inserted">
+        <item quantity="one">רצועה %d נוספת</item>
+        <item quantity="two">%d רצועות נוספות</item>
+        <item quantity="other">%d רצועות נוספות</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">סדרת טלוויזיה אחת</item>
+        <item quantity="two">%d סדרות טלוויזיה</item>
+        <item quantity="other">%d סדרות טלוויזיה</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">סרטון אחד</item>
+        <item quantity="two">%d סרטונים</item>
+        <item quantity="other">%d סרטונים</item>
+    </plurals>
+</resources>
