@@ -1,5 +1,4 @@
 {
-  "validated_utc_date": "2026-10-11",
   "checks": {
     "matching_assertions": 61,
     "python_probe_fixtures": 5,
@@ -66,5 +65,7 @@
       ],
       "native_libraries": 4
     }
-  ]
+  ],
+  "validated_date": "2026-10-11",
+  "timezone": "Europe/Paris"
 }

@@ -1,6 +1,6 @@
 # Dynamic artwork — current implementation and earlier handset validation
 
-Updated 2026-10-11 UTC. The selected Premiere presentation and VLC engine are retained.
+Updated 2026-10-11 (Europe/Paris). The selected Premiere presentation and VLC engine are retained.
 
 Artwork lookup now starts automatically from VLC's scanned video/audio library. The complete array is processed in bounded background work through the same cache and matching pipeline used for visible cards. A newer scan interrupts the current pass and is picked up first; media-library IDs prioritize newly added items. The sweep resumes at the next application start, and settings, metadata changes, cache clearing, and transient network retries re-queue candidates. Music chooses the closest plausible match instead of requiring a unique exact title. Visible artwork jobs move ahead of background jobs in both metadata and network queues. Movie matches retain their title/year safeguards. Current build and handset evidence is recorded in VERIFICATION.md.
 

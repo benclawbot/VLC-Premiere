@@ -1,4 +1,4 @@
-# Current release verification — 2026-10-11 UTC
+# Current release verification — 2026-10-11 (Europe/Paris)
 
 The selected Premiere design and VLC engine remain in the packaged builds. Movie/TV network work now has its own queue, independent of music searches. Media callbacks are coalesced, unchanged library snapshots skip page reconstruction, and genuine refreshes retain the current scroll position and expanded page limit. Item identity excludes asynchronously generated artwork paths. The masked TMDB settings field saves atomically in private storage and enables movie lookup.
 
