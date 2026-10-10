@@ -1,0 +1,70 @@
+{
+  "validated_utc_date": "2026-10-11",
+  "checks": {
+    "matching_assertions": 61,
+    "python_probe_fixtures": 5,
+    "apk_signature": "v3 verified",
+    "zip_alignment": "16 KiB verified",
+    "source_dex_equality": true,
+    "installed_arm64_equality": true,
+    "repository_and_apk_credentials_excluded": true,
+    "tmdb_token_retained_after_restart": true,
+    "tmdb_token_retained_after_apk_update": true,
+    "movie_lookup_enabled": true,
+    "phone_audio_count": 337,
+    "music_list_expansions": [
+      {
+        "limit": 160,
+        "scroll_preserved": true
+      },
+      {
+        "limit": 240,
+        "scroll_preserved": true
+      },
+      {
+        "limit": 320,
+        "scroll_preserved": true
+      },
+      {
+        "limit": 400,
+        "scroll_preserved": true
+      }
+    ],
+    "music_scroll_unchanged_for_seconds": 20,
+    "all_audio_pages_expanded": true,
+    "fresh_source_preparation": {
+      "real_upstream_apk_checksum_verified": true,
+      "dex_trees": 6,
+      "existing_patch_targets": 10,
+      "dynamic_startup_class_lookup": true,
+      "full_fresh_checkout_apk_build_rerun": false
+    }
+  },
+  "native": {
+    "sources_sha256": "2b180698b4e2a45b67dfa7900f1d0b49fd9d47bc37a44dded2fe6db481f194ff",
+    "dex_sha256": "2e94a316726876dfb464e10c6610b677eec40ac3c95a722c414926514be39f84"
+  },
+  "packages": [
+    {
+      "file": "VLC-Premiere-Universal.apk",
+      "size": 253907449,
+      "sha256": "956f76b16688dc812470f898c47cb5fc1a98af5950fcd67fbb739c3e0150e075",
+      "abis": [
+        "arm64-v8a",
+        "armeabi-v7a",
+        "x86",
+        "x86_64"
+      ],
+      "native_libraries": 16
+    },
+    {
+      "file": "VLC-Premiere-arm64.apk",
+      "size": 99847867,
+      "sha256": "cd88f0a3f73e2798c31e4a021c2cf4258471ce6baa4fd9383148aa43f81e452f",
+      "abis": [
+        "arm64-v8a"
+      ],
+      "native_libraries": 4
+    }
+  ]
+}

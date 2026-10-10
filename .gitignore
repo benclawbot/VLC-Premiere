@@ -1,4 +1,3 @@
-/design-proposals/
 /src/
 /smali/
 /libs/
@@ -11,3 +10,7 @@
 /android-premiere/signing/
 /android-premiere/build/
 /android-premiere/dist/
+
+# Generated Python bytecode
+__pycache__/
+*.py[cod]

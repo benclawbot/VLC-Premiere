@@ -1,0 +1,917 @@
+{
+  "title": "VLC Android · Premiere",
+  "count": 109,
+  "scope": "Android phone screens and meaningful states. TV, car-display UI, home-screen widget layouts, and the separate remote browser UI are excluded.",
+  "categories": [
+    {
+      "name": "Video",
+      "count": 8
+    },
+    {
+      "name": "Audio",
+      "count": 10
+    },
+    {
+      "name": "Browse",
+      "count": 9
+    },
+    {
+      "name": "Playlists",
+      "count": 4
+    },
+    {
+      "name": "Playback",
+      "count": 22
+    },
+    {
+      "name": "More & settings",
+      "count": 25
+    },
+    {
+      "name": "First run",
+      "count": 6
+    },
+    {
+      "name": "Remote pairing",
+      "count": 7
+    },
+    {
+      "name": "Dialogs",
+      "count": 18
+    }
+  ],
+  "screens": [
+    {
+      "id": "video-library",
+      "title": "Video library",
+      "category": "Video",
+      "type": "screen",
+      "source": "res/layout/video_grid.xml",
+      "description": "A generous resume feature, followed by a personal film shelf."
+    },
+    {
+      "id": "video-list",
+      "title": "Video list",
+      "category": "Video",
+      "type": "screen",
+      "source": "res/layout/video_list_card.xml",
+      "description": "The same collection, with file information in a compact list."
+    },
+    {
+      "id": "video-groups",
+      "title": "Video groups",
+      "category": "Video",
+      "type": "screen",
+      "source": "res/menu/video_group.xml",
+      "description": "Related films and episodes gathered into collections."
+    },
+    {
+      "id": "group-detail",
+      "title": "Group detail",
+      "category": "Video",
+      "type": "screen",
+      "source": "res/layout/video_browser.xml",
+      "description": "A collection opens into its own film shelf."
+    },
+    {
+      "id": "video-selection",
+      "title": "Select media",
+      "category": "Video",
+      "type": "screen",
+      "source": "res/menu/action_mode_video.xml",
+      "description": "Selection mode brings playlist, grouping, and file actions forward."
+    },
+    {
+      "id": "media-details",
+      "title": "Media information",
+      "category": "Video",
+      "type": "screen",
+      "source": "res/layout/info_activity.xml",
+      "description": "Technical details stay clear and secondary to the artwork."
+    },
+    {
+      "id": "search",
+      "title": "Search media",
+      "category": "Video",
+      "type": "screen",
+      "source": "res/layout/search_activity.xml",
+      "description": "Films, tracks, albums, and folders in one search."
+    },
+    {
+      "id": "video-empty",
+      "title": "Empty video library",
+      "category": "Video",
+      "type": "screen",
+      "source": "res/layout/view_empty_loading.xml",
+      "description": "A useful first step when no videos have been found."
+    },
+    {
+      "id": "audio-artists",
+      "title": "Artists",
+      "category": "Audio",
+      "type": "screen",
+      "source": "res/layout/audio_browser.xml",
+      "description": "Artist artwork gives the music collection its own character."
+    },
+    {
+      "id": "audio-albums",
+      "title": "Albums",
+      "category": "Audio",
+      "type": "screen",
+      "source": "res/layout/audio_browser.xml",
+      "description": "Artwork leads a quiet, familiar album grid."
+    },
+    {
+      "id": "audio-tracks",
+      "title": "Tracks",
+      "category": "Audio",
+      "type": "screen",
+      "source": "res/layout/song_browser.xml",
+      "description": "A readable track list with fast play and shuffle."
+    },
+    {
+      "id": "audio-genres",
+      "title": "Genres",
+      "category": "Audio",
+      "type": "screen",
+      "source": "res/layout/audio_browser.xml",
+      "description": "Browse music by mood and genre."
+    },
+    {
+      "id": "artist-detail",
+      "title": "Artist detail",
+      "category": "Audio",
+      "type": "screen",
+      "source": "res/layout/audio_albums_songs.xml",
+      "description": "An artist page brings albums and popular tracks together."
+    },
+    {
+      "id": "album-detail",
+      "title": "Album detail",
+      "category": "Audio",
+      "type": "screen",
+      "source": "res/layout/audio_albums_songs.xml",
+      "description": "A full album with track numbers, durations, and a single play action."
+    },
+    {
+      "id": "genre-detail",
+      "title": "Genre detail",
+      "category": "Audio",
+      "type": "screen",
+      "source": "res/layout/audio_albums_songs.xml",
+      "description": "Genre browsing keeps the same album and track language."
+    },
+    {
+      "id": "audio-player",
+      "title": "Audio now playing",
+      "category": "Audio",
+      "type": "screen",
+      "source": "res/layout/audio_player.xml",
+      "description": "An artwork-first player with a restrained orange transport."
+    },
+    {
+      "id": "audio-queue",
+      "title": "Audio queue",
+      "category": "Audio",
+      "type": "screen",
+      "source": "res/layout/audio_player.xml",
+      "description": "The current track anchors a reorderable listening queue."
+    },
+    {
+      "id": "audio-bookmarks",
+      "title": "Audio bookmarks",
+      "category": "Audio",
+      "type": "screen",
+      "source": "res/layout/bookmarks.xml",
+      "description": "Saved moments and chapters stay close to the player."
+    },
+    {
+      "id": "browse",
+      "title": "Browse storage",
+      "category": "Browse",
+      "type": "screen",
+      "source": "res/layout/directory_browser.xml",
+      "description": "Local folders and network sources share one calm browser."
+    },
+    {
+      "id": "folder",
+      "title": "Folder contents",
+      "category": "Browse",
+      "type": "screen",
+      "source": "res/layout/directory_browser.xml",
+      "description": "Folders, files, sizes, and paths are easy to scan."
+    },
+    {
+      "id": "scan-folders",
+      "title": "Media library folders",
+      "category": "Browse",
+      "type": "screen",
+      "source": "src/org/videolan/vlc/gui/browser/MLStorageBrowserFragment.java",
+      "description": "Select exactly which folders VLC should index."
+    },
+    {
+      "id": "network",
+      "title": "Network browser",
+      "category": "Browse",
+      "type": "screen",
+      "source": "src/org/videolan/vlc/gui/browser/NetworkBrowserFragment.java",
+      "description": "Saved servers and discovered devices are visually distinct."
+    },
+    {
+      "id": "network-share",
+      "title": "Network share",
+      "category": "Browse",
+      "type": "screen",
+      "source": "res/layout/directory_browser.xml",
+      "description": "A remote share uses the same familiar folder view."
+    },
+    {
+      "id": "connect-server",
+      "title": "Connect to server",
+      "category": "Browse",
+      "type": "screen",
+      "source": "res/layout/network_server_dialog.xml",
+      "description": "A concise server form with protocol, address, and sign-in."
+    },
+    {
+      "id": "stream",
+      "title": "Open a stream",
+      "category": "Browse",
+      "type": "screen",
+      "source": "res/layout/mrl_panel.xml",
+      "description": "Open a URL directly, with recent addresses nearby."
+    },
+    {
+      "id": "stream-history",
+      "title": "Stream history",
+      "category": "Browse",
+      "type": "screen",
+      "source": "res/layout/mrl_panel.xml",
+      "description": "Return to a recent stream without retyping its address."
+    },
+    {
+      "id": "file-picker",
+      "title": "Choose a file",
+      "category": "Browse",
+      "type": "screen",
+      "source": "res/layout/file_picker_activity.xml",
+      "description": "A dedicated picker for a subtitle, playlist, or media file."
+    },
+    {
+      "id": "playlists",
+      "title": "Playlist library",
+      "category": "Playlists",
+      "type": "screen",
+      "source": "res/layout/playlists_fragment.xml",
+      "description": "Personal collections shown as layered artwork, with clear counts."
+    },
+    {
+      "id": "playlist-detail",
+      "title": "Playlist detail",
+      "category": "Playlists",
+      "type": "screen",
+      "source": "src/org/videolan/vlc/gui/PlaylistFragment.java",
+      "description": "A collection of films or tracks with play and shuffle."
+    },
+    {
+      "id": "playlist-edit",
+      "title": "Edit playlist",
+      "category": "Playlists",
+      "type": "screen",
+      "source": "res/layout/playlist_item.xml",
+      "description": "Reorder and remove items without leaving the collection."
+    },
+    {
+      "id": "playlist-empty",
+      "title": "Empty playlists",
+      "category": "Playlists",
+      "type": "screen",
+      "source": "res/layout/playlists_fragment.xml",
+      "description": "A welcoming empty state with a direct create action."
+    },
+    {
+      "id": "video-player",
+      "title": "Landscape video player",
+      "category": "Playback",
+      "type": "screen",
+      "source": "res/layout/player.xml",
+      "description": "The picture stays central. The controls sit in a subtle lower gradient."
+    },
+    {
+      "id": "portrait-player",
+      "title": "Portrait video player",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/player_hud.xml",
+      "description": "A portrait layout keeps the film in its original aspect ratio."
+    },
+    {
+      "id": "playback-options",
+      "title": "Playback options",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/player_options.xml",
+      "description": "The full toolkit is one tap away, in a clear sheet."
+    },
+    {
+      "id": "audio-track-picker",
+      "title": "Audio tracks",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/player_overlay_tracks.xml",
+      "description": "Language and format labels make track selection unambiguous."
+    },
+    {
+      "id": "subtitle-tracks",
+      "title": "Subtitles",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/player_overlay_tracks.xml",
+      "description": "Choose a track, open a local file, or find subtitles online."
+    },
+    {
+      "id": "subtitle-download",
+      "title": "Find subtitles",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/subtitle_downloader_dialog.xml",
+      "description": "Title and language search sit together above download results."
+    },
+    {
+      "id": "subtitle-results",
+      "title": "Subtitle results",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/subtitle_download_item.xml",
+      "description": "File names, language, and format support a confident download."
+    },
+    {
+      "id": "playback-speed",
+      "title": "Playback speed",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/dialog_playback_speed.xml",
+      "description": "A tactile speed slider with useful preset values."
+    },
+    {
+      "id": "sync",
+      "title": "Audio & subtitle delay",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/player_overlay_settings.xml",
+      "description": "Independent timing adjustments with an obvious reset."
+    },
+    {
+      "id": "jump-time",
+      "title": "Jump to time",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/dialog_time_picker.xml",
+      "description": "Hours, minutes, and seconds use a simple time entry."
+    },
+    {
+      "id": "chapters",
+      "title": "Chapters",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/dialog_select_chapter.xml",
+      "description": "Chapter titles and timestamps in a concise list."
+    },
+    {
+      "id": "bookmarks",
+      "title": "Video bookmarks",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/bookmarks.xml",
+      "description": "Name and revisit a moment without scrubbing through the film."
+    },
+    {
+      "id": "sleep-timer",
+      "title": "Sleep timer",
+      "category": "Playback",
+      "type": "state",
+      "source": "src/org/videolan/vlc/gui/dialogs/SleepTimerDialog.java",
+      "description": "A timer with a clear finish-current-track option."
+    },
+    {
+      "id": "equalizer",
+      "title": "Equalizer",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/dialog_equalizer.xml",
+      "description": "Presets and individual frequency bands in the same warm palette."
+    },
+    {
+      "id": "cast-devices",
+      "title": "Cast to a device",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/dialog_renderers.xml",
+      "description": "Nearby devices and connection state are easy to distinguish."
+    },
+    {
+      "id": "popup-player",
+      "title": "Pop-up player",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/video_popup.xml",
+      "description": "A small floating player keeps its essential controls."
+    },
+    {
+      "id": "brightness",
+      "title": "Brightness gesture",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/player_overlay_brightness.xml",
+      "description": "Gesture feedback reads instantly, then gets out of the way."
+    },
+    {
+      "id": "volume",
+      "title": "Volume gesture",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/player_overlay_volume.xml",
+      "description": "The volume level and audio boost are made explicit."
+    },
+    {
+      "id": "locked-player",
+      "title": "Locked player",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/player_hud.xml",
+      "description": "A single unlock affordance protects playback from accidental taps."
+    },
+    {
+      "id": "ab-repeat",
+      "title": "A–B repeat",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/ab_repeat_controls.xml",
+      "description": "A start and end marker make a repeat segment understandable."
+    },
+    {
+      "id": "video-size",
+      "title": "Video scaling",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/player_resize.xml",
+      "description": "Fit, fill, and original size are previews, not unexplained icons."
+    },
+    {
+      "id": "playback-info",
+      "title": "Playback information",
+      "category": "Playback",
+      "type": "state",
+      "source": "res/layout/player_overlay_info.xml",
+      "description": "Codec, dimensions, audio format, and playback performance together."
+    },
+    {
+      "id": "more",
+      "title": "More",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/layout/more_fragment.xml",
+      "description": "A calm home for history, streams, settings, and app information."
+    },
+    {
+      "id": "history",
+      "title": "Playback history",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/layout/history_list.xml",
+      "description": "Recent media grouped by day, with resume information."
+    },
+    {
+      "id": "settings",
+      "title": "Settings",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/xml/preferences.xml",
+      "description": "VLC’s many preferences are organized into clear destinations."
+    },
+    {
+      "id": "interface-settings",
+      "title": "Interface",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/xml/preferences_ui.xml",
+      "description": "Theme, language, library display, and history preferences."
+    },
+    {
+      "id": "video-settings",
+      "title": "Video",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/xml/preferences_video.xml",
+      "description": "Decoder, seeking, background playback, and display choices."
+    },
+    {
+      "id": "video-controls",
+      "title": "Video controls",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/xml/preferences_video_controls.xml",
+      "description": "Playback gestures and screen controls in one place."
+    },
+    {
+      "id": "audio-settings",
+      "title": "Audio",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/xml/preferences_audio.xml",
+      "description": "Headset behavior, replay gain, and playback continuity."
+    },
+    {
+      "id": "audio-controls",
+      "title": "Audio controls",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/xml/preferences_audio_controls.xml",
+      "description": "Artwork, queue presentation, and chapter controls."
+    },
+    {
+      "id": "subtitle-settings",
+      "title": "Subtitle appearance",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/xml/preferences_subtitles.xml",
+      "description": "A live caption preview anchors font, color, and background choices."
+    },
+    {
+      "id": "casting-settings",
+      "title": "Casting",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/xml/preferences_casting.xml",
+      "description": "Discovery, passthrough, and conversion settings."
+    },
+    {
+      "id": "remote-settings",
+      "title": "Remote access",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/xml/preferences_remote_access.xml",
+      "description": "Choose what a paired browser can see and control."
+    },
+    {
+      "id": "android-auto",
+      "title": "Android Auto",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/xml/preferences_android_auto.xml",
+      "description": "Phone-side preferences for browsing music in Android Auto."
+    },
+    {
+      "id": "advanced",
+      "title": "Advanced",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/xml/preferences_adv.xml",
+      "description": "Network, playback performance, and data tools stay organized."
+    },
+    {
+      "id": "optional",
+      "title": "Optional features",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/xml/preferences_optional.xml",
+      "description": "Experimental features are clearly described before enabling."
+    },
+    {
+      "id": "parental",
+      "title": "Parental controls",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/xml/preferences_parental_control.xml",
+      "description": "A PIN protects restricted settings and safe-mode choices."
+    },
+    {
+      "id": "pin",
+      "title": "Set a PIN",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/layout/pin_code_activity.xml",
+      "description": "A focused numeric keypad for parental and settings access."
+    },
+    {
+      "id": "settings-search",
+      "title": "Search settings",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/layout/preferences_search_activity.xml",
+      "description": "Search across settings without needing to know the section."
+    },
+    {
+      "id": "equalizer-presets",
+      "title": "Equalizer presets",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/layout/equalizer_settings_activity.xml",
+      "description": "Save, rename, or return to a familiar equalizer preset."
+    },
+    {
+      "id": "permissions",
+      "title": "Permissions",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/layout/dialog_permissions.xml",
+      "description": "A readable overview of media, notifications, and storage access."
+    },
+    {
+      "id": "widgets",
+      "title": "Widget settings",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/xml/preferences_widgets.xml",
+      "description": "Phone-side widget preferences, consistent with the app’s interface."
+    },
+    {
+      "id": "about",
+      "title": "About VLC",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/layout/about.xml",
+      "description": "VLC’s community identity, version, and project links."
+    },
+    {
+      "id": "licenses",
+      "title": "Open source licenses",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "src/org/videolan/vlc/gui/LibrariesActivity.java",
+      "description": "Library credits and license information in a readable list."
+    },
+    {
+      "id": "authors",
+      "title": "Contributors",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/layout/about_authors_activity.xml",
+      "description": "A simple, respectful view of the people behind VLC."
+    },
+    {
+      "id": "feedback",
+      "title": "Feedback",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "res/layout/about_feedback_activity.xml",
+      "description": "Support and diagnostic options without clutter."
+    },
+    {
+      "id": "debug-logs",
+      "title": "Debug logs",
+      "category": "More & settings",
+      "type": "screen",
+      "source": "src/org/videolan/vlc/gui/DebugLogActivity.java",
+      "description": "Capture, inspect, and export logs with explicit controls."
+    },
+    {
+      "id": "welcome",
+      "title": "Welcome",
+      "category": "First run",
+      "type": "screen",
+      "source": "res/layout/onboarding_welcome.xml",
+      "description": "The Premiere welcome makes local media feel inviting."
+    },
+    {
+      "id": "theme",
+      "title": "Choose a theme",
+      "category": "First run",
+      "type": "screen",
+      "source": "res/layout/onboarding_theme.xml",
+      "description": "Preview appearance before entering the library."
+    },
+    {
+      "id": "media-permission",
+      "title": "Media access",
+      "category": "First run",
+      "type": "screen",
+      "source": "res/layout/onboarding_permission.xml",
+      "description": "Explain why access is needed before the Android permission request."
+    },
+    {
+      "id": "first-scan",
+      "title": "Choose scan folders",
+      "category": "First run",
+      "type": "screen",
+      "source": "res/layout/onboarding_scanning.xml",
+      "description": "Automatic discovery or specific folders: the choice is clear."
+    },
+    {
+      "id": "notifications",
+      "title": "Playback notifications",
+      "category": "First run",
+      "type": "screen",
+      "source": "res/layout/onboarding_notification_permission.xml",
+      "description": "Explain lock-screen and background controls in plain language."
+    },
+    {
+      "id": "no-permission",
+      "title": "Continue without access",
+      "category": "First run",
+      "type": "screen",
+      "source": "res/layout/onboarding_no_permission.xml",
+      "description": "A manual file or stream path remains available."
+    },
+    {
+      "id": "remote-welcome",
+      "title": "Remote access welcome",
+      "category": "Remote pairing",
+      "type": "screen",
+      "source": "res/layout/remote_access_onboarding_welcome.xml",
+      "description": "Introduce control from a browser on the same network."
+    },
+    {
+      "id": "remote-control",
+      "title": "Remote control overview",
+      "category": "Remote pairing",
+      "type": "screen",
+      "source": "res/layout/remote_access_onboarding_how.xml",
+      "description": "Playback control, browsing, and transfers explained visually."
+    },
+    {
+      "id": "remote-content",
+      "title": "Choose shared content",
+      "category": "Remote pairing",
+      "type": "screen",
+      "source": "res/layout/remote_access_onboarding_content.xml",
+      "description": "Select the library content and actions available remotely."
+    },
+    {
+      "id": "remote-encryption",
+      "title": "Encrypted connection",
+      "category": "Remote pairing",
+      "type": "screen",
+      "source": "res/layout/remote_access_onboarding_ssl.xml",
+      "description": "A dedicated explanation of encrypted local access."
+    },
+    {
+      "id": "remote-auth",
+      "title": "Pairing authentication",
+      "category": "Remote pairing",
+      "type": "screen",
+      "source": "res/layout/remote_access_onboarding_otp.xml",
+      "description": "A one-time code establishes a trusted browser connection."
+    },
+    {
+      "id": "remote-code",
+      "title": "One-time pairing code",
+      "category": "Remote pairing",
+      "type": "screen",
+      "source": "res/layout/otp_code_activity.xml",
+      "description": "A large, readable code with an expiry and clear cancellation."
+    },
+    {
+      "id": "remote-status",
+      "title": "Remote server status",
+      "category": "Remote pairing",
+      "type": "screen",
+      "source": "res/layout/remote_access_share_activity.xml",
+      "description": "The address, paired devices, and sharing state are visible together."
+    },
+    {
+      "id": "media-actions",
+      "title": "Media actions",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/menu/activity_option.xml",
+      "description": "Play, queue, share, rename, and delete from one contextual sheet."
+    },
+    {
+      "id": "display-options",
+      "title": "Display & sort",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/layout/dialog_display_settings.xml",
+      "description": "Grid or list, sorting, and grouping have distinct controls."
+    },
+    {
+      "id": "add-playlist",
+      "title": "Add to playlist",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/layout/dialog_playlist.xml",
+      "description": "Pick an existing collection or create a new one."
+    },
+    {
+      "id": "create-playlist",
+      "title": "Create playlist",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/layout/dialog_playlist.xml",
+      "description": "A name and save action are all that a new playlist needs."
+    },
+    {
+      "id": "add-group",
+      "title": "Add to video group",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/layout/dialog_add_to_group.xml",
+      "description": "Choose or create a group for selected videos."
+    },
+    {
+      "id": "rename",
+      "title": "Rename media",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/layout/dialog_rename.xml",
+      "description": "The current name and file type remain visible during editing."
+    },
+    {
+      "id": "delete",
+      "title": "Delete confirmation",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/layout/dialog_confirm_delete.xml",
+      "description": "A deliberate destructive action, with the exact file named."
+    },
+    {
+      "id": "duplicate",
+      "title": "Duplicate playlist items",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/layout/dialog_duplication_warning.xml",
+      "description": "Explain duplicates before choosing skip or keep."
+    },
+    {
+      "id": "network-login",
+      "title": "Network sign-in",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/layout/vlc_login_dialog.xml",
+      "description": "Authentication stays in the context of the chosen server."
+    },
+    {
+      "id": "connection-error",
+      "title": "Connection error",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/layout/vlc_question_dialog.xml",
+      "description": "A useful explanation, retry, and an edit-server path."
+    },
+    {
+      "id": "external-storage",
+      "title": "External storage access",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/layout/dialog_sd_write.xml",
+      "description": "Explain the device-owned access step for an SD card."
+    },
+    {
+      "id": "notification-permission",
+      "title": "Notification reminder",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/layout/dialog_norification_permission.xml",
+      "description": "A contextual reminder while using background playback."
+    },
+    {
+      "id": "replace-queue",
+      "title": "Replace audio queue",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/layout/dialog_confirm_audio_playqueue.xml",
+      "description": "Keep, append, or replace the current listening queue."
+    },
+    {
+      "id": "resume-video",
+      "title": "Resume playback",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/layout/dialog_video_resume.xml",
+      "description": "Return to the saved position or start from the beginning."
+    },
+    {
+      "id": "whats-new",
+      "title": "What’s new",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/layout/dialog_whats_new.xml",
+      "description": "A short, readable introduction to new app features."
+    },
+    {
+      "id": "license-detail",
+      "title": "License detail",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/layout/dialog_license.xml",
+      "description": "Long license text is presented in a dedicated reading sheet."
+    },
+    {
+      "id": "feature-warning",
+      "title": "Optional feature notice",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/layout/dialog_feature_flag_warning.xml",
+      "description": "An experimental feature needs a clear, contextual explanation."
+    },
+    {
+      "id": "progress",
+      "title": "Connecting progress",
+      "category": "Dialogs",
+      "type": "dialog",
+      "source": "res/layout/vlc_progress_dialog.xml",
+      "description": "A cancellable progress state explains the current network action."
+    }
+  ]
+}

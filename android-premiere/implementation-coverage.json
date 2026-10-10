@@ -1,0 +1,1033 @@
+{
+  "title": "VLC Premiere Android implementation coverage",
+  "reference": "design-proposals/premiere/coverage.json",
+  "count": 109,
+  "native_composition_count": 94,
+  "retained_styled_controller_count": 13,
+  "system_surface_count": 2,
+  "notes": [
+    "Runtime screenshots show actual native views and genuine media from the owned emulator.",
+    "Conditional states need their corresponding hardware, server, account, Android version or library data. A compiled route is not a runtime test.",
+    "Retained controller dialogs use Premiere resources; their view hierarchy is preserved for their original callbacks and generated bindings."
+  ],
+  "screens": [
+    {
+      "id": "video-library",
+      "title": "Video library",
+      "category": "Video",
+      "reference_source": "res/layout/video_grid.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-video-library.png"
+    },
+    {
+      "id": "video-list",
+      "title": "Video list",
+      "category": "Video",
+      "reference_source": "res/layout/video_list_card.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "video-groups",
+      "title": "Video groups",
+      "category": "Video",
+      "reference_source": "res/menu/video_group.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "group-detail",
+      "title": "Group detail",
+      "category": "Video",
+      "reference_source": "res/layout/video_browser.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "video-selection",
+      "title": "Select media",
+      "category": "Video",
+      "reference_source": "res/menu/action_mode_video.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "media-details",
+      "title": "Media information",
+      "category": "Video",
+      "reference_source": "res/layout/info_activity.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "search",
+      "title": "Search media",
+      "category": "Video",
+      "reference_source": "res/layout/search_activity.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "video-empty",
+      "title": "Empty video library",
+      "category": "Video",
+      "reference_source": "res/layout/view_empty_loading.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-empty-library.png"
+    },
+    {
+      "id": "audio-artists",
+      "title": "Artists",
+      "category": "Audio",
+      "reference_source": "res/layout/audio_browser.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-audio-artists.png"
+    },
+    {
+      "id": "audio-albums",
+      "title": "Albums",
+      "category": "Audio",
+      "reference_source": "res/layout/audio_browser.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "audio-tracks",
+      "title": "Tracks",
+      "category": "Audio",
+      "reference_source": "res/layout/song_browser.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-audio-tracks.png"
+    },
+    {
+      "id": "audio-genres",
+      "title": "Genres",
+      "category": "Audio",
+      "reference_source": "res/layout/audio_browser.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "artist-detail",
+      "title": "Artist detail",
+      "category": "Audio",
+      "reference_source": "res/layout/audio_albums_songs.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "album-detail",
+      "title": "Album detail",
+      "category": "Audio",
+      "reference_source": "res/layout/audio_albums_songs.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "genre-detail",
+      "title": "Genre detail",
+      "category": "Audio",
+      "reference_source": "res/layout/audio_albums_songs.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "audio-player",
+      "title": "Audio now playing",
+      "category": "Audio",
+      "reference_source": "res/layout/audio_player.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-audio-player.png"
+    },
+    {
+      "id": "audio-queue",
+      "title": "Audio queue",
+      "category": "Audio",
+      "reference_source": "res/layout/audio_player.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-audio-queue.png"
+    },
+    {
+      "id": "audio-bookmarks",
+      "title": "Audio bookmarks",
+      "category": "Audio",
+      "reference_source": "res/layout/bookmarks.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "browse",
+      "title": "Browse storage",
+      "category": "Browse",
+      "reference_source": "res/layout/directory_browser.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-browse.png"
+    },
+    {
+      "id": "folder",
+      "title": "Folder contents",
+      "category": "Browse",
+      "reference_source": "res/layout/directory_browser.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "scan-folders",
+      "title": "Media library folders",
+      "category": "Browse",
+      "reference_source": "src/org/videolan/vlc/gui/browser/MLStorageBrowserFragment.java",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "network",
+      "title": "Network browser",
+      "category": "Browse",
+      "reference_source": "src/org/videolan/vlc/gui/browser/NetworkBrowserFragment.java",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "network-share",
+      "title": "Network share",
+      "category": "Browse",
+      "reference_source": "res/layout/directory_browser.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "connect-server",
+      "title": "Connect to server",
+      "category": "Browse",
+      "reference_source": "res/layout/network_server_dialog.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "stream",
+      "title": "Open a stream",
+      "category": "Browse",
+      "reference_source": "res/layout/mrl_panel.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "stream-history",
+      "title": "Stream history",
+      "category": "Browse",
+      "reference_source": "res/layout/mrl_panel.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "file-picker",
+      "title": "Choose a file",
+      "category": "Browse",
+      "reference_source": "res/layout/file_picker_activity.xml",
+      "implementation_status": "android-system-surface",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "playlists",
+      "title": "Playlist library",
+      "category": "Playlists",
+      "reference_source": "res/layout/playlists_fragment.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-playlists.png"
+    },
+    {
+      "id": "playlist-detail",
+      "title": "Playlist detail",
+      "category": "Playlists",
+      "reference_source": "src/org/videolan/vlc/gui/PlaylistFragment.java",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-playlist-detail.png"
+    },
+    {
+      "id": "playlist-edit",
+      "title": "Edit playlist",
+      "category": "Playlists",
+      "reference_source": "res/layout/playlist_item.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-playlist-edit-authenticated.png"
+    },
+    {
+      "id": "playlist-empty",
+      "title": "Empty playlists",
+      "category": "Playlists",
+      "reference_source": "res/layout/playlists_fragment.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "video-player",
+      "title": "Landscape video player",
+      "category": "Playback",
+      "reference_source": "res/layout/player.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "landscape-not-verified"
+    },
+    {
+      "id": "portrait-player",
+      "title": "Portrait video player",
+      "category": "Playback",
+      "reference_source": "res/layout/player_hud.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-video-seek.png"
+    },
+    {
+      "id": "playback-options",
+      "title": "Playback options",
+      "category": "Playback",
+      "reference_source": "res/layout/player_options.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-playback-options.png"
+    },
+    {
+      "id": "audio-track-picker",
+      "title": "Audio tracks",
+      "category": "Playback",
+      "reference_source": "res/layout/player_overlay_tracks.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-track-picker.png"
+    },
+    {
+      "id": "subtitle-tracks",
+      "title": "Subtitles",
+      "category": "Playback",
+      "reference_source": "res/layout/player_overlay_tracks.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-track-picker.png"
+    },
+    {
+      "id": "subtitle-download",
+      "title": "Find subtitles",
+      "category": "Playback",
+      "reference_source": "res/layout/subtitle_downloader_dialog.xml",
+      "implementation_status": "styled-vlc-controller",
+      "implementation": "scripts/patch.py + scripts/polish.py",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "subtitle-results",
+      "title": "Subtitle results",
+      "category": "Playback",
+      "reference_source": "res/layout/subtitle_download_item.xml",
+      "implementation_status": "styled-vlc-controller",
+      "implementation": "scripts/patch.py + scripts/polish.py",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "playback-speed",
+      "title": "Playback speed",
+      "category": "Playback",
+      "reference_source": "res/layout/dialog_playback_speed.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-playback-speed.png"
+    },
+    {
+      "id": "sync",
+      "title": "Audio & subtitle delay",
+      "category": "Playback",
+      "reference_source": "res/layout/player_overlay_settings.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-synchronization.png"
+    },
+    {
+      "id": "jump-time",
+      "title": "Jump to time",
+      "category": "Playback",
+      "reference_source": "res/layout/dialog_time_picker.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "chapters",
+      "title": "Chapters",
+      "category": "Playback",
+      "reference_source": "res/layout/dialog_select_chapter.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "bookmarks",
+      "title": "Video bookmarks",
+      "category": "Playback",
+      "reference_source": "res/layout/bookmarks.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-video-bookmarks.png"
+    },
+    {
+      "id": "sleep-timer",
+      "title": "Sleep timer",
+      "category": "Playback",
+      "reference_source": "src/org/videolan/vlc/gui/dialogs/SleepTimerDialog.java",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "equalizer",
+      "title": "Equalizer",
+      "category": "Playback",
+      "reference_source": "res/layout/dialog_equalizer.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/EqualizerUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-equalizer.png"
+    },
+    {
+      "id": "cast-devices",
+      "title": "Cast to a device",
+      "category": "Playback",
+      "reference_source": "res/layout/dialog_renderers.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "popup-player",
+      "title": "Pop-up player",
+      "category": "Playback",
+      "reference_source": "res/layout/video_popup.xml",
+      "implementation_status": "android-system-surface",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "android-pip-confirmed",
+      "screenshot": "previews/native-picture-in-picture.png"
+    },
+    {
+      "id": "brightness",
+      "title": "Brightness gesture",
+      "category": "Playback",
+      "reference_source": "res/layout/player_overlay_brightness.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "volume",
+      "title": "Volume gesture",
+      "category": "Playback",
+      "reference_source": "res/layout/player_overlay_volume.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "locked-player",
+      "title": "Locked player",
+      "category": "Playback",
+      "reference_source": "res/layout/player_hud.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-locked-player.png"
+    },
+    {
+      "id": "ab-repeat",
+      "title": "A\u2013B repeat",
+      "category": "Playback",
+      "reference_source": "res/layout/ab_repeat_controls.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "video-size",
+      "title": "Video scaling",
+      "category": "Playback",
+      "reference_source": "res/layout/player_resize.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "playback-info",
+      "title": "Playback information",
+      "category": "Playback",
+      "reference_source": "res/layout/player_overlay_info.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/VideoUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "more",
+      "title": "More",
+      "category": "More & settings",
+      "reference_source": "res/layout/more_fragment.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-more.png"
+    },
+    {
+      "id": "history",
+      "title": "Playback history",
+      "category": "More & settings",
+      "reference_source": "res/layout/history_list.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "settings",
+      "title": "Settings",
+      "category": "More & settings",
+      "reference_source": "res/xml/preferences.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/PreferencesUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-settings.png"
+    },
+    {
+      "id": "interface-settings",
+      "title": "Interface",
+      "category": "More & settings",
+      "reference_source": "res/xml/preferences_ui.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/PreferencesUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-interface-settings.png"
+    },
+    {
+      "id": "video-settings",
+      "title": "Video",
+      "category": "More & settings",
+      "reference_source": "res/xml/preferences_video.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/PreferencesUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "video-controls",
+      "title": "Video controls",
+      "category": "More & settings",
+      "reference_source": "res/xml/preferences_video_controls.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/PreferencesUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "audio-settings",
+      "title": "Audio",
+      "category": "More & settings",
+      "reference_source": "res/xml/preferences_audio.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/PreferencesUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "audio-controls",
+      "title": "Audio controls",
+      "category": "More & settings",
+      "reference_source": "res/xml/preferences_audio_controls.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/PreferencesUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "subtitle-settings",
+      "title": "Subtitle appearance",
+      "category": "More & settings",
+      "reference_source": "res/xml/preferences_subtitles.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/PreferencesUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "casting-settings",
+      "title": "Casting",
+      "category": "More & settings",
+      "reference_source": "res/xml/preferences_casting.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/PreferencesUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "remote-settings",
+      "title": "Remote access",
+      "category": "More & settings",
+      "reference_source": "res/xml/preferences_remote_access.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/PreferencesUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-remote-settings-final.png"
+    },
+    {
+      "id": "android-auto",
+      "title": "Android Auto",
+      "category": "More & settings",
+      "reference_source": "res/xml/preferences_android_auto.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/PreferencesUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "advanced",
+      "title": "Advanced",
+      "category": "More & settings",
+      "reference_source": "res/xml/preferences_adv.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/PreferencesUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "optional",
+      "title": "Optional features",
+      "category": "More & settings",
+      "reference_source": "res/xml/preferences_optional.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/PreferencesUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "parental",
+      "title": "Parental controls",
+      "category": "More & settings",
+      "reference_source": "res/xml/preferences_parental_control.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/PreferencesUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-parental-settings.png"
+    },
+    {
+      "id": "pin",
+      "title": "Set a PIN",
+      "category": "More & settings",
+      "reference_source": "res/layout/pin_code_activity.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/AuxUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-pin.png"
+    },
+    {
+      "id": "settings-search",
+      "title": "Search settings",
+      "category": "More & settings",
+      "reference_source": "res/layout/preferences_search_activity.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "equalizer-presets",
+      "title": "Equalizer presets",
+      "category": "More & settings",
+      "reference_source": "res/layout/equalizer_settings_activity.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/EqualizerUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "permissions",
+      "title": "Permissions",
+      "category": "More & settings",
+      "reference_source": "res/layout/dialog_permissions.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "widgets",
+      "title": "Widget settings",
+      "category": "More & settings",
+      "reference_source": "res/xml/preferences_widgets.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "about",
+      "title": "About VLC",
+      "category": "More & settings",
+      "reference_source": "res/layout/about.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "licenses",
+      "title": "Open source licenses",
+      "category": "More & settings",
+      "reference_source": "src/org/videolan/vlc/gui/LibrariesActivity.java",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/AuxUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "authors",
+      "title": "Contributors",
+      "category": "More & settings",
+      "reference_source": "res/layout/about_authors_activity.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/AuxUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "feedback",
+      "title": "Feedback",
+      "category": "More & settings",
+      "reference_source": "res/layout/about_feedback_activity.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/AuxUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "debug-logs",
+      "title": "Debug logs",
+      "category": "More & settings",
+      "reference_source": "src/org/videolan/vlc/gui/DebugLogActivity.java",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/AuxUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "welcome",
+      "title": "Welcome",
+      "category": "First run",
+      "reference_source": "res/layout/onboarding_welcome.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/SetupUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-welcome.png"
+    },
+    {
+      "id": "theme",
+      "title": "Choose a theme",
+      "category": "First run",
+      "reference_source": "res/layout/onboarding_theme.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/SetupUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-theme-setup.png"
+    },
+    {
+      "id": "media-permission",
+      "title": "Media access",
+      "category": "First run",
+      "reference_source": "res/layout/onboarding_permission.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/SetupUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-media-permission.png"
+    },
+    {
+      "id": "first-scan",
+      "title": "Choose scan folders",
+      "category": "First run",
+      "reference_source": "res/layout/onboarding_scanning.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/SetupUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-scanning.png"
+    },
+    {
+      "id": "notifications",
+      "title": "Playback notifications",
+      "category": "First run",
+      "reference_source": "res/layout/onboarding_notification_permission.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/SetupUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "no-permission",
+      "title": "Continue without access",
+      "category": "First run",
+      "reference_source": "res/layout/onboarding_no_permission.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/SetupUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "remote-welcome",
+      "title": "Remote access welcome",
+      "category": "Remote pairing",
+      "reference_source": "res/layout/remote_access_onboarding_welcome.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/SetupUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-remote-welcome.png"
+    },
+    {
+      "id": "remote-control",
+      "title": "Remote control overview",
+      "category": "Remote pairing",
+      "reference_source": "res/layout/remote_access_onboarding_how.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/SetupUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-remote-control.png"
+    },
+    {
+      "id": "remote-content",
+      "title": "Choose shared content",
+      "category": "Remote pairing",
+      "reference_source": "res/layout/remote_access_onboarding_content.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/SetupUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-remote-content.png"
+    },
+    {
+      "id": "remote-encryption",
+      "title": "Encrypted connection",
+      "category": "Remote pairing",
+      "reference_source": "res/layout/remote_access_onboarding_ssl.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/SetupUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-remote-encryption.png"
+    },
+    {
+      "id": "remote-auth",
+      "title": "Pairing authentication",
+      "category": "Remote pairing",
+      "reference_source": "res/layout/remote_access_onboarding_otp.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/SetupUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-remote-auth.png"
+    },
+    {
+      "id": "remote-code",
+      "title": "One-time pairing code",
+      "category": "Remote pairing",
+      "reference_source": "res/layout/otp_code_activity.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/AuxUI.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "remote-status",
+      "title": "Remote server status",
+      "category": "Remote pairing",
+      "reference_source": "res/layout/remote_access_share_activity.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/AuxUI.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-remote-status.png"
+    },
+    {
+      "id": "media-actions",
+      "title": "Media actions",
+      "category": "Dialogs",
+      "reference_source": "res/menu/activity_option.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "display-options",
+      "title": "Display & sort",
+      "category": "Dialogs",
+      "reference_source": "res/layout/dialog_display_settings.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "add-playlist",
+      "title": "Add to playlist",
+      "category": "Dialogs",
+      "reference_source": "res/layout/dialog_playlist.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "create-playlist",
+      "title": "Create playlist",
+      "category": "Dialogs",
+      "reference_source": "res/layout/dialog_playlist.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "emulator-captured",
+      "screenshot": "previews/native-create-playlist.png"
+    },
+    {
+      "id": "add-group",
+      "title": "Add to video group",
+      "category": "Dialogs",
+      "reference_source": "res/layout/dialog_add_to_group.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "rename",
+      "title": "Rename media",
+      "category": "Dialogs",
+      "reference_source": "res/layout/dialog_rename.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "delete",
+      "title": "Delete confirmation",
+      "category": "Dialogs",
+      "reference_source": "res/layout/dialog_confirm_delete.xml",
+      "implementation_status": "styled-vlc-controller",
+      "implementation": "scripts/patch.py + scripts/polish.py",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "duplicate",
+      "title": "Duplicate playlist items",
+      "category": "Dialogs",
+      "reference_source": "res/layout/dialog_duplication_warning.xml",
+      "implementation_status": "native-composition",
+      "implementation": "native/org/videolan/vlc/premiere/Premiere.java",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "network-login",
+      "title": "Network sign-in",
+      "category": "Dialogs",
+      "reference_source": "res/layout/vlc_login_dialog.xml",
+      "implementation_status": "styled-vlc-controller",
+      "implementation": "scripts/patch.py + scripts/polish.py",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "connection-error",
+      "title": "Connection error",
+      "category": "Dialogs",
+      "reference_source": "res/layout/vlc_question_dialog.xml",
+      "implementation_status": "styled-vlc-controller",
+      "implementation": "scripts/patch.py + scripts/polish.py",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "external-storage",
+      "title": "External storage access",
+      "category": "Dialogs",
+      "reference_source": "res/layout/dialog_sd_write.xml",
+      "implementation_status": "styled-vlc-controller",
+      "implementation": "scripts/patch.py + scripts/polish.py",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "notification-permission",
+      "title": "Notification reminder",
+      "category": "Dialogs",
+      "reference_source": "res/layout/dialog_norification_permission.xml",
+      "implementation_status": "styled-vlc-controller",
+      "implementation": "scripts/patch.py + scripts/polish.py",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "replace-queue",
+      "title": "Replace audio queue",
+      "category": "Dialogs",
+      "reference_source": "res/layout/dialog_confirm_audio_playqueue.xml",
+      "implementation_status": "styled-vlc-controller",
+      "implementation": "scripts/patch.py + scripts/polish.py",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "resume-video",
+      "title": "Resume playback",
+      "category": "Dialogs",
+      "reference_source": "res/layout/dialog_video_resume.xml",
+      "implementation_status": "styled-vlc-controller",
+      "implementation": "scripts/patch.py + scripts/polish.py",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "whats-new",
+      "title": "What\u2019s new",
+      "category": "Dialogs",
+      "reference_source": "res/layout/dialog_whats_new.xml",
+      "implementation_status": "styled-vlc-controller",
+      "implementation": "scripts/patch.py + scripts/polish.py",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "license-detail",
+      "title": "License detail",
+      "category": "Dialogs",
+      "reference_source": "res/layout/dialog_license.xml",
+      "implementation_status": "styled-vlc-controller",
+      "implementation": "scripts/patch.py + scripts/polish.py",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "feature-warning",
+      "title": "Optional feature notice",
+      "category": "Dialogs",
+      "reference_source": "res/layout/dialog_feature_flag_warning.xml",
+      "implementation_status": "styled-vlc-controller",
+      "implementation": "scripts/patch.py + scripts/polish.py",
+      "runtime_status": "conditional-state-not-exercised"
+    },
+    {
+      "id": "progress",
+      "title": "Connecting progress",
+      "category": "Dialogs",
+      "reference_source": "res/layout/vlc_progress_dialog.xml",
+      "implementation_status": "styled-vlc-controller",
+      "implementation": "scripts/patch.py + scripts/polish.py",
+      "runtime_status": "conditional-state-not-exercised"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "captured_utc": "2026-10-10T22:29:28.025654+00:00",
+  "device": "Nothing A001",
+  "android_version": 16,
+  "installed_arm64_sha256": "cd88f0a3f73e2798c31e4a021c2cf4258471ce6baa4fd9383148aa43f81e452f",
+  "screenshots": {
+    "audio-library.png": "0af92c70c7f213440eb214ec3d5c27bec212fb51bf4c36a80f07266097393045",
+    "video-catalogue.png": "8217d98ffbd9c92bb167248e25b31d1c11addcd8e89c030305d1e8fe2c14bdb2",
+    "video-library.png": "1f3cd03851f5cd396f8a760d46efc33596be7fc4589a4852aaefb42e55093d54"
+  }
+}

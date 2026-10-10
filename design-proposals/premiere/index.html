@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="The complete Premiere visual proposal for VLC on Android: libraries, playback, settings, onboarding and dialogs.">
+<title>VLC · Premiere, every screen</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23f46b32' d='M12 2 3 22h18z'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css"><script defer src="screens.js"></script><script defer src="app.js"></script>
+</head>
+<body>
+<header class="masthead"><a href="../cinema/" class="wordmark"><span class="cone">▲</span> VLC <span>/ Premiere</span></a><a href="../cinema/">← Cinema variations</a></header>
+<main>
+<section class="intro"><div><p class="eyebrow">SELECTED DIRECTION · VLC FOR ANDROID</p><h1>Premiere.<br><span>Every screen.</span></h1><p class="lede">Your whole media world, in one cinematic language. Warm charcoal, ivory type, and a little VLC orange—from the first welcome to the last frame.</p></div><div class="intro-meta"><strong id="total">—</strong><span>screens &amp; states</span><small>One consistent Android design.<br>Open any screen to explore it.</small></div></section>
+<section class="review-controls" aria-label="Gallery controls"><div class="control-line"><label class="search"><span aria-hidden="true">⌕</span><input id="screen-search" type="search" placeholder="Find a screen…" aria-label="Find a screen"></label><span id="result-count" aria-live="polite"></span><button id="save-board">Save overview image</button><a id="download-board" hidden download>Download PNG</a></div><div id="categories" class="categories" role="group" aria-label="Screen categories"></div></section>
+<div id="focus-controls" hidden><button id="exit-focus">All screens</button><span id="focus-title"></span><button id="previous" aria-label="Previous screen">← Previous</button><button id="next" aria-label="Next screen">Next →</button></div>
+<section id="gallery" aria-label="Premiere screen walkthrough"></section><p id="empty-results" hidden>No matching screens. Try “audio”, “subtitles”, or “settings”.</p>
+<footer><span>Visual proposal · illustrative media · simulated controls</span><a href="coverage.json">Screen coverage</a><span>Android phone flows, including landscape playback</span></footer>
+</main>
+<div id="toast" role="status" aria-live="polite"></div>
+</body></html>

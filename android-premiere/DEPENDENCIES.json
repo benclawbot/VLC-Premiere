@@ -1,0 +1,50 @@
+[
+  {
+    "file": "build-tools_r36_linux.zip",
+    "url": "https://dl.google.com/android/repository/build-tools_r36_linux.zip",
+    "size": 63737259,
+    "sha256": "5d9ac77fb6ff43d9da518a337b4fcf8f9097113df531d99ccefe80ef7ce8250b",
+    "upstream_checksum": "b0b6376977657e8ad9b969bacf4093601da2c6fb",
+    "upstream_checksum_type": "sha1"
+  },
+  {
+    "file": "platform-tools_r37.0.1-linux.zip",
+    "url": "https://dl.google.com/android/repository/platform-tools_r37.0.1-linux.zip",
+    "size": 9054187,
+    "sha256": "d230f13842f60f782a8645f9c813f8f845bf36089ea7289f28c48f17979313f1",
+    "upstream_checksum": "477254aa5f903c15cf51001717bdf347fb6b53e0",
+    "upstream_checksum_type": "sha1"
+  },
+  {
+    "file": "VLC-Android-3.7.1-arm64-v8a.apk",
+    "url": "https://download.videolan.org/pub/videolan/vlc-android/3.7.1/VLC-Android-3.7.1-arm64-v8a.apk",
+    "size": 47990842,
+    "sha256": "bea9ea0cdecfd8f461ef305d2afe5d1ac1459cfb9156acce2f615788a486de74",
+    "upstream_checksum": "bea9ea0cdecfd8f461ef305d2afe5d1ac1459cfb9156acce2f615788a486de74",
+    "upstream_checksum_type": "sha256"
+  },
+  {
+    "file": "VLC-Android-3.7.1-armeabi-v7a.apk",
+    "url": "https://download.videolan.org/pub/videolan/vlc-android/3.7.1/VLC-Android-3.7.1-armeabi-v7a.apk",
+    "size": 47073346,
+    "sha256": "a6a7f940e4bd190c9a70f3f0dc97c1c402c10200af20edac7a1d452b24abd8a0",
+    "upstream_checksum": "a6a7f940e4bd190c9a70f3f0dc97c1c402c10200af20edac7a1d452b24abd8a0",
+    "upstream_checksum_type": "sha256"
+  },
+  {
+    "file": "VLC-Android-3.7.1-x86.apk",
+    "url": "https://download.videolan.org/pub/videolan/vlc-android/3.7.1/VLC-Android-3.7.1-x86.apk",
+    "size": 48158754,
+    "sha256": "5cf145afecd72782771d5dc5e3c98c1f76e5967d8cba20d289340e6638bc47c0",
+    "upstream_checksum": "5cf145afecd72782771d5dc5e3c98c1f76e5967d8cba20d289340e6638bc47c0",
+    "upstream_checksum_type": "sha256"
+  },
+  {
+    "file": "VLC-Android-3.7.1-x86_64.apk",
+    "url": "https://download.videolan.org/pub/videolan/vlc-android/3.7.1/VLC-Android-3.7.1-x86_64.apk",
+    "size": 49444910,
+    "sha256": "4646633ede40c4784c5584087cffc5c60cc45b16966ae0b36cedd784d7c4a11e",
+    "upstream_checksum": "4646633ede40c4784c5584087cffc5c60cc45b16966ae0b36cedd784d7c4a11e",
+    "upstream_checksum_type": "sha256"
+  }
+]
