@@ -143,6 +143,15 @@ try:
     screenshot("audio-view")
     assert_media_opened("audio", "premiere-smoke.wav")
 
+    # A media intent delivered while the short WAV is still playing can
+    # open VideoPlayerActivity against the existing audio playlist. Isolate
+    # codec verification by ending the audio playback session first; keep
+    # the completed first-run permissions and preferences.
+    shell("am", "force-stop", PACKAGE)
+    time.sleep(1)
+    record("audio playback session terminated before video", not process_alive())
+    cmd("logcat", "-c")
+
     video = launch_view("video/mp4", "file:///sdcard/Movies/premiere-smoke.mp4")
     record("MP4 VIEW intent accepted", "Error" not in video, video)
     time.sleep(3)
