@@ -70,12 +70,22 @@ def assert_media_opened(kind, expected):
     record(kind + " media process alive", process_alive())
 
 
+def foreground_activity(state):
+    # Android 16 dumpsys uses topResumedActivity, not mResumedActivity.
+    for marker in ("topResumedActivity=", "mResumedActivity:",
+                   "ResumedActivity:", "mFocusedApp="):
+        hit = re.search(r"(?m)^\s*" + re.escape(marker) + r"\s*([^\n]+)", state)
+        if hit:
+            return hit.group(1)
+    raise RuntimeError("Unable to determine foreground activity from dumpsys")
+
+
 def complete_first_run():
-    # Fresh installs show OnboardingActivity. Ensure it is dismissed before
-    # asking ActivityManager to synchronously launch VIEW intents.
+    # A second test run may leave the theme step visible; explicitly finish
+    # the real onboarding before asserting media launch behavior.
     import xml.etree.ElementTree as ET
     state = shell("dumpsys", "activity", "activities", timeout=45)
-    if ".gui.onboarding.OnboardingActivity" not in state:
+    if "OnboardingActivity" not in foreground_activity(state):
         return
     (OUT / "first-run-before.txt").write_text(state)
     shell("uiautomator", "dump", "/sdcard/premiere-onboarding.xml", timeout=45)
@@ -92,15 +102,13 @@ def complete_first_run():
     for _ in range(15):
         time.sleep(2)
         state = shell("dumpsys", "activity", "activities", timeout=45)
-        if "mResumedActivity:" in state:
-            resumed = state.split("mResumedActivity:", 1)[1].split("\n", 1)[0]
-            if "OnboardingActivity" not in resumed:
-                (OUT / "first-run-after.txt").write_text(state)
-                record("onboarding completed before intent playback", True)
-                return
+        resumed = foreground_activity(state)
+        if "MainActivity" in resumed and PACKAGE in resumed:
+            (OUT / "first-run-after.txt").write_text(state)
+            record("onboarding completed before intent playback", True)
+            return
     (OUT / "first-run-after.txt").write_text(state)
-    raise RuntimeError("Onboarding remains foreground after tapping Skip")
-
+    raise RuntimeError("Onboarding did not navigate to MainActivity after Skip: " + foreground_activity(state))
 
 try:
     report["device"]["sdk"] = shell("getprop", "ro.build.version.sdk")
