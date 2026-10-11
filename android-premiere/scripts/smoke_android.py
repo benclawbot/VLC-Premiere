@@ -66,7 +66,7 @@ try:
     shell("pm", "grant", PACKAGE, "android.permission.READ_EXTERNAL_STORAGE", check=False)
     shell("appops", "set", PACKAGE, "MANAGE_EXTERNAL_STORAGE", "allow", check=False)
 
-    shell("am", "start", "-W", "-n", PACKAGE + "/org.videolan.vlc.gui.MainActivity", timeout=60)
+    shell("monkey", "-p", PACKAGE, "-c", "android.intent.category.LAUNCHER", "1", timeout=60)
     time.sleep(9)
     screenshot("launch")
     record("Premiere activity process survives startup", process_alive())
@@ -101,7 +101,7 @@ try:
     shell("settings", "put", "system", "user_rotation", "0")
     shell("input", "keyevent", "KEYCODE_HOME")
     time.sleep(2)
-    shell("am", "start", "-W", "-n", PACKAGE + "/org.videolan.vlc.gui.MainActivity", timeout=60)
+    shell("monkey", "-p", PACKAGE, "-c", "android.intent.category.LAUNCHER", "1", timeout=60)
     time.sleep(2)
     record("background and foreground preserve process", process_alive())
     screenshot("return-home")
