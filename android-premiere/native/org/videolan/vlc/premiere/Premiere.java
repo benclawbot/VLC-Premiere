@@ -1022,6 +1022,7 @@ public final class Premiere {
       for (Object v : videoHistory)
         if (number(invoke(v, "getType")) == 0
             && number(invoke(v, "getTime")) > 0
+            && !isWatched(v)
             && number(invoke(v, "getTime")) < number(invoke(v, "getLength")) - 5000) {
           featured = v;
           break;
@@ -3258,6 +3259,14 @@ public final class Premiere {
               if (str(invoke(media, "getUri")).equals(str(invoke(current, "getUri")))) seekTo(0L);
             }, 800);
           });
+      if (number(invoke(media, "getType")) == 0) {
+        destination(options, isWatched(media) ? "Mark as unwatched" : "Mark as watched",
+            "Update Continue watching and library filters", "video", () -> {
+              d.dismiss(); setWatched(media, !isWatched(media));
+            });
+        destination(options, "Correct poster match", "Search artwork with a different title",
+            "video", () -> { d.dismiss(); correctPoster(media); });
+      }
       destination(
           options,
           "Play next",
@@ -3326,6 +3335,50 @@ public final class Premiere {
       }
     }
 
+    String watchedKey(Object media) {
+      return "premiere_watched_" + str(invoke(media, "getUri"));
+    }
+
+    boolean isWatched(Object media) {
+      String key = watchedKey(media);
+      if (prefs.contains(key)) return prefs.getBoolean(key, false);
+      long length = number(invoke(media, "getLength"));
+      return number(invoke(media, "getSeen")) > 0
+          || (length > 0 && number(invoke(media, "getTime")) >= length * .95);
+    }
+
+    void setWatched(Object media, boolean watched) {
+      prefs.edit().putBoolean(watchedKey(media), watched).apply();
+      toast(watched ? "Marked as watched" : "Marked as unwatched");
+      refresh();
+    }
+
+    void correctPoster(Object media) {
+      String key = "premiere_artwork_override_" + str(invoke(media, "getUri"));
+      LinearLayout content = column();
+      content.addView(text("Use an exact film or TV title to improve poster matching. "
+          + "Requires online artwork and a TMDB token.", 13, muted));
+      EditText input = field(content, "Movie or series title",
+          prefs.getString(key, ""));
+      Dialog dialog = sheet("Correct poster match", content);
+      gap(content, 16);
+      content.addView(button("Search with this title", () -> {
+        String title = input.getText().toString().trim();
+        if (title.isEmpty()) { input.setError("Enter a movie or TV title"); return; }
+        prefs.edit().putString(key, title).apply();
+        Artwork.invalidateMemory();
+        Artwork.clearMisses(a, () -> { if (!a.isDestroyed()) refresh(); });
+        dialog.dismiss();
+        toast("Poster search updated");
+      }, true));
+      content.addView(button("Restore automatic matching", () -> {
+        prefs.edit().remove(key).apply();
+        Artwork.invalidateMemory();
+        Artwork.clearMisses(a, () -> { if (!a.isDestroyed()) refresh(); });
+        dialog.dismiss();
+      }, false));
+    }
+
     Map<String, List<Object>> seriesGroups() {
       Map<String, List<Object>> result = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
       for (Object media : videos) {
@@ -3382,7 +3435,12 @@ public final class Premiere {
       for (Object media : videos) {
         long time = number(invoke(media, "getTime"));
         long length = number(invoke(media, "getLength"));
-        if (!PlaybackUX.matchesVideoFilter(filter, time, length,
+        String stateKey = watchedKey(media);
+        if (prefs.contains(stateKey) && prefs.getBoolean(stateKey, false)) {
+          if (!PlaybackUX.matchesVideoFilter(filter, time, length, 1)) continue;
+        } else if (prefs.contains(stateKey)) {
+          if (!PlaybackUX.matchesVideoFilter(filter, 0, length, 0)) continue;
+        } else if (!PlaybackUX.matchesVideoFilter(filter, time, length,
             number(invoke(media, "getSeen")))) continue;
         result.add(media);
       }
