@@ -314,6 +314,7 @@ public final class Premiere {
     SeekBar seek;
     TextView elapsed, total, playButton, miniToggle;
     String miniMediaKey = "";
+    volatile int searchGeneration = 0;
     boolean seeking = false;
     String currentTitle = "";
     NetworkBrowser networkBrowser;
@@ -743,26 +744,28 @@ public final class Premiere {
           libraryPage();
           break;
         case "videos":
-          heading("All videos", videos.length + " videos · On this device");
+          Object[] listed = filteredVideos();
+          heading("All videos", listed.length + (listed.length == videos.length
+              ? " videos · On this device" : " of " + videos.length + " videos · Filtered"));
           if (prefs.getBoolean("premiere_video_list", false)) {
-            for (int i=0; i<Math.min(videoLimit,videos.length); i++) {
-              Object v=videos[i]; mediaRow(body,v,()->play(v),true);
+            for (int i=0; i<Math.min(videoLimit,listed.length); i++) {
+              Object v=listed[i]; mediaRow(body,v,()->play(v),true);
             }
-            if(videos.length>videoLimit) body.addView(button("Show more videos",()->{videoLimit+=80;render();},false));
+            if(listed.length>videoLimit) body.addView(button("Show more videos",()->{videoLimit+=80;render();},false));
             break;
           }
           LinearLayout posterGrid = new LinearLayout(a);
           posterGrid.setOrientation(LinearLayout.VERTICAL);
           int posterHeight = Math.max(dp(128), (int)(((a.getResources().getDisplayMetrics().widthPixels - dp(40)) / 2f - dp(10)) * 1.5f));
-          for (int i = 0; i < Math.min(videoLimit, videos.length); i += 2) {
+          for (int i = 0; i < Math.min(videoLimit, listed.length); i += 2) {
             LinearLayout posterRow = row();
-            posterCard(posterRow, videos[i], posterHeight);
-            if (i + 1 < Math.min(videoLimit, videos.length)) posterCard(posterRow, videos[i + 1], posterHeight);
+            posterCard(posterRow, listed[i], posterHeight);
+            if (i + 1 < Math.min(videoLimit, listed.length)) posterCard(posterRow, listed[i + 1], posterHeight);
             else posterRow.addView(new View(a),new LinearLayout.LayoutParams(0,1,1));
             posterGrid.addView(posterRow);
           }
           body.addView(posterGrid);
-          if (videos.length > videoLimit)
+          if (listed.length > videoLimit)
             body.addView(button("Show more videos", () -> { videoLimit += 80; render(); }, false));
           break;
         case "audio":
@@ -2546,31 +2549,55 @@ public final class Premiere {
     }
 
     void search() {
-      heading("Search", "Films, music and folders");
+      heading("Search", "Films and music in your library");
       EditText query = field(body, "Search your media", "");
-      LinearLayout result = column();
-      body.addView(result);
-      query.addTextChangedListener(
-          new TextWatcher() {
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-              result.removeAllViews();
-              String q = s.toString().trim().toLowerCase(Locale.ROOT);
-              if (q.isEmpty()) return;
-              result.addView(label("Videos & audio"));
-              for (Object media : concat(videos, audios))
-                if ((title(media)
-                        + " "
-                        + str(invoke(media, "getArtistName"))
-                        + " "
-                        + str(invoke(media, "getAlbumName")))
-                    .toLowerCase(Locale.ROOT)
-                    .contains(q)) mediaRow(result, media, () -> play(media), true);
-            }
-
-            public void afterTextChanged(Editable e) {}
-          });
+      LinearLayout results = column();
+      body.addView(results);
+      query.addTextChangedListener(new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void afterTextChanged(Editable e) {}
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+          int generation = ++searchGeneration;
+          String q = s.toString().trim().toLowerCase(Locale.ROOT);
+          results.removeAllViews();
+          if (q.isEmpty()) return;
+          results.addView(text("Searching…", 12, muted));
+          handler.postDelayed(() -> {
+            if (generation != searchGeneration || !screen.equals("search")) return;
+            Object[] source = concat(videos, audios);
+            mediaQueries.execute(() -> {
+              ArrayList<Object> first = new ArrayList<>();
+              ArrayList<Object> rest = new ArrayList<>();
+              int matches = 0;
+              for (Object media : source) {
+                if (generation != searchGeneration) return;
+                String name = title(media).toLowerCase(Locale.ROOT);
+                String searchable = name + " "
+                    + str(invoke(media, "getArtistName")).toLowerCase(Locale.ROOT)
+                    + " " + str(invoke(media, "getAlbumName")).toLowerCase(Locale.ROOT);
+                if (searchable.contains(q)) {
+                  matches++;
+                  if (first.size() + rest.size() < 60) {
+                    if (name.startsWith(q)) first.add(media);
+                    else rest.add(media);
+                  }
+                }
+              }
+              int count = matches;
+              handler.post(() -> {
+                if (generation != searchGeneration || !screen.equals("search")
+                    || results.getParent() == null) return;
+                results.removeAllViews();
+                results.addView(label(count + " matching items"
+                    + (count > 60 ? " · Showing the first 60" : "")));
+                if (count == 0) results.addView(text("No matching media found.", 14, muted));
+                for (Object media : first) mediaRow(results, media, () -> play(media), true);
+                for (Object media : rest) mediaRow(results, media, () -> play(media), true);
+              });
+            });
+          }, 250);
+        }
+      });
     }
 
     void historyPage() {
@@ -3150,7 +3177,12 @@ public final class Premiere {
           "play",
           () -> {
             d.dismiss();
+            invoke(media, "setTime", 0L);
             play(media);
+            handler.postDelayed(() -> {
+              Object current = invoke(service(), "getCurrentMediaWrapper");
+              if (str(invoke(media, "getUri")).equals(str(invoke(current, "getUri")))) seekTo(0L);
+            }, 800);
           });
       destination(
           options,
@@ -3220,6 +3252,44 @@ public final class Premiere {
       }
     }
 
+    Object[] filteredVideos() {
+      ArrayList<Object> result = new ArrayList<>();
+      String filter = prefs.getString("premiere_video_filter", "all");
+      for (Object media : videos) {
+        long time = number(invoke(media, "getTime"));
+        long length = number(invoke(media, "getLength"));
+        boolean completed = number(invoke(media, "getSeen")) > 0
+            || (length > 0 && time >= length * .95);
+        boolean progress = time > 5000 && !completed;
+        if (filter.equals("unwatched") && (completed || progress)) continue;
+        if (filter.equals("in-progress") && !progress) continue;
+        if (filter.equals("completed") && !completed) continue;
+        result.add(media);
+      }
+      String sort = prefs.getString("premiere_video_sort", "recent");
+      if (sort.equals("name"))
+        result.sort((a, b) -> title(a).compareToIgnoreCase(title(b)));
+      else if (sort.equals("duration"))
+        result.sort((a, b) -> Long.compare(number(invoke(a, "getLength")),
+            number(invoke(b, "getLength"))));
+      else if (sort.equals("longest"))
+        result.sort((a, b) -> Long.compare(number(invoke(b, "getLength")),
+            number(invoke(a, "getLength"))));
+      return result.toArray();
+    }
+
+    void videoSort(String sort) {
+      prefs.edit().putString("premiere_video_sort", sort).apply();
+      videoLimit = 80;
+      go("videos");
+    }
+
+    void videoFilter(String filter) {
+      prefs.edit().putString("premiere_video_filter", filter).apply();
+      videoLimit = 80;
+      go("videos");
+    }
+
     void display() {
       LinearLayout options = column();
       Dialog d = sheet("Display & sort", options);
@@ -3256,29 +3326,28 @@ public final class Premiere {
             d.dismiss();
             go("selection");
           });
-      destination(
-          options,
-          "Sort by name",
-          "Alphabetical order",
-          "list",
-          () -> {
-            Arrays.sort(videos, (x, y) -> title(x).compareToIgnoreCase(title(y)));
-            d.dismiss();
-            go("videos");
-          });
-      destination(
-          options,
-          "Sort by duration",
-          "Shortest first",
-          "list",
-          () -> {
-            Arrays.sort(
-                videos,
-                (x, y) ->
-                    Long.compare(number(invoke(x, "getLength")), number(invoke(y, "getLength"))));
-            d.dismiss();
-            go("videos");
-          });
+      String selectedSort = prefs.getString("premiere_video_sort", "recent");
+      String[] sorts = {"recent", "name", "duration", "longest"};
+      String[] sortNames = {"Recently added", "Title A–Z", "Shortest first", "Longest first"};
+      for (int i = 0; i < sorts.length; i++) {
+        final String value = sorts[i];
+        destination(options, "Sort · " + sortNames[i],
+            value.equals(selectedSort) ? "Selected" : "", "list", () -> {
+              d.dismiss();
+              videoSort(value);
+            });
+      }
+      String selectedFilter = prefs.getString("premiere_video_filter", "all");
+      String[] filters = {"all", "unwatched", "in-progress", "completed"};
+      String[] filterNames = {"All videos", "Unwatched", "Continue watching", "Completed"};
+      for (int i = 0; i < filters.length; i++) {
+        final String value = filters[i];
+        destination(options, "Filter · " + filterNames[i],
+            value.equals(selectedFilter) ? "Selected" : "", "video", () -> {
+              d.dismiss();
+              videoFilter(value);
+            });
+      }
       destination(
           options,
           "Refresh library",
