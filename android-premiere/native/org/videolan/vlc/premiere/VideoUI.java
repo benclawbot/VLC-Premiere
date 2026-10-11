@@ -22,13 +22,38 @@ final class VideoUI extends Premiere.UI {
   float initialSpan, initialScale;
   int initialVolume;
   long initialTime;
-  boolean seekingGesture, scalingGesture;
+  boolean seekingGesture, scalingGesture, fadeScheduled;
+  final GestureDetector tapDetector;
   AudioManagerHolder volume;
   final Runnable fade = () -> show(false);
 
   VideoUI(Activity a) {
     super(a);
     screen = "video-player";
+    tapDetector =
+        new GestureDetector(
+            a,
+            new GestureDetector.SimpleOnGestureListener() {
+              @Override
+              public boolean onDown(MotionEvent event) {
+                return true;
+              }
+
+              @Override
+              public boolean onSingleTapConfirmed(MotionEvent event) {
+                if (!locked) show(!visible);
+                return true;
+              }
+
+              @Override
+              public boolean onDoubleTap(MotionEvent event) {
+                if (locked) return true;
+                long delta = event.getX() < root.getWidth() / 2f ? -120000L : 120000L;
+                jump(delta);
+                indicator(delta < 0 ? "−2:00" : "+2:00");
+                return true;
+              }
+            });
   }
 
   @Override
@@ -229,7 +254,11 @@ final class VideoUI extends Premiere.UI {
     if (bottom != null) bottom.setVisibility(on ? View.VISIBLE : View.GONE);
     View t = root.findViewWithTag("transport");
     if (t != null) t.setVisibility(on ? View.VISIBLE : View.GONE);
-    if (on && Boolean.TRUE.equals(invoke(service(), "isPlaying"))) handler.postDelayed(fade, 7000);
+    fadeScheduled = false;
+    if (on && Boolean.TRUE.equals(invoke(service(), "isPlaying"))) {
+      fadeScheduled = true;
+      handler.postDelayed(fade, 1000);
+    }
   }
 
   void tickVideo() {
@@ -257,6 +286,9 @@ final class VideoUI extends Premiere.UI {
                       + time(number(invoke(s, "getLength"))));
               update(center, Boolean.TRUE.equals(invoke(s, "isPlaying")) ? "Ⅱ" : "▶");
             }
+            // The service may start after the first render; still auto-hide on playback.
+            if (visible && !fadeScheduled && !seeking && !seekingGesture && !scalingGesture
+                && Boolean.TRUE.equals(invoke(s, "isPlaying"))) show(true);
             handler.postDelayed(this, 500);
           }
         },
@@ -264,12 +296,15 @@ final class VideoUI extends Premiere.UI {
   }
 
   void jump(long delta) {
-    seekTo(Math.max(0, number(invoke(service(), "getTime")) + delta));
+    Object playback = service();
+    seekTo(VideoSeek.target(
+        number(invoke(playback, "getTime")), number(invoke(playback, "getLength")), delta));
     show(true);
   }
 
   boolean gesture(MotionEvent e) {
     if (locked) return true;
+    tapDetector.onTouchEvent(e);
     int action = e.getActionMasked();
     if (action == MotionEvent.ACTION_DOWN) {
       downX = e.getX();
@@ -281,6 +316,7 @@ final class VideoUI extends Premiere.UI {
       seekingGesture = false;
       scalingGesture = false;
       handler.removeCallbacks(fade);
+      fadeScheduled = false;
       return true;
     }
     if (action == MotionEvent.ACTION_POINTER_DOWN && e.getPointerCount() >= 2) {
@@ -338,11 +374,11 @@ final class VideoUI extends Premiere.UI {
         show(false);
         return true;
       }
-      if (Math.abs(e.getX() - downX) < dp(12) && Math.abs(e.getY() - downY) < dp(12))
-        show(!visible);
-      else show(visible);
+      // Single taps are delayed until Android rules out a double tap.
+      show(visible);
       return true;
     }
+    if (action == MotionEvent.ACTION_CANCEL) show(visible);
     return true;
   }
 
