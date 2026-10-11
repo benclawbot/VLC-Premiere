@@ -9,33 +9,45 @@ work=Path(sys.argv[1])
 vlc_options = work/'smali_classes5/org/videolan/resources/VLCOptions.smali'
 options_text = vlc_options.read_text()
 accel_anchor = '    :goto_3\n    if-eqz p0, :cond_5'
-accel_fallback = '''    :goto_3
-    const/4 v4, -0x1
+if ':premiere_acceleration_ready' not in options_text:
+    import re
+    method = '.method public final setMediaOptions(Lorg/videolan/libvlc/interfaces/IMedia;Landroid/content/Context;IZ)V'
+    method_start = options_text.index(method)
+    method_end = options_text.index('.end method', method_start)
+    method_text = options_text[method_start:method_end]
+    locals_match = re.search(r'(?m)^\s*\.locals (\d+)\s*$', method_text)
+    if not locals_match:
+        raise SystemExit('VLC setMediaOptions has no .locals declaration')
+    original_count = int(locals_match.group(1))
+    if original_count + 1 > 15:
+        raise SystemExit('Not enough short-form scratch registers for acceleration hook')
+    scratch0, scratch1 = f'v{original_count}', f'v{original_count + 1}'
+    # Allocate two new registers instead of clobbering live upstream locals.
+    updated = method_text[:locals_match.start(1)] + str(original_count + 2) + method_text[locals_match.end(1):]
+    if updated.count(accel_anchor) != 1:
+        raise SystemExit('Could not find unique VLC hardware acceleration hook')
+    accel_fallback = f'''    :goto_3
+    const/4 {scratch0}, -0x1
 
-    if-ne p0, v4, :premiere_acceleration_ready
+    if-ne p0, {scratch0}, :premiere_acceleration_ready
 
-    sget-object v4, Landroid/os/Build;->HARDWARE:Ljava/lang/String;
+    sget-object {scratch0}, Landroid/os/Build;->HARDWARE:Ljava/lang/String;
 
-    const-string v3, "mt"
+    const-string {scratch1}, "mt"
 
-    invoke-virtual {v4, v3}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+    invoke-virtual {{{scratch0}, {scratch1}}}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
 
-    move-result v4
+    move-result {scratch0}
 
-    if-eqz v4, :premiere_acceleration_ready
+    if-eqz {scratch0}, :premiere_acceleration_ready
 
     const/4 p0, 0x0
 
     :premiere_acceleration_ready
     if-eqz p0, :cond_5'''
-if accel_fallback not in options_text:
-    method = '.method public final setMediaOptions(Lorg/videolan/libvlc/interfaces/IMedia;Landroid/content/Context;IZ)V'
-    method_start = options_text.index(method)
-    locals_start = options_text.index('    .locals 4', method_start)
-    options_text = options_text[:locals_start] + options_text[locals_start:].replace('    .locals 4', '    .locals 5', 1)
-    if options_text.count(accel_anchor) != 1:
-        raise SystemExit('Could not find unique VLC hardware acceleration hook')
-    vlc_options.write_text(options_text.replace(accel_anchor, accel_fallback, 1))
+    updated = updated.replace(accel_anchor, accel_fallback, 1)
+    options_text = options_text[:method_start] + updated + options_text[method_end:]
+    vlc_options.write_text(options_text)
 res=work/'res'
 # A null activity icon is accepted by Apktool/AAPT2 but makes the merged package
 # metadata invalid for some Android package-manager paths. Keep the activity's
