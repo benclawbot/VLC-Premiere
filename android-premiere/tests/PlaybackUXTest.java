@@ -18,6 +18,12 @@ public final class PlaybackUXTest {
     check(!PlaybackUX.matchesVideoFilter("in-progress", 0, 600000, 1), "seen excluded");
     check(PlaybackUX.matchesVideoFilter("unwatched", 0, -1, 0), "unknown length");
     check(PlaybackUX.matchesVideoFilter("in-progress", 6000, -1, 0), "unknown length resume");
+    check("Opening video…".equals(PlaybackUX.videoStatus(1)), "opening state");
+    check("Buffering…".equals(PlaybackUX.videoStatus(2)), "buffering state");
+    check("Playback failed".equals(PlaybackUX.videoStatus(7)), "error state");
+    check("".equals(PlaybackUX.videoStatus(3)), "playing state");
+    check("".equals(PlaybackUX.videoStatus(4)), "paused not loading");
+    check("".equals(PlaybackUX.videoStatus(-1)), "unknown not loading");
     check(PlaybackUX.nextRepeatMode(0) == 2, "repeat all");
     check(PlaybackUX.nextRepeatMode(2) == 1, "repeat one");
     check(PlaybackUX.nextRepeatMode(1) == 0, "repeat off");

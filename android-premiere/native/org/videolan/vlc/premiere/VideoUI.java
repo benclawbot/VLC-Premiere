@@ -14,7 +14,7 @@ import java.util.*;
 /** Premiere controls over VLC's original SurfaceView and PlaybackService. */
 final class VideoUI extends Premiere.UI {
   LinearLayout top, bottom;
-  TextView titleView, center, clock, sizeLabel;
+  TextView titleView, center, clock, sizeLabel, playbackStatus, retryPlayback;
   boolean visible = true, locked = false;
   boolean defaultScaleApplied;
   String lastScaledMedia = "";
@@ -172,6 +172,21 @@ final class VideoUI extends Premiere.UI {
     transport.addView(forward, new LinearLayout.LayoutParams(dp(68), dp(64)));
     transport.setTag("transport");
     root.addView(transport, new FrameLayout.LayoutParams(-2, dp(70), Gravity.CENTER));
+    LinearLayout playbackFeedback = column();
+    playbackFeedback.setTag("playback-feedback");
+    playbackFeedback.setGravity(Gravity.CENTER);
+    playbackFeedback.setPadding(dp(14), dp(10), dp(14), dp(10));
+    playbackFeedback.setBackground(surface(panel, 8, true));
+    playbackStatus = text("", 14, ink);
+    playbackStatus.setGravity(Gravity.CENTER);
+    playbackFeedback.addView(playbackStatus);
+    retryPlayback = button("Retry playback", this::retryVideo, false);
+    playbackFeedback.addView(retryPlayback);
+    playbackFeedback.setVisibility(View.GONE);
+    FrameLayout.LayoutParams feedbackPosition =
+        new FrameLayout.LayoutParams(-2, -2, Gravity.CENTER);
+    feedbackPosition.topMargin = dp(130);
+    root.addView(playbackFeedback, feedbackPosition);
     bottom = column();
     bottom.setPadding(dp(20), dp(36), dp(20), dp(20));
     bottom.setBackground(
@@ -279,6 +294,7 @@ final class VideoUI extends Premiere.UI {
             }
             if (!defaultScaleApplied) fillVideo();
             if (titleView != null) update(titleView, title(media));
+            updatePlaybackFeedback(s);
             if (seek != null && !seeking) {
               seek.setMax((int) Math.min(Integer.MAX_VALUE, number(invoke(s, "getLength"))));
               seek.setProgress((int) number(invoke(s, "getTime")));
@@ -296,6 +312,30 @@ final class VideoUI extends Premiere.UI {
           }
         },
         500);
+  }
+
+  void updatePlaybackFeedback(Object playback) {
+    View feedback = root.findViewWithTag("playback-feedback");
+    if (feedback == null || playbackStatus == null) return;
+    Object player = invoke(playback, "getMediaplayer");
+    Object raw = invoke(player, "getPlayerState");
+    int state = raw instanceof Number ? ((Number) raw).intValue() : -1;
+    String message = PlaybackUX.videoStatus(state);
+    feedback.setVisibility(message.isEmpty() ? View.GONE : View.VISIBLE);
+    if (!message.isEmpty()) update(playbackStatus, message);
+    if (retryPlayback != null) retryPlayback.setVisibility(state == 7 ? View.VISIBLE : View.GONE);
+  }
+
+  void retryVideo() {
+    Object media = invoke(service(), "getCurrentMediaWrapper");
+    if (media == null) {
+      toast("No video to retry");
+      return;
+    }
+    invoke(singleton("org.videolan.vlc.media.MediaUtils", "INSTANCE"),
+        "openMediaNoUi", a, media);
+    if (playbackStatus != null) playbackStatus.setText("Opening video…");
+    if (retryPlayback != null) retryPlayback.setVisibility(View.GONE);
   }
 
   void jump(long delta) {

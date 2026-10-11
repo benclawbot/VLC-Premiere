@@ -14,6 +14,14 @@ final class PlaybackUX {
     return true;
   }
 
+  /** libVLC states: 1 opening, 2 buffering, 7 error; paused is intentionally silent. */
+  static String videoStatus(int state) {
+    if (state == 1) return "Opening video…";
+    if (state == 2) return "Buffering…";
+    if (state == 7) return "Playback failed";
+    return "";
+  }
+
   static int nextRepeatMode(int current) {
     return current == 0 ? 2 : current == 2 ? 1 : 0;
   }
