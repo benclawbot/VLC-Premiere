@@ -306,6 +306,7 @@ public final class Premiere {
     String[] lastVideoSnapshot = new String[0], lastAudioSnapshot = new String[0];
     boolean hasLibrarySnapshot = false, resetScrollOnRender = false;
     ScrollView currentScroll;
+    android.widget.ListView virtualList;
     String renderedScreen = "";
     Runnable libraryRefresh;
     boolean mediaQueryPending = false, mediaQueryDirty = false, mediaQueryForceRender = false;
@@ -717,12 +718,24 @@ public final class Premiere {
       seek = null;
       final int previousScroll = currentScroll == null ? 0 : currentScroll.getScrollY();
       final boolean preserveScroll = !resetScrollOnRender && screen.equals(renderedScreen);
+      final boolean preserveVirtual = preserveScroll && virtualList != null;
+      final int previousItem = preserveVirtual ? virtualList.getFirstVisiblePosition() : 0;
+      final View first = preserveVirtual ? virtualList.getChildAt(0) : null;
+      final int previousOffset = first == null ? 0 : first.getTop();
       renderedScreen = screen;
       resetScrollOnRender = false;
       root.removeAllViews();
       root.setBackgroundColor(bg);
       base = column();
       root.addView(base, new FrameLayout.LayoutParams(-1, -1));
+      virtualList = null;
+      if (VirtualLibrary.handles(this)) {
+        currentScroll = null;
+        VirtualLibrary.render(this, preserveVirtual ? previousItem : 0, previousOffset);
+        miniDock();
+        nav();
+        return;
+      }
       ScrollView sc = new ScrollView(a);
       currentScroll = sc;
       sc.setFillViewport(true);
