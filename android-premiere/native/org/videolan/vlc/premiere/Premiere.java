@@ -312,7 +312,9 @@ public final class Premiere {
     int bg, panel, ink, muted, line;
     final int orange = Color.rgb(244, 107, 50);
     SeekBar seek;
-    TextView elapsed, total, playButton;
+    TextView elapsed, total, playButton, miniToggle;
+    String miniMediaKey = "";
+    volatile int searchGeneration = 0;
     boolean seeking = false;
     String currentTitle = "";
     NetworkBrowser networkBrowser;
@@ -608,6 +610,17 @@ public final class Premiere {
                   update(playButton, Boolean.TRUE.equals(invoke(s, "isPlaying")) ? "Ⅱ" : "▶");
                 }
               }
+              if (!screen.equals("audio-player") && !screen.equals("queue") && !screen.equals("bookmarks")) {
+                Object current = invoke(s, "getCurrentMediaWrapper");
+                String key = current != null && number(invoke(current, "getType")) != 0
+                    ? str(invoke(current, "getUri")) : "";
+                if (!key.equals(miniMediaKey)) render();
+                else if (miniToggle != null) {
+                  boolean playing = Boolean.TRUE.equals(invoke(s, "isPlaying"));
+                  update(miniToggle, playing ? "Ⅱ" : "▶");
+                  miniToggle.setContentDescription(playing ? "Pause audio" : "Play audio");
+                }
+              }
               handler.postDelayed(this, 1200);
             }
           },
@@ -694,7 +707,8 @@ public final class Premiere {
           || screen.equals("info")
           || screen.equals("groups")
           || screen.equals("group")
-          || screen.equals("search")) return "Video";
+          || screen.equals("search")
+          || screen.equals("series") || screen.equals("series-season")) return "Video";
       return "More";
     }
 
@@ -730,27 +744,35 @@ public final class Premiere {
         case "video":
           libraryPage();
           break;
+        case "series":
+          seriesList();
+          break;
+        case "series-season":
+          seriesSeason();
+          break;
         case "videos":
-          heading("All videos", videos.length + " videos · On this device");
+          Object[] listed = filteredVideos();
+          heading("All videos", listed.length + (listed.length == videos.length
+              ? " videos · On this device" : " of " + videos.length + " videos · Filtered"));
           if (prefs.getBoolean("premiere_video_list", false)) {
-            for (int i=0; i<Math.min(videoLimit,videos.length); i++) {
-              Object v=videos[i]; mediaRow(body,v,()->play(v),true);
+            for (int i=0; i<Math.min(videoLimit,listed.length); i++) {
+              Object v=listed[i]; mediaRow(body,v,()->play(v),true);
             }
-            if(videos.length>videoLimit) body.addView(button("Show more videos",()->{videoLimit+=80;render();},false));
+            if(listed.length>videoLimit) body.addView(button("Show more videos",()->{videoLimit+=80;render();},false));
             break;
           }
           LinearLayout posterGrid = new LinearLayout(a);
           posterGrid.setOrientation(LinearLayout.VERTICAL);
           int posterHeight = Math.max(dp(128), (int)(((a.getResources().getDisplayMetrics().widthPixels - dp(40)) / 2f - dp(10)) * 1.5f));
-          for (int i = 0; i < Math.min(videoLimit, videos.length); i += 2) {
+          for (int i = 0; i < Math.min(videoLimit, listed.length); i += 2) {
             LinearLayout posterRow = row();
-            posterCard(posterRow, videos[i], posterHeight);
-            if (i + 1 < Math.min(videoLimit, videos.length)) posterCard(posterRow, videos[i + 1], posterHeight);
+            posterCard(posterRow, listed[i], posterHeight);
+            if (i + 1 < Math.min(videoLimit, listed.length)) posterCard(posterRow, listed[i + 1], posterHeight);
             else posterRow.addView(new View(a),new LinearLayout.LayoutParams(0,1,1));
             posterGrid.addView(posterRow);
           }
           body.addView(posterGrid);
-          if (videos.length > videoLimit)
+          if (listed.length > videoLimit)
             body.addView(button("Show more videos", () -> { videoLimit += 80; render(); }, false));
           break;
         case "audio":
@@ -837,8 +859,10 @@ public final class Premiere {
         default:
           heading("VLC", "");
       }
-      if (!screen.equals("audio-player") && !screen.equals("queue") && !screen.equals("bookmarks"))
+      if (!screen.equals("audio-player") && !screen.equals("queue") && !screen.equals("bookmarks")) {
+        miniDock();
         nav();
+      }
     }
 
     void masthead() {
@@ -851,7 +875,7 @@ public final class Premiere {
               () -> {
                 if (!top) back();
               }),
-          new LinearLayout.LayoutParams(dp(26), dp(32)));
+          new LinearLayout.LayoutParams(dp(48), dp(48)));
       TextView brand = text(top ? "VLC  PREMIERE" : "VLC", 12, ink);
       brand.setLetterSpacing(.1f);
       h.addView(brand, new LinearLayout.LayoutParams(0, dp(32), 1));
@@ -867,7 +891,7 @@ public final class Premiere {
                       screen.equals("settings") || screen.equals("preferences")
                           ? "settings-search"
                           : "search")),
-          new LinearLayout.LayoutParams(dp(40), dp(36)));
+          new LinearLayout.LayoutParams(dp(48), dp(48)));
       h.addView(
           icon(
               screen.startsWith("playlist") ? "plus" : "more",
@@ -876,7 +900,7 @@ public final class Premiere {
                 if (screen.startsWith("playlist")) createPlaylist(null);
                 else display();
               }),
-          new LinearLayout.LayoutParams(dp(36), dp(36)));
+          new LinearLayout.LayoutParams(dp(48), dp(48)));
       body.addView(h);
       gap(body, 10);
     }
@@ -896,6 +920,8 @@ public final class Premiere {
     View icon(String type, String desc, Runnable action) {
       Icon v = new Icon(a, type, desc.equals("VLC") ? orange : ink);
       v.setContentDescription(desc);
+      v.setMinimumHeight(dp(48));
+      v.setMinimumWidth(dp(48));
       v.setFocusable(true);
       v.setOnClickListener(x -> action.run());
       return v;
@@ -995,7 +1021,9 @@ public final class Premiere {
       Object featured = null;
       for (Object v : videoHistory)
         if (number(invoke(v, "getType")) == 0
+            && !isWatched(v)
             && number(invoke(v, "getTime")) > 0
+            && !isWatched(v)
             && number(invoke(v, "getTime")) < number(invoke(v, "getLength")) - 5000) {
           featured = v;
           break;
@@ -1014,6 +1042,7 @@ public final class Premiere {
       long position = number(invoke(featured, "getTime"));
       body.addView(label(position > 0 ? "Continue watching" : "From your library"));
       hero(featured);
+      continueWatchingShelf(featured);
       gap(body, 18);
       LinearLayout shelfHeading = row();
       shelfHeading.addView(
@@ -1053,10 +1082,57 @@ public final class Premiere {
       }
       scroll.addView(shelf);
       body.addView(scroll);
+      if (!seriesGroups().isEmpty()) {
+        gap(body, 20);
+        body.addView(button("TV series · Browse seasons", () -> go("series"), false));
+      }
       gap(body, 28);
       TextView note = text("Your files. Your cinema.", 11, muted);
       note.setGravity(Gravity.CENTER);
       body.addView(note);
+    }
+
+    void continueWatchingShelf(Object featured) {
+      String featuredUri = str(invoke(featured, "getUri"));
+      LinkedHashMap<String, Object> unfinished = new LinkedHashMap<>();
+      for (Object[] library : new Object[][] {videoHistory, videos}) {
+        for (Object media : library) {
+          if (number(invoke(media, "getType")) != 0 || isWatched(media)) continue;
+          long position = number(invoke(media, "getTime"));
+          long length = number(invoke(media, "getLength"));
+          String uri = str(invoke(media, "getUri"));
+          if (uri.equals(featuredUri) || uri.isEmpty() || position < 5000
+              || length <= 0 || position >= length - 5000) continue;
+          unfinished.putIfAbsent(uri, media);
+          if (unfinished.size() == 8) break;
+        }
+        if (unfinished.size() == 8) break;
+      }
+      if (unfinished.isEmpty()) return;
+      gap(body, 20);
+      body.addView(label("Keep watching"));
+      HorizontalScrollView horizontal = new HorizontalScrollView(a);
+      horizontal.setHorizontalScrollBarEnabled(false);
+      LinearLayout row = row();
+      for (Object media : unfinished.values()) {
+        LinearLayout card = column();
+        card.addView(art(media, 114), new LinearLayout.LayoutParams(-1, dp(114)));
+        TextView name = text(title(media), 12, ink);
+        name.setMaxLines(2);
+        card.addView(name);
+        gap(card, 4);
+        long remaining = Math.max(0, number(invoke(media, "getLength"))
+            - number(invoke(media, "getTime")));
+        card.addView(text(time(remaining) + " left", 11, muted));
+        card.setContentDescription("Resume " + title(media));
+        card.setFocusable(true);
+        card.setOnClickListener(v -> play(media));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(126), -2);
+        params.rightMargin = dp(10);
+        row.addView(card, params);
+      }
+      horizontal.addView(row);
+      body.addView(horizontal);
     }
 
     void posterCard(LinearLayout parent, Object media, int posterHeight) {
@@ -1075,7 +1151,7 @@ public final class Premiere {
       play.setContentDescription("Play " + title(media));
       play.setOnClickListener(v -> play(media));
       posterActions.addView(play, new LinearLayout.LayoutParams(0, dp(38), 1));
-      posterActions.addView(icon("more", "Actions for " + title(media), () -> actions(media)), new LinearLayout.LayoutParams(dp(38), dp(38)));
+      posterActions.addView(icon("more", "Actions for " + title(media), () -> actions(media)), new LinearLayout.LayoutParams(dp(48), dp(48)));
       card.addView(posterActions);
       card.setOnClickListener(v -> play(media));
       card.setOnLongClickListener(v -> { actions(media); return true; });
@@ -1317,7 +1393,6 @@ public final class Premiere {
         else if(audios.length>0 && !audioTab.equals("Tracks"))
           body.addView(button("Show " + audios.length + " tracks",()->{audioTab="Tracks";resetScrollOnRender=true;render();},true));
       }
-      mini();
     }
 
     void musicDetail() {
@@ -1347,22 +1422,43 @@ public final class Premiere {
       for (Object v : ts) mediaRow(body, v, () -> play(v), true);
     }
 
-    void mini() {
-      Object current = invoke(service(), "getCurrentMediaWrapper");
-      if (current == null || number(invoke(current, "getType")) == 0) return;
-      gap(body, 20);
-      LinearLayout m = row();
-      m.setBackground(surface(panel, 8, true));
-      m.setPadding(dp(10), dp(10), dp(12), dp(10));
-      m.addView(art(current, 44), new LinearLayout.LayoutParams(dp(44), dp(44)));
-      TextView t = text(title(current), 13, ink);
-      t.setPadding(dp(12), 0, 0, 0);
-      m.addView(t, new LinearLayout.LayoutParams(0, -2, 1));
-      m.addView(
-          icon("play", "Open now playing", () -> go("audio-player")),
-          new LinearLayout.LayoutParams(dp(40), dp(36)));
-      m.setOnClickListener(v -> go("audio-player"));
-      body.addView(m);
+    void miniDock() {
+      Object s = service(), current = invoke(s, "getCurrentMediaWrapper");
+      miniMediaKey = current == null || number(invoke(current, "getType")) == 0
+          ? "" : str(invoke(current, "getUri"));
+      miniToggle = null;
+      if (miniMediaKey.isEmpty()) return;
+      LinearLayout dock = row();
+      dock.setGravity(Gravity.CENTER_VERTICAL);
+      dock.setPadding(dp(12), dp(7), dp(12), dp(7));
+      dock.setBackground(surface(panel, 6, true));
+      dock.addView(art(current, 42), new LinearLayout.LayoutParams(dp(42), dp(42)));
+      LinearLayout copy = column();
+      copy.setPadding(dp(12), 0, dp(4), 0);
+      TextView name = text(title(current), 13, ink);
+      name.setSingleLine(true);
+      name.setEllipsize(android.text.TextUtils.TruncateAt.END);
+      copy.addView(name);
+      TextView artist = text(str(invoke(current, "getArtistName")), 11, muted);
+      artist.setSingleLine(true);
+      artist.setEllipsize(android.text.TextUtils.TruncateAt.END);
+      copy.addView(artist);
+      dock.addView(copy, new LinearLayout.LayoutParams(0, -2, 1));
+      miniToggle = button(Boolean.TRUE.equals(invoke(s, "isPlaying")) ? "Ⅱ" : "▶", () -> {
+        Object playback = service();
+        boolean playing = Boolean.TRUE.equals(invoke(playback, "isPlaying"));
+        invoke(playback, playing ? "pause" : "play");
+        if (miniToggle != null) {
+          miniToggle.setText(playing ? "▶" : "Ⅱ");
+          miniToggle.setContentDescription(playing ? "Play audio" : "Pause audio");
+        }
+      }, false);
+      miniToggle.setContentDescription(Boolean.TRUE.equals(invoke(s, "isPlaying")) ? "Pause audio" : "Play audio");
+      dock.addView(miniToggle, new LinearLayout.LayoutParams(dp(48), dp(48)));
+      dock.setOnClickListener(v -> go("audio-player"));
+      dock.setContentDescription("Now playing " + title(current) + ". Open player");
+      dock.setFocusable(true);
+      base.addView(dock, new LinearLayout.LayoutParams(-1, -2));
     }
 
     LinearLayout group(String name) {
@@ -2510,31 +2606,57 @@ public final class Premiere {
     }
 
     void search() {
-      heading("Search", "Films, music and folders");
+      heading("Search", "Films and music in your library");
       EditText query = field(body, "Search your media", "");
-      LinearLayout result = column();
-      body.addView(result);
-      query.addTextChangedListener(
-          new TextWatcher() {
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-              result.removeAllViews();
-              String q = s.toString().trim().toLowerCase(Locale.ROOT);
-              if (q.isEmpty()) return;
-              result.addView(label("Videos & audio"));
-              for (Object media : concat(videos, audios))
-                if ((title(media)
-                        + " "
-                        + str(invoke(media, "getArtistName"))
-                        + " "
-                        + str(invoke(media, "getAlbumName")))
-                    .toLowerCase(Locale.ROOT)
-                    .contains(q)) mediaRow(result, media, () -> play(media), true);
-            }
-
-            public void afterTextChanged(Editable e) {}
-          });
+      LinearLayout results = column();
+      body.addView(results);
+      query.addTextChangedListener(new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void afterTextChanged(Editable e) {}
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+          int generation = ++searchGeneration;
+          String q = s.toString().trim().toLowerCase(Locale.ROOT);
+          results.removeAllViews();
+          if (q.isEmpty()) return;
+          results.addView(text("Searching…", 12, muted));
+          handler.postDelayed(() -> {
+            if (generation != searchGeneration || !screen.equals("search")) return;
+            Object[] source = concat(videos, audios);
+            mediaQueries.execute(() -> {
+              ArrayList<Object> first = new ArrayList<>();
+              ArrayList<Object> rest = new ArrayList<>();
+              int matches = 0;
+              for (Object media : source) {
+                if (generation != searchGeneration) return;
+                String name = title(media).toLowerCase(Locale.ROOT);
+                String searchable = name + " "
+                    + str(invoke(media, "getArtistName")).toLowerCase(Locale.ROOT)
+                    + " " + str(invoke(media, "getAlbumName")).toLowerCase(Locale.ROOT);
+                if (searchable.contains(q)) {
+                  matches++;
+                  if (name.startsWith(q)) {
+                    if (first.size() < 60) first.add(media);
+                  } else if (rest.size() < 60) rest.add(media);
+                }
+              }
+              int resultCount = matches;
+              handler.post(() -> {
+                if (generation != searchGeneration || !screen.equals("search")
+                    || results.getParent() == null) return;
+                results.removeAllViews();
+                results.addView(label(resultCount + " matching items"
+                    + (resultCount > 60 ? " · Showing the first 60" : "")));
+                if (resultCount == 0) results.addView(text("No matching media found.", 14, muted));
+                for (Object media : first) mediaRow(results, media, () -> play(media), true);
+                for (int i = 0; i < Math.min(rest.size(), 60 - first.size()); i++) {
+                  Object media = rest.get(i);
+                  mediaRow(results, media, () -> play(media), true);
+                }
+              });
+            });
+          }, 250);
+        }
+      });
     }
 
     void historyPage() {
@@ -2605,7 +2727,11 @@ public final class Premiere {
       LinearLayout transport = row();
       transport.setGravity(Gravity.CENTER);
       transport.addView(
-          icon("shuffle", "Shuffle", () -> invoke(service(), "shuffle")),
+          icon("shuffle", Boolean.TRUE.equals(invoke(s, "isShuffling")) ? "Shuffle on" : "Shuffle off", () -> {
+            invoke(service(), "shuffle");
+            toast(Boolean.TRUE.equals(invoke(service(), "isShuffling")) ? "Shuffle on" : "Shuffle off");
+            render();
+          }),
           new LinearLayout.LayoutParams(dp(46), dp(52)));
       transport.addView(
           icon("back", "Previous track", () -> invoke(service(), "previous", true)),
@@ -2643,6 +2769,75 @@ public final class Premiere {
         tools.addView(t, new LinearLayout.LayoutParams(0, -2, 1));
       }
       body.addView(tools);
+      gap(body, 12);
+      paired(body, "Repeat: " + repeatLabel(), this::cycleRepeat,
+          "Playback speed", this::audioSpeed);
+      gap(body, 10);
+      paired(body, "−15 seconds", () -> {
+        seekTo(VideoSeek.target(number(invoke(service(), "getTime")),
+            number(invoke(service(), "getLength")), -15000L));
+      }, "+30 seconds", () -> {
+        Object playback = service();
+        seekTo(VideoSeek.target(number(invoke(playback, "getTime")),
+            number(invoke(playback, "getLength")), 30000L));
+      });
+      gap(body, 10);
+      body.addView(button("Chapters", this::audioChapters, false));
+    }
+
+    String repeatLabel() {
+      Object r = invoke(service(), "getRepeatType");
+      int mode = r instanceof Number ? ((Number) r).intValue() : 0;
+      return PlaybackUX.repeatLabel(mode);
+    }
+
+    void cycleRepeat() {
+      Object s = service();
+      Object r = invoke(s, "getRepeatType");
+      if (!(r instanceof Number)) {
+        toast("Repeat control unavailable");
+        return;
+      }
+      int mode = ((Number) r).intValue();
+      invoke(s, "setRepeatType", PlaybackUX.nextRepeatMode(mode));
+      handler.postDelayed(this::render, 100);
+    }
+
+    void audioSpeed() {
+      LinearLayout content = column();
+      Dialog dialog = sheet("Playback speed", content);
+      Object current = invoke(service(), "getRate");
+      content.addView(text("Current speed · " + (current == null ? "1" : current) + "×", 15, ink));
+      for (float speed : new float[] {.5f, .75f, 1f, 1.25f, 1.5f, 1.75f, 2f})
+        destination(content, speed + "×", speed == 1f ? "Normal speed" : "", null, () -> {
+          invoke(service(), "setRate", speed, true);
+          dialog.dismiss();
+          toast("Playback speed · " + speed + "×");
+        });
+    }
+
+    void audioChapters() {
+      LinearLayout content = column();
+      Dialog dialog = sheet("Chapters", content);
+      Object[] chapters = array(invoke(service(), "getChapters", -1));
+      if (chapters.length == 0) {
+        content.addView(text("No chapters available for this track.", 14, muted));
+        return;
+      }
+      for (int i = 0; i < chapters.length; i++) {
+        final int index = i;
+        Object chapter = chapters[i];
+        String name = str(invoke(chapter, "getName"));
+        if (name.isEmpty()) {
+          try { name = str(chapter.getClass().getField("name").get(chapter)); }
+          catch (Exception ignored) {}
+        }
+        destination(content, name.isEmpty() ? "Chapter " + (i + 1) : name,
+            "Jump to chapter", null, () -> {
+              invoke(service(), "setChapterIdx", index);
+              dialog.dismiss();
+            });
+      }
     }
 
     void queue() {
@@ -2652,14 +2847,33 @@ public final class Premiere {
       for (int i = 0; i < queue.length; i++) {
         final int pos = i;
         Object media = queue[i];
+        LinearLayout entry = column();
         mediaRow(
-            body,
+            entry,
             media,
             () -> {
               invoke(service(), "playIndex", pos);
               go("audio-player");
             },
             false);
+        View.OnDragListener drop = (target, event) -> {
+          if (event.getAction() == DragEvent.ACTION_DROP) {
+            try {
+              ClipData data = event.getClipData();
+              if (data == null || data.getItemCount() == 0) return false;
+              int from = Integer.parseInt(data.getItemAt(0).coerceToText(a).toString());
+              if (from < 0 || from >= queue.length || from == pos) return true;
+              invoke(manager, "moveItem", from, pos);
+              render();
+            } catch (NumberFormatException ignored) {
+              toast("Could not reorder queue");
+            }
+          }
+          return true;
+        };
+        entry.setOnDragListener(drop);
+        entry.getChildAt(0).setOnDragListener(drop);
+        body.addView(entry);
         LinearLayout actions = row();
         actions.addView(
             button(
@@ -2671,16 +2885,31 @@ public final class Premiere {
                   }
                 },
                 false),
-            new LinearLayout.LayoutParams(0, dp(40), 1));
+            new LinearLayout.LayoutParams(0, dp(48), 1));
+        actions.addView(button("Move down", () -> {
+          if (pos < queue.length - 1) {
+            invoke(manager, "moveItem", pos, pos + 1);
+            render();
+          }
+        }, false), new LinearLayout.LayoutParams(0, dp(48), 1));
         actions.addView(
             button(
-                "Remove from queue",
+                "Remove",
                 () -> {
                   invoke(manager, "remove", pos);
                   render();
                 },
                 false),
-            new LinearLayout.LayoutParams(0, dp(40), 1));
+            new LinearLayout.LayoutParams(0, dp(48), 1));
+        TextView drag = button("Drag", () -> toast("Long-press Drag, then drop on a track"), false);
+        drag.setOnLongClickListener(v -> {
+          ClipData data = ClipData.newPlainText("premiere.queue.index", String.valueOf(pos));
+          v.startDragAndDrop(data, new View.DragShadowBuilder(v), null, 0);
+          return true;
+        });
+        drag.setContentDescription("Drag to reorder " + title(media));
+        drag.setTextSize(11);
+        actions.addView(drag, new LinearLayout.LayoutParams(0, dp(48), 1));
         body.addView(actions);
         gap(body, 8);
       }
@@ -3070,8 +3299,21 @@ public final class Premiere {
           "play",
           () -> {
             d.dismiss();
+            invoke(media, "setTime", 0L);
             play(media);
+            handler.postDelayed(() -> {
+              Object current = invoke(service(), "getCurrentMediaWrapper");
+              if (str(invoke(media, "getUri")).equals(str(invoke(current, "getUri")))) seekTo(0L);
+            }, 800);
           });
+      if (number(invoke(media, "getType")) == 0) {
+        destination(options, isWatched(media) ? "Mark as unwatched" : "Mark as watched",
+            "Update Continue watching and library filters", "video", () -> {
+              d.dismiss(); setWatched(media, !isWatched(media));
+            });
+        destination(options, "Correct poster match", "Search artwork with a different title",
+            "video", () -> { d.dismiss(); correctPoster(media); });
+      }
       destination(
           options,
           "Play next",
@@ -3140,6 +3382,139 @@ public final class Premiere {
       }
     }
 
+    String watchedKey(Object media) {
+      return "premiere_watched_" + str(invoke(media, "getUri"));
+    }
+
+    boolean isWatched(Object media) {
+      String key = watchedKey(media);
+      if (prefs.contains(key)) return prefs.getBoolean(key, false);
+      long length = number(invoke(media, "getLength"));
+      return number(invoke(media, "getSeen")) > 0
+          || (length > 0 && number(invoke(media, "getTime")) >= length * .95);
+    }
+
+    void setWatched(Object media, boolean watched) {
+      prefs.edit().putBoolean(watchedKey(media), watched).apply();
+      toast(watched ? "Marked as watched" : "Marked as unwatched");
+      refresh();
+    }
+
+    void correctPoster(Object media) {
+      String key = "premiere_artwork_override_" + str(invoke(media, "getUri"));
+      LinearLayout content = column();
+      content.addView(text("Use an exact film or TV title to improve poster matching. "
+          + "Requires online artwork and a TMDB token.", 13, muted));
+      EditText input = field(content, "Movie or series title",
+          prefs.getString(key, ""));
+      Dialog dialog = sheet("Correct poster match", content);
+      gap(content, 16);
+      content.addView(button("Search with this title", () -> {
+        String title = input.getText().toString().trim();
+        if (title.isEmpty()) { input.setError("Enter a movie or TV title"); return; }
+        prefs.edit().putString(key, title).apply();
+        Artwork.invalidateMemory();
+        Artwork.clearMisses(a, () -> { if (!a.isDestroyed()) refresh(); });
+        dialog.dismiss();
+        toast("Poster search updated");
+      }, true));
+      content.addView(button("Restore automatic matching", () -> {
+        prefs.edit().remove(key).apply();
+        Artwork.invalidateMemory();
+        Artwork.clearMisses(a, () -> { if (!a.isDestroyed()) refresh(); });
+        dialog.dismiss();
+      }, false));
+    }
+
+    Map<String, List<Object>> seriesGroups() {
+      Map<String, List<Object>> result = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+      for (Object media : videos) {
+        SeriesUX.Episode episode =
+            SeriesUX.from(str(invoke(media, "getFileName")));
+        if (episode == null) continue;
+        String key = episode.group();
+        List<Object> entries = result.get(key);
+        if (entries == null) {
+          entries = new ArrayList<>();
+          result.put(key, entries);
+        }
+        entries.add(media);
+      }
+      for (List<Object> tracks : result.values()) {
+        tracks.sort((left, right) -> {
+          SeriesUX.Episode a = SeriesUX.from(str(invoke(left, "getFileName")));
+          SeriesUX.Episode b = SeriesUX.from(str(invoke(right, "getFileName")));
+          return Integer.compare(a == null ? 0 : a.episode, b == null ? 0 : b.episode);
+        });
+      }
+      return result;
+    }
+
+    void seriesList() {
+      Map<String, List<Object>> groups = seriesGroups();
+      heading("TV series", groups.size() + " seasons · On this device");
+      for (Map.Entry<String, List<Object>> group : groups.entrySet()) {
+        String name = group.getKey();
+        destination(body, name, group.getValue().size() + " episodes",
+            "video", () -> goItem("series-season", name));
+      }
+      if (groups.isEmpty()) empty("No TV episodes detected.",
+          "Files named Show.S01E01 or similar will be grouped automatically.");
+    }
+
+    void seriesSeason() {
+      String group = str(item);
+      List<Object> episodes = seriesGroups().get(group);
+      if (episodes == null) {
+        heading(group, "This season is no longer available.");
+        return;
+      }
+      heading(group, episodes.size() + " episodes");
+      Object[] media = episodes.toArray();
+      body.addView(button("▶ Play season in order", () -> playList(media, false), true));
+      gap(body, 16);
+      for (Object episode : episodes) mediaRow(body, episode, () -> play(episode), true);
+    }
+
+    Object[] filteredVideos() {
+      ArrayList<Object> result = new ArrayList<>();
+      String filter = prefs.getString("premiere_video_filter", "all");
+      for (Object media : videos) {
+        long time = number(invoke(media, "getTime"));
+        long length = number(invoke(media, "getLength"));
+        String stateKey = watchedKey(media);
+        if (prefs.contains(stateKey) && prefs.getBoolean(stateKey, false)) {
+          if (!PlaybackUX.matchesVideoFilter(filter, time, length, 1)) continue;
+        } else if (prefs.contains(stateKey)) {
+          if (!PlaybackUX.matchesVideoFilter(filter, 0, length, 0)) continue;
+        } else if (!PlaybackUX.matchesVideoFilter(filter, time, length,
+            number(invoke(media, "getSeen")))) continue;
+        result.add(media);
+      }
+      String sort = prefs.getString("premiere_video_sort", "recent");
+      if (sort.equals("name"))
+        result.sort((a, b) -> title(a).compareToIgnoreCase(title(b)));
+      else if (sort.equals("duration"))
+        result.sort((a, b) -> Long.compare(number(invoke(a, "getLength")),
+            number(invoke(b, "getLength"))));
+      else if (sort.equals("longest"))
+        result.sort((a, b) -> Long.compare(number(invoke(b, "getLength")),
+            number(invoke(a, "getLength"))));
+      return result.toArray();
+    }
+
+    void videoSort(String sort) {
+      prefs.edit().putString("premiere_video_sort", sort).apply();
+      videoLimit = 80;
+      go("videos");
+    }
+
+    void videoFilter(String filter) {
+      prefs.edit().putString("premiere_video_filter", filter).apply();
+      videoLimit = 80;
+      go("videos");
+    }
+
     void display() {
       LinearLayout options = column();
       Dialog d = sheet("Display & sort", options);
@@ -3157,6 +3532,8 @@ public final class Premiere {
             d.dismiss();
             go("videos");
           });
+      destination(options, "TV series", "Automatically grouped seasons",
+          "video", () -> { d.dismiss(); go("series"); });
       destination(
           options,
           "Collections",
@@ -3176,29 +3553,28 @@ public final class Premiere {
             d.dismiss();
             go("selection");
           });
-      destination(
-          options,
-          "Sort by name",
-          "Alphabetical order",
-          "list",
-          () -> {
-            Arrays.sort(videos, (x, y) -> title(x).compareToIgnoreCase(title(y)));
-            d.dismiss();
-            go("videos");
-          });
-      destination(
-          options,
-          "Sort by duration",
-          "Shortest first",
-          "list",
-          () -> {
-            Arrays.sort(
-                videos,
-                (x, y) ->
-                    Long.compare(number(invoke(x, "getLength")), number(invoke(y, "getLength"))));
-            d.dismiss();
-            go("videos");
-          });
+      String selectedSort = prefs.getString("premiere_video_sort", "recent");
+      String[] sorts = {"recent", "name", "duration", "longest"};
+      String[] sortNames = {"Recently added", "Title A–Z", "Shortest first", "Longest first"};
+      for (int i = 0; i < sorts.length; i++) {
+        final String value = sorts[i];
+        destination(options, "Sort · " + sortNames[i],
+            value.equals(selectedSort) ? "Selected" : "", "list", () -> {
+              d.dismiss();
+              videoSort(value);
+            });
+      }
+      String selectedFilter = prefs.getString("premiere_video_filter", "all");
+      String[] filters = {"all", "unwatched", "in-progress", "completed"};
+      String[] filterNames = {"All videos", "Unwatched", "Continue watching", "Completed"};
+      for (int i = 0; i < filters.length; i++) {
+        final String value = filters[i];
+        destination(options, "Filter · " + filterNames[i],
+            value.equals(selectedFilter) ? "Selected" : "", "video", () -> {
+              d.dismiss();
+              videoFilter(value);
+            });
+      }
       destination(
           options,
           "Refresh library",

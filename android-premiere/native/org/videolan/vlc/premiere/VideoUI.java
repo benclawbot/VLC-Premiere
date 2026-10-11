@@ -14,7 +14,7 @@ import java.util.*;
 /** Premiere controls over VLC's original SurfaceView and PlaybackService. */
 final class VideoUI extends Premiere.UI {
   LinearLayout top, bottom;
-  TextView titleView, center, clock;
+  TextView titleView, center, clock, sizeLabel, playbackStatus, retryPlayback;
   boolean visible = true, locked = false;
   boolean defaultScaleApplied;
   String lastScaledMedia = "";
@@ -172,6 +172,21 @@ final class VideoUI extends Premiere.UI {
     transport.addView(forward, new LinearLayout.LayoutParams(dp(68), dp(64)));
     transport.setTag("transport");
     root.addView(transport, new FrameLayout.LayoutParams(-2, dp(70), Gravity.CENTER));
+    LinearLayout playbackFeedback = column();
+    playbackFeedback.setTag("playback-feedback");
+    playbackFeedback.setGravity(Gravity.CENTER);
+    playbackFeedback.setPadding(dp(14), dp(10), dp(14), dp(10));
+    playbackFeedback.setBackground(surface(panel, 8, true));
+    playbackStatus = text("", 14, ink);
+    playbackStatus.setGravity(Gravity.CENTER);
+    playbackFeedback.addView(playbackStatus);
+    retryPlayback = button("Retry playback", this::retryVideo, false);
+    playbackFeedback.addView(retryPlayback);
+    playbackFeedback.setVisibility(View.GONE);
+    FrameLayout.LayoutParams feedbackPosition =
+        new FrameLayout.LayoutParams(-2, -2, Gravity.CENTER);
+    feedbackPosition.topMargin = dp(130);
+    root.addView(playbackFeedback, feedbackPosition);
     bottom = column();
     bottom.setPadding(dp(20), dp(36), dp(20), dp(20));
     bottom.setBackground(
@@ -210,7 +225,8 @@ final class VideoUI extends Premiere.UI {
             11,
             ink);
     timeline.addView(clock, new LinearLayout.LayoutParams(0, -2, 1));
-    TextView size = text("Fill screen", 11, muted);
+    sizeLabel = text(prefs.getString("premiere_video_size", "Best fit"), 11, muted);
+    TextView size = sizeLabel;
     size.setOnClickListener(v -> sizes());
     size.setPadding(dp(8), dp(8), 0, dp(8));
     timeline.addView(size);
@@ -242,7 +258,9 @@ final class VideoUI extends Premiere.UI {
   void control(LinearLayout r, String label, Runnable action) {
     TextView b = text(label, 11, ink);
     b.setGravity(Gravity.CENTER);
-    b.setMinHeight(dp(42));
+    b.setMinHeight(dp(48));
+    b.setFocusable(true);
+    b.setContentDescription(label);
     b.setOnClickListener(v -> action.run());
     r.addView(b, new LinearLayout.LayoutParams(0, -2, 1));
   }
@@ -276,6 +294,7 @@ final class VideoUI extends Premiere.UI {
             }
             if (!defaultScaleApplied) fillVideo();
             if (titleView != null) update(titleView, title(media));
+            updatePlaybackFeedback(s);
             if (seek != null && !seeking) {
               seek.setMax((int) Math.min(Integer.MAX_VALUE, number(invoke(s, "getLength"))));
               seek.setProgress((int) number(invoke(s, "getTime")));
@@ -293,6 +312,30 @@ final class VideoUI extends Premiere.UI {
           }
         },
         500);
+  }
+
+  void updatePlaybackFeedback(Object playback) {
+    View feedback = root.findViewWithTag("playback-feedback");
+    if (feedback == null || playbackStatus == null) return;
+    Object player = invoke(playback, "getMediaplayer");
+    Object raw = invoke(player, "getPlayerState");
+    int state = raw instanceof Number ? ((Number) raw).intValue() : -1;
+    String message = PlaybackUX.videoStatus(state);
+    feedback.setVisibility(message.isEmpty() ? View.GONE : View.VISIBLE);
+    if (!message.isEmpty()) update(playbackStatus, message);
+    if (retryPlayback != null) retryPlayback.setVisibility(state == 7 ? View.VISIBLE : View.GONE);
+  }
+
+  void retryVideo() {
+    Object media = invoke(service(), "getCurrentMediaWrapper");
+    if (media == null) {
+      toast("No video to retry");
+      return;
+    }
+    invoke(singleton("org.videolan.vlc.media.MediaUtils", "INSTANCE"),
+        "openMediaNoUi", a, media);
+    if (playbackStatus != null) playbackStatus.setText("Opening video…");
+    if (retryPlayback != null) retryPlayback.setVisibility(View.GONE);
   }
 
   void jump(long delta) {
@@ -334,6 +377,7 @@ final class VideoUI extends Premiere.UI {
         float ratio = span(e) / Math.max(1f, initialSpan);
         invoke(service(), "setVideoAspectRatio", (Object) null);
         invoke(service(), "setVideoScale", Math.max(.25f, Math.min(4f, initialScale * ratio)));
+        defaultScaleApplied = true;
         return true;
       }
       if (scalingGesture) return true;
@@ -345,7 +389,8 @@ final class VideoUI extends Premiere.UI {
           seekingGesture = true;
           show(false);
         }
-        seekTo(Math.max(0, initialTime + (long) (dx / root.getWidth() * 120000)));
+        seekTo(VideoSeek.target(initialTime, number(invoke(service(), "getLength")),
+            (long) (dx / Math.max(1, root.getWidth()) * 120000)));
         long position = number(invoke(service(), "getTime"));
         indicator("Seek · " + time(position) + " / " + time(number(invoke(service(), "getLength"))));
       } else if (Math.abs(dy) > dp(25)) {
@@ -392,7 +437,17 @@ final class VideoUI extends Premiere.UI {
     if (s == null || invoke(s, "getMediaplayer") == null) return;
     invoke(service(), "setVideoAspectRatio", (Object) null);
     invoke(service(), "setVideoScale", 0f);
-    defaultScaleApplied = surfaceScale("SURFACE_FIT_SCREEN");
+    String mode = prefs.getString("premiere_video_size", "Best fit");
+    if ("16:9".equals(mode) || "4:3".equals(mode)) {
+      invoke(service(), "setVideoAspectRatio", mode);
+      defaultScaleApplied = true;
+    } else if ("Original size".equals(mode)) {
+      invoke(service(), "setVideoScale", 1f);
+      defaultScaleApplied = true;
+    } else {
+      defaultScaleApplied = surfaceScale("Fill screen".equals(mode)
+          ? "SURFACE_FIT_SCREEN" : "SURFACE_BEST_FIT");
+    }
   }
 
   boolean surfaceScale(String name) {
@@ -728,59 +783,71 @@ final class VideoUI extends Premiere.UI {
   }
 
   void cast() {
-    LinearLayout c = column();
-    Dialog d = sheet("Cast to a device", c);
-    Object dataset =
-        invoke(singleton("org.videolan.vlc.RendererDelegate", "INSTANCE"), "getRenderers");
-    Object[] devices = array(invoke(dataset, "getValue"));
-    if (devices.length == 0) {
-      c.addView(text("Looking for devices…", 20, ink));
-      gap(c, 14);
-      c.addView(text("Connect your phone and receiver to the same Wi-Fi network.", 14, muted));
-    }
-    for (Object device : devices) {
-      String name = "";
-      try {
-        name = str(device.getClass().getField("name").get(device));
-      } catch (Exception e) {
-        name = str(invoke(device, "getName"));
+    LinearLayout content = column();
+    Dialog dialog = sheet("Cast to a device", content);
+    content.addView(text("Devices on your Wi-Fi network update automatically.", 13, muted));
+    gap(content, 14);
+    LinearLayout choices = column();
+    content.addView(choices);
+    final String[] previous = {""};
+    final Runnable[] poll = new Runnable[1];
+    poll[0] = () -> {
+      if (!dialog.isShowing() || a.isDestroyed() || a.isFinishing()) return;
+      Object dataset = invoke(singleton("org.videolan.vlc.RendererDelegate", "INSTANCE"),
+          "getRenderers");
+      Object[] devices = array(invoke(dataset, "getValue"));
+      ArrayList<String> names = new ArrayList<>();
+      for (Object device : devices) {
+        String name = "";
+        try { name = str(device.getClass().getField("name").get(device)); }
+        catch (Exception ignored) { name = str(invoke(device, "getName")); }
+        names.add(name);
       }
-      destination(
-          c,
-          name,
-          "Available on your network",
-          "network",
-          () -> {
+      String fingerprint = names.toString();
+      if (!fingerprint.equals(previous[0])) {
+        previous[0] = fingerprint;
+        choices.removeAllViews();
+        if (devices.length == 0) {
+          choices.addView(text("Searching for devices…", 17, ink));
+          gap(choices, 8);
+          choices.addView(text("Make sure your receiver is on the same network.", 13, muted));
+        }
+        for (int i = 0; i < devices.length; i++) {
+          Object device = devices[i];
+          String name = names.get(i);
+          destination(choices, name, "Available receiver", "network", () -> {
             invoke(service(), "setRenderer", device);
-            d.dismiss();
+            dialog.dismiss();
+            toast("Casting to " + name);
           });
-    }
-    gap(c, 18);
-    c.addView(
-        button(
-            "Refresh devices",
-            () -> {
-              d.dismiss();
-              cast();
-            },
-            false));
-    destination(
-        c,
-        "Play on this device",
-        "Disconnect receiver",
-        null,
-        () -> {
-          invoke(service(), "setRenderer", (Object) null);
-          d.dismiss();
-        });
+        }
+      }
+      handler.postDelayed(poll[0], 2000);
+    };
+    content.addView(button("Refresh devices", () -> {
+      handler.removeCallbacks(poll[0]);
+      previous[0] = "";
+      poll[0].run();
+    }, false));
+    gap(content, 10);
+    destination(content, "Play on this device", "Disconnect receiver", null, () -> {
+      invoke(service(), "setRenderer", (Object) null);
+      dialog.dismiss();
+    });
+    dialog.setOnDismissListener(ignored -> handler.removeCallbacks(poll[0]));
+    poll[0].run();
   }
 
   void popup() {
     if (Build.VERSION.SDK_INT >= 26) {
       try {
+        Object media = invoke(service(), "getCurrentMediaWrapper");
+        int width = (int) number(invoke(media, "getWidth"));
+        int height = (int) number(invoke(media, "getHeight"));
+        if (width <= 0 || height <= 0) { width = 16; height = 9; }
         a.enterPictureInPictureMode(
             new PictureInPictureParams.Builder()
-                .setAspectRatio(new android.util.Rational(16, 9))
+                .setAspectRatio(new android.util.Rational(width, height))
                 .build());
         show(false);
       } catch (Exception e) {
@@ -821,22 +888,19 @@ final class VideoUI extends Premiere.UI {
     LinearLayout c = column();
     Dialog d = sheet("Video size", c);
     String[] names = {"Best fit", "Fill screen", "16:9", "4:3", "Original size"};
+    String selected = prefs.getString("premiere_video_size", "Best fit");
     for (String name : names)
       destination(
           c,
           name,
-          "",
+          name.equals(selected) ? "Selected" : "",
           null,
           () -> {
-            if (name.equals("16:9") || name.equals("4:3"))
-              invoke(service(), "setVideoAspectRatio", name);
-            else if (name.equals("Original size")) invoke(service(), "setVideoScale", 1f);
-            else if (name.equals("Fill screen")) fillVideo();
-            else if (name.equals("Best fit")) {
-              invoke(service(), "setVideoAspectRatio", (Object) null);
-              invoke(service(), "setVideoScale", 0f);
-              surfaceScale("SURFACE_BEST_FIT");
-            }
+            prefs.edit().putString("premiere_video_size", name).apply();
+            defaultScaleApplied = false;
+            fillVideo();
+            if (sizeLabel != null) sizeLabel.setText(name);
+            indicator("Video size · " + name);
             d.dismiss();
           });
   }

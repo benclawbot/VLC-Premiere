@@ -199,6 +199,11 @@ final class Artwork {
     }
     // Entity cards can supply useful album identity even when their first track is untagged.
     if(media!=source){if(d.album.isEmpty())d.album=text(media,"getTitle");if(d.artist.isEmpty())d.artist=text(media,"getAlbumArtistName");}
+    if(d.video){
+      SharedPreferences preferences=c.getSharedPreferences(c.getPackageName()+"_preferences",Context.MODE_PRIVATE);
+      String manual=preferences.getString("premiere_artwork_override_"+d.uri,"").trim();
+      if(!manual.isEmpty())d.title=manual;
+    }
     d.fingerprint=sha(identity+"|"+size+"|"+modified+"|"+d.title+"|"+d.artist+"|"+d.album+"|"+d.date+"|"+d.filename);
     return d;
   }
@@ -226,7 +231,14 @@ final class Artwork {
   private static Bitmap cached(Context c,File index,String fingerprint){try{if(!index.isFile())return null;JSONObject m=new JSONObject(read(index));if(!fingerprint.equals(m.optString("fingerprint"))||System.currentTimeMillis()-m.optLong("saved")>=TTL)return null;String name=m.optString("image");if(!name.matches("entity-[a-f0-9]{64}\\.jpg"))return null;File image=new File(cache(c),name);Bitmap b=decodeFile(image);if(b!=null){index.setLastModified(System.currentTimeMillis());image.setLastModified(System.currentTimeMillis());}return b;}catch(Exception ignored){return null;}}
   private static Match movie(Context c,Data d)throws Exception {
     String filename=ArtworkMatch.videoTitle(d.filename),tag=ArtworkMatch.videoTitle(d.title),year=ArtworkMatch.year(d.filename);
-    if(year.isEmpty()&&d.date.matches("(?:19|20)\\d{2}.*"))year=d.date.substring(0,4);
+    SharedPreferences preferences=c.getSharedPreferences(c.getPackageName()+"_preferences",Context.MODE_PRIVATE);
+    String manual=preferences.getString("premiere_artwork_override_"+d.uri,"").trim();
+    if(!manual.isEmpty()){
+      filename=ArtworkMatch.videoTitle(manual);
+      tag=filename;
+      year=ArtworkMatch.year(manual);
+    }
+    if(manual.isEmpty()&&year.isEmpty()&&d.date.matches("(?:19|20)\\d{2}.*"))year=d.date.substring(0,4);
     if(filename.isEmpty())filename=tag; if(tag.isEmpty())tag=filename;
     if(filename.isEmpty()||ArtworkMatch.score(filename,tag)<.65)return null;
     String token=read(new File(c.getNoBackupFilesDir(),"premiere_tmdb_token")).trim();if(token.isEmpty())return null;
