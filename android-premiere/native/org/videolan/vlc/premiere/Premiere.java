@@ -707,7 +707,8 @@ public final class Premiere {
           || screen.equals("info")
           || screen.equals("groups")
           || screen.equals("group")
-          || screen.equals("search")) return "Video";
+          || screen.equals("search")
+          || screen.equals("series") || screen.equals("series-season")) return "Video";
       return "More";
     }
 
@@ -742,6 +743,12 @@ public final class Premiere {
           break;
         case "video":
           libraryPage();
+          break;
+        case "series":
+          seriesList();
+          break;
+        case "series-season":
+          seriesSeason();
           break;
         case "videos":
           Object[] listed = filteredVideos();
@@ -1072,6 +1079,10 @@ public final class Premiere {
       }
       scroll.addView(shelf);
       body.addView(scroll);
+      if (!seriesGroups().isEmpty()) {
+        gap(body, 20);
+        body.addView(button("TV series · Browse seasons", () -> go("series"), false));
+      }
       gap(body, 28);
       TextView note = text("Your files. Your cinema.", 11, muted);
       note.setGravity(Gravity.CENTER);
@@ -3315,6 +3326,56 @@ public final class Premiere {
       }
     }
 
+    Map<String, List<Object>> seriesGroups() {
+      Map<String, List<Object>> result = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+      for (Object media : videos) {
+        SeriesUX.Episode episode =
+            SeriesUX.from(str(invoke(media, "getFileName")));
+        if (episode == null) continue;
+        String key = episode.group();
+        List<Object> entries = result.get(key);
+        if (entries == null) {
+          entries = new ArrayList<>();
+          result.put(key, entries);
+        }
+        entries.add(media);
+      }
+      for (List<Object> tracks : result.values()) {
+        tracks.sort((left, right) -> {
+          SeriesUX.Episode a = SeriesUX.from(str(invoke(left, "getFileName")));
+          SeriesUX.Episode b = SeriesUX.from(str(invoke(right, "getFileName")));
+          return Integer.compare(a == null ? 0 : a.episode, b == null ? 0 : b.episode);
+        });
+      }
+      return result;
+    }
+
+    void seriesList() {
+      Map<String, List<Object>> groups = seriesGroups();
+      heading("TV series", groups.size() + " seasons · On this device");
+      for (Map.Entry<String, List<Object>> group : groups.entrySet()) {
+        String name = group.getKey();
+        destination(body, name, group.getValue().size() + " episodes",
+            "video", () -> goItem("series-season", name));
+      }
+      if (groups.isEmpty()) empty("No TV episodes detected.",
+          "Files named Show.S01E01 or similar will be grouped automatically.");
+    }
+
+    void seriesSeason() {
+      String group = str(item);
+      List<Object> episodes = seriesGroups().get(group);
+      if (episodes == null) {
+        heading(group, "This season is no longer available.");
+        return;
+      }
+      heading(group, episodes.size() + " episodes");
+      Object[] media = episodes.toArray();
+      body.addView(button("▶ Play season in order", () -> playList(media, false), true));
+      gap(body, 16);
+      for (Object episode : episodes) mediaRow(body, episode, () -> play(episode), true);
+    }
+
     Object[] filteredVideos() {
       ArrayList<Object> result = new ArrayList<>();
       String filter = prefs.getString("premiere_video_filter", "all");
@@ -3366,6 +3427,8 @@ public final class Premiere {
             d.dismiss();
             go("videos");
           });
+      destination(options, "TV series", "Automatically grouped seasons",
+          "video", () -> { d.dismiss(); go("series"); });
       destination(
           options,
           "Collections",

@@ -31,10 +31,13 @@ jobs:
           javac -d /tmp/vlc-premiere-tests \
             android-premiere/native/org/videolan/vlc/premiere/VideoSeek.java \
             android-premiere/native/org/videolan/vlc/premiere/PlaybackUX.java \
+            android-premiere/native/org/videolan/vlc/premiere/SeriesUX.java \
             android-premiere/tests/VideoSeekTest.java \
-            android-premiere/tests/PlaybackUXTest.java
+            android-premiere/tests/PlaybackUXTest.java \
+            android-premiere/tests/SeriesUXTest.java
           java -cp /tmp/vlc-premiere-tests org.videolan.vlc.premiere.VideoSeekTest
           java -cp /tmp/vlc-premiere-tests org.videolan.vlc.premiere.PlaybackUXTest
+          java -cp /tmp/vlc-premiere-tests org.videolan.vlc.premiere.SeriesUXTest
       - uses: android-actions/setup-android@v3
         with:
           packages: 'platforms;android-30'
