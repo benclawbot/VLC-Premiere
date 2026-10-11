@@ -24,9 +24,16 @@ if ':premiere_acceleration_ready' not in options_text:
     scratch0, scratch1 = f'v{original_count}', f'v{original_count + 1}'
     # Allocate two new registers instead of clobbering live upstream locals.
     updated = method_text[:locals_match.start(1)] + str(original_count + 2) + method_text[locals_match.end(1):]
-    if updated.count(accel_anchor) != 1:
-        raise SystemExit('Could not find unique VLC hardware acceleration hook')
-    accel_fallback = f'''    :goto_3
+    candidate_pattern = re.compile(r'(?m)^    (:goto(?:_\d+)?)\s*\n    if-eqz p0, (:cond(?:_\d+)?)')
+    candidates = list(candidate_pattern.finditer(updated))
+    if len(candidates) != 1:
+        snippets = [updated[max(0, match.start()-160):match.end()+160]
+                    for match in re.finditer(r'if-eqz p0', updated)]
+        raise SystemExit('Could not locate unique acceleration branch: '
+                         + repr({'candidates': len(candidates), 'nearby': snippets[:8]}))
+    hook = candidates[0]
+    target = hook.group(2)
+    accel_fallback = f'''    {hook.group(1)}
     const/4 {scratch0}, -0x1
 
     if-ne p0, {scratch0}, :premiere_acceleration_ready
@@ -44,8 +51,8 @@ if ':premiere_acceleration_ready' not in options_text:
     const/4 p0, 0x0
 
     :premiere_acceleration_ready
-    if-eqz p0, :cond_5'''
-    updated = updated.replace(accel_anchor, accel_fallback, 1)
+    if-eqz p0, {target}'''
+    updated = updated[:hook.start()] + accel_fallback + updated[hook.end():]
     options_text = options_text[:method_start] + updated + options_text[method_end:]
     vlc_options.write_text(options_text)
 res=work/'res'
