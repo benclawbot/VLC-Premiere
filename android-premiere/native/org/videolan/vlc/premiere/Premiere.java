@@ -2718,7 +2718,7 @@ public final class Premiere {
     String repeatLabel() {
       Object r = invoke(service(), "getRepeatType");
       int mode = r instanceof Number ? ((Number) r).intValue() : 0;
-      return mode == 1 ? "One" : mode == 2 ? "All" : "Off";
+      return PlaybackUX.repeatLabel(mode);
     }
 
     void cycleRepeat() {
@@ -2729,7 +2729,7 @@ public final class Premiere {
         return;
       }
       int mode = ((Number) r).intValue();
-      invoke(s, "setRepeatType", mode == 0 ? 2 : mode == 2 ? 1 : 0);
+      invoke(s, "setRepeatType", PlaybackUX.nextRepeatMode(mode));
       handler.postDelayed(this::render, 100);
     }
 
@@ -3258,12 +3258,8 @@ public final class Premiere {
       for (Object media : videos) {
         long time = number(invoke(media, "getTime"));
         long length = number(invoke(media, "getLength"));
-        boolean completed = number(invoke(media, "getSeen")) > 0
-            || (length > 0 && time >= length * .95);
-        boolean progress = time > 5000 && !completed;
-        if (filter.equals("unwatched") && (completed || progress)) continue;
-        if (filter.equals("in-progress") && !progress) continue;
-        if (filter.equals("completed") && !completed) continue;
+        if (!PlaybackUX.matchesVideoFilter(filter, time, length,
+            number(invoke(media, "getSeen")))) continue;
         result.add(media);
       }
       String sort = prefs.getString("premiere_video_sort", "recent");
