@@ -1,30 +1,72 @@
+#!/usr/bin/env python3
+"""Fetch immutable, checksum-pinned VLC and Android build dependencies."""
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-import concurrent.futures as C,urllib.request,hashlib,json,zipfile,os
-root=Path(__file__).resolve().parents[1]/"tools"
-root.mkdir(exist_ok=True)
-items=[('build-tools_r36_linux.zip','https://dl.google.com/android/repository/build-tools_r36_linux.zip','sha1','b0b6376977657e8ad9b969bacf4093601da2c6fb',63737259),('platform-tools_r37.0.1-linux.zip','https://dl.google.com/android/repository/platform-tools_r37.0.1-linux.zip','sha1','477254aa5f903c15cf51001717bdf347fb6b53e0',9054187)]
-for abi in ['arm64-v8a','armeabi-v7a','x86','x86_64']:
- name=f'VLC-Android-3.7.1-{abi}.apk';url=f'https://download.videolan.org/pub/videolan/vlc-android/3.7.1/{name}'
- expected=urllib.request.urlopen(url+'.sha256',timeout=60).read().decode().split()[0]
- items.append((name,url,'sha256',expected,None))
-def get(item):
- name,url,kind,expected,size=item;p=root/name
- if not p.exists() or hashlib.new(kind,p.read_bytes()).hexdigest()!=expected:
-  temp=p.with_suffix(p.suffix+'.partial')
-  with urllib.request.urlopen(url,timeout=120) as r,temp.open('wb') as f:
-   while chunk:=r.read(1024*1024):f.write(chunk)
-  assert hashlib.new(kind,temp.read_bytes()).hexdigest()==expected,name+' checksum mismatch'
-  if size:assert temp.stat().st_size==size
-  temp.replace(p)
- digest=hashlib.sha256(p.read_bytes()).hexdigest()
- print(name,p.stat().st_size,'checksum verified',flush=True)
- if name.endswith('.zip'):
-  dest=root/('build-tools' if name.startswith('build-tools') else 'platform-tools-package');dest.mkdir(exist_ok=True)
-  with zipfile.ZipFile(p) as z:
-   for i in z.infolist():
-    z.extract(i,dest)
-    mode=i.external_attr>>16
-    if mode:os.chmod(dest/i.filename,mode)
- return {'file':name,'url':url,'size':p.stat().st_size,'sha256':digest,'upstream_checksum':expected,'upstream_checksum_type':kind}
-with C.ThreadPoolExecutor(max_workers=3) as pool:results=list(pool.map(get,items))
-(root/'dependency-provenance.json').write_text(json.dumps(results,indent=2)+'\n')
+from urllib.request import Request, urlopen
+import hashlib
+import json
+import os
+import zipfile
+
+BASE = Path(__file__).resolve().parents[1]
+TOOLS = BASE / "tools"
+TOOLS.mkdir(exist_ok=True)
+MANIFEST = json.loads((BASE / "DEPENDENCIES.json").read_text())
+
+
+def digest(path):
+    sha = hashlib.sha256()
+    with path.open("rb") as file:
+        for chunk in iter(lambda: file.read(1024 * 1024), b""):
+            sha.update(chunk)
+    return sha.hexdigest()
+
+
+def download(entry):
+    name, expected = entry["file"], entry["sha256"].lower()
+    if not expected or len(expected) != 64 or any(x not in "0123456789abcdef" for x in expected):
+        raise ValueError("Invalid pinned SHA256 for " + name)
+    url = entry["url"]
+    if not url.startswith("https://"):
+        raise ValueError("Only HTTPS dependencies are permitted: " + name)
+    target = TOOLS / name
+    if not target.is_file() or digest(target) != expected:
+        pending = TOOLS / (name + ".partial")
+        try:
+            with urlopen(Request(url, headers={"User-Agent": "VLC-Premiere-CI/1.0"}), timeout=120) as response, pending.open("wb") as file:
+                for chunk in iter(lambda: response.read(1024 * 1024), b""):
+                    file.write(chunk)
+            if digest(pending) != expected:
+                raise ValueError("Pinned checksum mismatch: " + name)
+            if int(entry.get("size") or 0) and pending.stat().st_size != int(entry["size"]):
+                raise ValueError("Pinned file size mismatch: " + name)
+            os.replace(pending, target)
+        finally:
+            pending.unlink(missing_ok=True)
+    assert digest(target) == expected, name + " SHA256 did not match pinned manifest"
+
+    if name.endswith(".zip"):
+        destination = TOOLS / ("build-tools" if name.startswith("build-tools") else "platform-tools-package")
+        destination.mkdir(exist_ok=True)
+        with zipfile.ZipFile(target) as archive:
+            for info in archive.infolist():
+                relative = Path(info.filename)
+                if relative.is_absolute() or ".." in relative.parts:
+                    raise ValueError("Unsafe dependency ZIP path " + info.filename)
+                resolved = (destination / relative).resolve()
+                if not resolved.is_relative_to(destination.resolve()):
+                    raise ValueError("Dependency ZIP path traversal")
+                archive.extract(info, destination)
+                mode = info.external_attr >> 16
+                if mode and not info.is_dir():
+                    os.chmod(resolved, mode & 0o777)
+    print(name, target.stat().st_size, "bytes · pinned SHA256 verified", flush=True)
+    return {"file": name, "sha256": expected, "bytes": target.stat().st_size, "url": url}
+
+
+if not MANIFEST:
+    raise SystemExit("Missing pinned dependencies")
+with ThreadPoolExecutor(max_workers=3) as pool:
+    report = list(pool.map(download, MANIFEST))
+(TOOLS / "dependency-provenance.json").write_text(json.dumps(report, indent=2) + "\n")
+print("All pinned build dependencies verified", flush=True)
