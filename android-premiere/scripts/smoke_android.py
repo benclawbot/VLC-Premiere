@@ -48,8 +48,8 @@ def process_alive():
 
 
 def launch_view(mime, uri):
-    return shell("am", "start", "-W", "-a", "android.intent.action.VIEW",
-        "-t", mime, "-d", uri, "-p", PACKAGE, timeout=60)
+    return shell("am", "start", "--activity-new-task", "-a", "android.intent.action.VIEW",
+        "-t", mime, "-d", uri, "-p", PACKAGE, timeout=30)
 
 
 try:
