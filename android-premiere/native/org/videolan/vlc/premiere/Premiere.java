@@ -357,7 +357,8 @@ public final class Premiere {
 
     TextView text(String s, int size, int color) {
       TextView t = new TextView(a);
-      t.setText(s);
+      t.setText(PremiereLocale.text(a, s));
+      t.setTextDirection(View.TEXT_DIRECTION_FIRST_STRONG);
       t.setTextSize(size);
       t.setTextColor(color);
       t.setFontFeatureSettings("kern");
@@ -366,7 +367,8 @@ public final class Premiere {
     }
 
     TextView label(String s) {
-      TextView t = text(s.toUpperCase(Locale.ROOT), 10, muted);
+      TextView t = text(s, 10, muted);
+      t.setAllCaps(true);
       t.setLetterSpacing(.12f);
       LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(-1, -2);
       p.topMargin = dp(16);
@@ -608,7 +610,10 @@ public final class Premiere {
                   long position = number(invoke(s, "getTime"));
                   seek.setProgress((int) position);
                   update(elapsed, time(position));
-                  update(playButton, Boolean.TRUE.equals(invoke(s, "isPlaying")) ? "Ⅱ" : "▶");
+                  boolean playing = Boolean.TRUE.equals(invoke(s, "isPlaying"));
+                  update(playButton, playing ? "Ⅱ" : "▶");
+                  playButton.setContentDescription(PremiereLocale.text(a,
+                      playing ? "Pause audio" : "Play audio"));
                 }
               }
               if (!screen.equals("audio-player") && !screen.equals("queue") && !screen.equals("bookmarks")) {
@@ -922,6 +927,7 @@ public final class Premiere {
       masthead();
       TextView t = text(name, 27, ink);
       t.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+      if (Build.VERSION.SDK_INT >= 28) t.setAccessibilityHeading(true);
       body.addView(t);
       if (!sub.isEmpty()) {
         gap(body, 7);
@@ -932,7 +938,7 @@ public final class Premiere {
 
     View icon(String type, String desc, Runnable action) {
       Icon v = new Icon(a, type, desc.equals("VLC") ? orange : ink);
-      v.setContentDescription(desc);
+      v.setContentDescription(PremiereLocale.text(a, desc));
       v.setMinimumHeight(dp(48));
       v.setMinimumWidth(dp(48));
       v.setFocusable(true);
@@ -957,7 +963,7 @@ public final class Premiere {
               info.setClassName("android.widget.Button");
             }
           });
-      b.setContentDescription(label);
+      b.setContentDescription(PremiereLocale.text(a, label));
       return b;
     }
 
@@ -979,7 +985,8 @@ public final class Premiere {
         TextView label = text(names[i], 10, active ? orange : muted);
         label.setGravity(Gravity.CENTER);
         cell.addView(label);
-        cell.setContentDescription("Navigate to " + names[i]);
+        cell.setContentDescription(PremiereLocale.text(a, names[i]));
+        cell.setSelected(active);
         cell.setFocusable(true);
         cell.setOnClickListener(
             v -> {
@@ -1466,7 +1473,8 @@ public final class Premiere {
           miniToggle.setContentDescription(playing ? "Play audio" : "Pause audio");
         }
       }, false);
-      miniToggle.setContentDescription(Boolean.TRUE.equals(invoke(s, "isPlaying")) ? "Pause audio" : "Play audio");
+      miniToggle.setContentDescription(PremiereLocale.text(a,
+          Boolean.TRUE.equals(invoke(s, "isPlaying")) ? "Pause audio" : "Play audio"));
       dock.addView(miniToggle, new LinearLayout.LayoutParams(dp(48), dp(48)));
       dock.setOnClickListener(v -> go("audio-player"));
       dock.setContentDescription("Now playing " + title(current) + ". Open player");
@@ -1503,7 +1511,7 @@ public final class Premiere {
       r.addView(copy, new LinearLayout.LayoutParams(0, -2, 1));
       r.addView(new Icon(a, "next", muted), new LinearLayout.LayoutParams(dp(18), dp(22)));
       r.setOnClickListener(v -> click.run());
-      r.setContentDescription(name);
+      r.setContentDescription(PremiereLocale.text(a, name));
       r.setFocusable(true);
       if (parent.getChildCount() > 0) {
         View b = new View(a);
@@ -2758,6 +2766,8 @@ public final class Premiere {
               },
               true);
       playButton.setTextSize(25);
+      playButton.setContentDescription(PremiereLocale.text(a,
+          Boolean.TRUE.equals(invoke(s, "isPlaying")) ? "Pause audio" : "Play audio"));
       playButton.setBackground(surface(orange, 40, false));
       transport.addView(playButton, new LinearLayout.LayoutParams(dp(58), dp(58)));
       transport.addView(

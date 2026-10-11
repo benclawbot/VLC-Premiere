@@ -105,7 +105,10 @@ final class SetupUI extends Premiere.UI {
     mark.setLetterSpacing(.12f);
     brand.addView(mark, new LinearLayout.LayoutParams(0, -2, 1));
     TextView skip = text("Skip", 12, muted);
-    skip.setPadding(dp(12), dp(10), 0, dp(10));
+    skip.setPadding(dp(12), dp(10), dp(12), dp(10));
+    skip.setMinHeight(dp(48));
+    skip.setFocusable(true);
+    skip.setContentDescription(PremiereLocale.text(a, "Skip"));
     skip.setOnClickListener(v -> invoke(a, "onDone"));
     brand.addView(skip);
     base.addView(brand);

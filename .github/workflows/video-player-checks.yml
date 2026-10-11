@@ -4,11 +4,15 @@ on:
   push:
     paths:
       - 'android-premiere/native/**'
+      - 'android-premiere/scripts/check_premiere_locales.py'
+      - 'res/values*/premiere_strings.xml'
       - 'android-premiere/tests/**'
       - '.github/workflows/video-player-checks.yml'
   pull_request:
     paths:
       - 'android-premiere/native/**'
+      - 'android-premiere/scripts/check_premiere_locales.py'
+      - 'res/values*/premiere_strings.xml'
       - 'android-premiere/tests/**'
       - '.github/workflows/video-player-checks.yml'
 
@@ -25,6 +29,8 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+      - name: Check translated Android resources
+        run: python3 android-premiere/scripts/check_premiere_locales.py
       - name: Run pure-Java player regression tests
         run: |
           mkdir -p /tmp/vlc-premiere-tests
