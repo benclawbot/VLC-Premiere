@@ -28,7 +28,7 @@ jobs:
       - name: Run pure-Java player regression tests
         run: |
           mkdir -p /tmp/vlc-premiere-tests
-          javac -d /tmp/vlc-premiere-tests \
+          javac -Xlint:all -Werror -d /tmp/vlc-premiere-tests \
             android-premiere/native/org/videolan/vlc/premiere/VideoSeek.java \
             android-premiere/native/org/videolan/vlc/premiere/PlaybackUX.java \
             android-premiere/native/org/videolan/vlc/premiere/SeriesUX.java \
