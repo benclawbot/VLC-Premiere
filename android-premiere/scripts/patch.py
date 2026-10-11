@@ -8,53 +8,47 @@ work=Path(sys.argv[1])
 # decoding when VLC is in automatic mode on MediaTek hardware.
 vlc_options = work/'smali_classes5/org/videolan/resources/VLCOptions.smali'
 options_text = vlc_options.read_text()
-accel_anchor = '    :goto_3\n    if-eqz p0, :cond_5'
+# The checksum-pinned upstream APK stores acceleration mode in v0 here;
+# p0 is the VLCOptions instance, not the acceleration mode. Never alter p0.
+accel_anchor = '    :goto_3\n    if-eqz v0, :cond_5'
 if ':premiere_acceleration_ready' not in options_text:
     import re
     method = '.method public final setMediaOptions(Lorg/videolan/libvlc/interfaces/IMedia;Landroid/content/Context;IZ)V'
     method_start = options_text.index(method)
     method_end = options_text.index('.end method', method_start)
     method_text = options_text[method_start:method_end]
-    locals_match = re.search(r'(?m)^\s*\.locals (\d+)\s*$', method_text)
-    if not locals_match:
-        raise SystemExit('VLC setMediaOptions has no .locals declaration')
-    original_count = int(locals_match.group(1))
-    if original_count + 1 > 15:
-        raise SystemExit('Not enough short-form scratch registers for acceleration hook')
-    scratch0, scratch1 = f'v{original_count}', f'v{original_count + 1}'
-    # Allocate two new registers instead of clobbering live upstream locals.
-    updated = method_text[:locals_match.start(1)] + str(original_count + 2) + method_text[locals_match.end(1):]
-    candidate_pattern = re.compile(r'(?m)^    (:goto(?:_\d+)?)\s*\n    if-eqz p0, (:cond(?:_\d+)?)')
-    candidates = list(candidate_pattern.finditer(updated))
-    if len(candidates) != 1:
-        snippets = [updated[max(0, match.start()-160):match.end()+160]
-                    for match in re.finditer(r'if-eqz p0', updated)]
-        raise SystemExit('Could not locate unique acceleration branch: '
-                         + repr({'candidates': len(candidates), 'nearby': snippets[:8],
-                                 'method_excerpt': method_text[:6500]}))
-    hook = candidates[0]
-    target = hook.group(2)
-    accel_fallback = f'''    {hook.group(1)}
-    const/4 {scratch0}, -0x1
+    locals_match = re.search(r'(?m)^    \.locals (\d+)$', method_text)
+    if not locals_match or method_text.count(accel_anchor) != 1:
+        raise SystemExit('Pinned VLC 3.7.1 acceleration structure changed; refusing unsafe hook')
+    if 'const-string v0, "hardware_acceleration"' not in method_text:
+        raise SystemExit('Expected hardware acceleration preference is absent')
+    locals_count = int(locals_match.group(1))
+    if locals_count + 1 > 15:
+        raise SystemExit('Acceleration hook needs short-form unused registers')
+    temporary = f'v{locals_count}'
+    prefix = f'v{locals_count + 1}'
+    inserted = method_text[:locals_match.start(1)] + str(locals_count + 2) + method_text[locals_match.end(1):]
+    hook = f'''    :goto_3
+    const/4 {temporary}, -0x1
 
-    if-ne p0, {scratch0}, :premiere_acceleration_ready
+    if-ne v0, {temporary}, :premiere_acceleration_ready
 
-    sget-object {scratch0}, Landroid/os/Build;->HARDWARE:Ljava/lang/String;
+    sget-object {temporary}, Landroid/os/Build;->HARDWARE:Ljava/lang/String;
 
-    const-string {scratch1}, "mt"
+    const-string {prefix}, "mt"
 
-    invoke-virtual {{{scratch0}, {scratch1}}}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+    invoke-virtual {{{temporary}, {prefix}}}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
 
-    move-result {scratch0}
+    move-result {temporary}
 
-    if-eqz {scratch0}, :premiere_acceleration_ready
+    if-eqz {temporary}, :premiere_acceleration_ready
 
-    const/4 p0, 0x0
+    const/4 v0, 0x0
 
     :premiere_acceleration_ready
-    if-eqz p0, {target}'''
-    updated = updated[:hook.start()] + accel_fallback + updated[hook.end():]
-    options_text = options_text[:method_start] + updated + options_text[method_end:]
+    if-eqz v0, :cond_5'''
+    inserted = inserted.replace(accel_anchor, hook, 1)
+    options_text = options_text[:method_start] + inserted + options_text[method_end:]
     vlc_options.write_text(options_text)
 res=work/'res'
 # A null activity icon is accepted by Apktool/AAPT2 but makes the merged package
