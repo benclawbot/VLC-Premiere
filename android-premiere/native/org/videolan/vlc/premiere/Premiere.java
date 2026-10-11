@@ -2634,10 +2634,9 @@ public final class Premiere {
                     + " " + str(invoke(media, "getAlbumName")).toLowerCase(Locale.ROOT);
                 if (searchable.contains(q)) {
                   matches++;
-                  if (first.size() + rest.size() < 60) {
-                    if (name.startsWith(q)) first.add(media);
-                    else rest.add(media);
-                  }
+                  if (name.startsWith(q)) {
+                    if (first.size() < 60) first.add(media);
+                  } else if (rest.size() < 60) rest.add(media);
                 }
               }
               int resultCount = matches;
@@ -2649,7 +2648,10 @@ public final class Premiere {
                     + (resultCount > 60 ? " · Showing the first 60" : "")));
                 if (resultCount == 0) results.addView(text("No matching media found.", 14, muted));
                 for (Object media : first) mediaRow(results, media, () -> play(media), true);
-                for (Object media : rest) mediaRow(results, media, () -> play(media), true);
+                for (int i = 0; i < Math.min(rest.size(), 60 - first.size()); i++) {
+                  Object media = rest.get(i);
+                  mediaRow(results, media, () -> play(media), true);
+                }
               });
             });
           }, 250);
