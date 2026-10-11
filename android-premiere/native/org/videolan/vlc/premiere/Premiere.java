@@ -2788,14 +2788,33 @@ public final class Premiere {
       for (int i = 0; i < queue.length; i++) {
         final int pos = i;
         Object media = queue[i];
+        LinearLayout entry = column();
         mediaRow(
-            body,
+            entry,
             media,
             () -> {
               invoke(service(), "playIndex", pos);
               go("audio-player");
             },
             false);
+        View.OnDragListener drop = (target, event) -> {
+          if (event.getAction() == DragEvent.ACTION_DROP) {
+            try {
+              ClipData data = event.getClipData();
+              if (data == null || data.getItemCount() == 0) return false;
+              int from = Integer.parseInt(data.getItemAt(0).coerceToText(a).toString());
+              if (from < 0 || from >= queue.length || from == pos) return true;
+              invoke(manager, "moveItem", from, pos);
+              render();
+            } catch (NumberFormatException ignored) {
+              toast("Could not reorder queue");
+            }
+          }
+          return true;
+        };
+        entry.setOnDragListener(drop);
+        entry.getChildAt(0).setOnDragListener(drop);
+        body.addView(entry);
         LinearLayout actions = row();
         actions.addView(
             button(
@@ -2823,6 +2842,15 @@ public final class Premiere {
                 },
                 false),
             new LinearLayout.LayoutParams(0, dp(48), 1));
+        TextView drag = button("Drag", () -> toast("Long-press Drag, then drop on a track"), false);
+        drag.setOnLongClickListener(v -> {
+          ClipData data = ClipData.newPlainText("premiere.queue.index", String.valueOf(pos));
+          v.startDragAndDrop(data, new View.DragShadowBuilder(v), null, 0);
+          return true;
+        });
+        drag.setContentDescription("Drag to reorder " + title(media));
+        drag.setTextSize(11);
+        actions.addView(drag, new LinearLayout.LayoutParams(0, dp(48), 1));
         body.addView(actions);
         gap(body, 8);
       }
