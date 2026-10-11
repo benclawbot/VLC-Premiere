@@ -868,7 +868,7 @@ public final class Premiere {
               () -> {
                 if (!top) back();
               }),
-          new LinearLayout.LayoutParams(dp(26), dp(32)));
+          new LinearLayout.LayoutParams(dp(48), dp(48)));
       TextView brand = text(top ? "VLC  PREMIERE" : "VLC", 12, ink);
       brand.setLetterSpacing(.1f);
       h.addView(brand, new LinearLayout.LayoutParams(0, dp(32), 1));
@@ -884,7 +884,7 @@ public final class Premiere {
                       screen.equals("settings") || screen.equals("preferences")
                           ? "settings-search"
                           : "search")),
-          new LinearLayout.LayoutParams(dp(40), dp(36)));
+          new LinearLayout.LayoutParams(dp(48), dp(48)));
       h.addView(
           icon(
               screen.startsWith("playlist") ? "plus" : "more",
@@ -893,7 +893,7 @@ public final class Premiere {
                 if (screen.startsWith("playlist")) createPlaylist(null);
                 else display();
               }),
-          new LinearLayout.LayoutParams(dp(36), dp(36)));
+          new LinearLayout.LayoutParams(dp(48), dp(48)));
       body.addView(h);
       gap(body, 10);
     }
@@ -1094,7 +1094,7 @@ public final class Premiere {
       play.setContentDescription("Play " + title(media));
       play.setOnClickListener(v -> play(media));
       posterActions.addView(play, new LinearLayout.LayoutParams(0, dp(38), 1));
-      posterActions.addView(icon("more", "Actions for " + title(media), () -> actions(media)), new LinearLayout.LayoutParams(dp(38), dp(38)));
+      posterActions.addView(icon("more", "Actions for " + title(media), () -> actions(media)), new LinearLayout.LayoutParams(dp(48), dp(48)));
       card.addView(posterActions);
       card.setOnClickListener(v -> play(media));
       card.setOnLongClickListener(v -> { actions(media); return true; });
@@ -2713,6 +2713,17 @@ public final class Premiere {
       gap(body, 12);
       paired(body, "Repeat: " + repeatLabel(), this::cycleRepeat,
           "Playback speed", this::audioSpeed);
+      gap(body, 10);
+      paired(body, "−15 seconds", () -> {
+        seekTo(VideoSeek.target(number(invoke(service(), "getTime")),
+            number(invoke(service(), "getLength")), -15000L));
+      }, "+30 seconds", () -> {
+        Object playback = service();
+        seekTo(VideoSeek.target(number(invoke(playback, "getTime")),
+            number(invoke(playback, "getLength")), 30000L));
+      });
+      gap(body, 10);
+      body.addView(button("Chapters", this::audioChapters, false));
     }
 
     String repeatLabel() {
@@ -2744,6 +2755,30 @@ public final class Premiere {
           dialog.dismiss();
           toast("Playback speed · " + speed + "×");
         });
+    }
+
+    void audioChapters() {
+      LinearLayout content = column();
+      Dialog dialog = sheet("Chapters", content);
+      Object[] chapters = array(invoke(service(), "getChapters", -1));
+      if (chapters.length == 0) {
+        content.addView(text("No chapters available for this track.", 14, muted));
+        return;
+      }
+      for (int i = 0; i < chapters.length; i++) {
+        final int index = i;
+        Object chapter = chapters[i];
+        String name = str(invoke(chapter, "getName"));
+        if (name.isEmpty()) {
+          try { name = str(chapter.getClass().getField("name").get(chapter)); }
+          catch (Exception ignored) {}
+        }
+        destination(content, name.isEmpty() ? "Chapter " + (i + 1) : name,
+            "Jump to chapter", null, () -> {
+              invoke(service(), "setChapterIdx", index);
+              dialog.dismiss();
+            });
+      }
     }
 
     void queue() {
@@ -2781,7 +2816,7 @@ public final class Premiere {
         }, false), new LinearLayout.LayoutParams(0, dp(48), 1));
         actions.addView(
             button(
-                "Remove from queue",
+                "Remove",
                 () -> {
                   invoke(manager, "remove", pos);
                   render();
