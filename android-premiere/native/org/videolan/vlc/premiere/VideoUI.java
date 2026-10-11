@@ -14,7 +14,7 @@ import java.util.*;
 /** Premiere controls over VLC's original SurfaceView and PlaybackService. */
 final class VideoUI extends Premiere.UI {
   LinearLayout top, bottom;
-  TextView titleView, center, clock;
+  TextView titleView, center, clock, sizeLabel;
   boolean visible = true, locked = false;
   boolean defaultScaleApplied;
   String lastScaledMedia = "";
@@ -210,7 +210,8 @@ final class VideoUI extends Premiere.UI {
             11,
             ink);
     timeline.addView(clock, new LinearLayout.LayoutParams(0, -2, 1));
-    TextView size = text("Fill screen", 11, muted);
+    sizeLabel = text(prefs.getString("premiere_video_size", "Best fit"), 11, muted);
+    TextView size = sizeLabel;
     size.setOnClickListener(v -> sizes());
     size.setPadding(dp(8), dp(8), 0, dp(8));
     timeline.addView(size);
@@ -242,7 +243,9 @@ final class VideoUI extends Premiere.UI {
   void control(LinearLayout r, String label, Runnable action) {
     TextView b = text(label, 11, ink);
     b.setGravity(Gravity.CENTER);
-    b.setMinHeight(dp(42));
+    b.setMinHeight(dp(48));
+    b.setFocusable(true);
+    b.setContentDescription(label);
     b.setOnClickListener(v -> action.run());
     r.addView(b, new LinearLayout.LayoutParams(0, -2, 1));
   }
@@ -334,6 +337,7 @@ final class VideoUI extends Premiere.UI {
         float ratio = span(e) / Math.max(1f, initialSpan);
         invoke(service(), "setVideoAspectRatio", (Object) null);
         invoke(service(), "setVideoScale", Math.max(.25f, Math.min(4f, initialScale * ratio)));
+        defaultScaleApplied = true;
         return true;
       }
       if (scalingGesture) return true;
@@ -345,7 +349,8 @@ final class VideoUI extends Premiere.UI {
           seekingGesture = true;
           show(false);
         }
-        seekTo(Math.max(0, initialTime + (long) (dx / root.getWidth() * 120000)));
+        seekTo(VideoSeek.target(initialTime, number(invoke(service(), "getLength")),
+            (long) (dx / Math.max(1, root.getWidth()) * 120000)));
         long position = number(invoke(service(), "getTime"));
         indicator("Seek · " + time(position) + " / " + time(number(invoke(service(), "getLength"))));
       } else if (Math.abs(dy) > dp(25)) {
@@ -392,7 +397,17 @@ final class VideoUI extends Premiere.UI {
     if (s == null || invoke(s, "getMediaplayer") == null) return;
     invoke(service(), "setVideoAspectRatio", (Object) null);
     invoke(service(), "setVideoScale", 0f);
-    defaultScaleApplied = surfaceScale("SURFACE_FIT_SCREEN");
+    String mode = prefs.getString("premiere_video_size", "Best fit");
+    if ("16:9".equals(mode) || "4:3".equals(mode)) {
+      invoke(service(), "setVideoAspectRatio", mode);
+      defaultScaleApplied = true;
+    } else if ("Original size".equals(mode)) {
+      invoke(service(), "setVideoScale", 1f);
+      defaultScaleApplied = true;
+    } else {
+      defaultScaleApplied = surfaceScale("Fill screen".equals(mode)
+          ? "SURFACE_FIT_SCREEN" : "SURFACE_BEST_FIT");
+    }
   }
 
   boolean surfaceScale(String name) {
@@ -778,9 +793,13 @@ final class VideoUI extends Premiere.UI {
   void popup() {
     if (Build.VERSION.SDK_INT >= 26) {
       try {
+        Object media = invoke(service(), "getCurrentMediaWrapper");
+        int width = (int) number(invoke(media, "getWidth"));
+        int height = (int) number(invoke(media, "getHeight"));
+        if (width <= 0 || height <= 0) { width = 16; height = 9; }
         a.enterPictureInPictureMode(
             new PictureInPictureParams.Builder()
-                .setAspectRatio(new android.util.Rational(16, 9))
+                .setAspectRatio(new android.util.Rational(width, height))
                 .build());
         show(false);
       } catch (Exception e) {
@@ -821,22 +840,19 @@ final class VideoUI extends Premiere.UI {
     LinearLayout c = column();
     Dialog d = sheet("Video size", c);
     String[] names = {"Best fit", "Fill screen", "16:9", "4:3", "Original size"};
+    String selected = prefs.getString("premiere_video_size", "Best fit");
     for (String name : names)
       destination(
           c,
           name,
-          "",
+          name.equals(selected) ? "Selected" : "",
           null,
           () -> {
-            if (name.equals("16:9") || name.equals("4:3"))
-              invoke(service(), "setVideoAspectRatio", name);
-            else if (name.equals("Original size")) invoke(service(), "setVideoScale", 1f);
-            else if (name.equals("Fill screen")) fillVideo();
-            else if (name.equals("Best fit")) {
-              invoke(service(), "setVideoAspectRatio", (Object) null);
-              invoke(service(), "setVideoScale", 0f);
-              surfaceScale("SURFACE_BEST_FIT");
-            }
+            prefs.edit().putString("premiere_video_size", name).apply();
+            defaultScaleApplied = false;
+            fillVideo();
+            if (sizeLabel != null) sizeLabel.setText(name);
+            indicator("Video size · " + name);
             d.dismiss();
           });
   }
