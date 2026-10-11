@@ -48,8 +48,32 @@ def process_alive():
 
 
 def launch_view(mime, uri):
-    return shell("am", "start", "-a", "android.intent.action.VIEW",
-        "-t", mime, "-d", uri, "-p", PACKAGE, timeout=30)
+    # Keep -W: it distinguishes a stuck activity launch from intent dispatch.
+    # On timeout capture the target activity and system threads before exiting.
+    args = ("am", "start", "-W", "-a", "android.intent.action.VIEW",
+            "-t", mime, "-d", uri, "-p", PACKAGE)
+    try:
+        return shell(*args, timeout=65)
+    except subprocess.TimeoutExpired as error:
+        (OUT / "intent-timeout.txt").write_text(
+            f"Intent: {mime} {uri}\nTimeout: {error.timeout}s\n"
+            f"Partial stdout: {error.stdout!r}\nPartial stderr: {error.stderr!r}\n")
+        for name, diagnostics in [
+            ("activity-timeout.txt", ("dumpsys", "activity", "activities")),
+            ("process-timeout.txt", ("dumpsys", "activity", "processes")),
+            ("anr-timeout.txt", ("dumpsys", "activity", "anr")),
+            ("media-timeout.txt", ("dumpsys", "media_session")),
+        ]:
+            try:
+                (OUT / name).write_text(shell(*diagnostics, timeout=30, check=False))
+            except (OSError, subprocess.SubprocessError) as problem:
+                (OUT / name).write_text(repr(problem))
+        pid = shell("pidof", PACKAGE, check=False)
+        if pid:
+            shell("kill", "-3", pid.split()[0], timeout=10, check=False)
+        raise RuntimeError("Media intent activity launch did not complete; "
+                           "see intent-timeout, activity-timeout, process-timeout, "
+                           "anr-timeout and logcat in emulator evidence") from error
 
 
 try:
