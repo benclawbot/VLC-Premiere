@@ -92,7 +92,7 @@ try:
             if len(switches) != 1:
                 raise RuntimeError("Expected one All files access switch, got " + str(len(switches)))
             if switches[0].get("checked") != "true":
-                a,b,c,d = map(int,re.findall(r"\\d+",switches[0].get("bounds","")))
+                a,b,c,d = map(int,re.findall(r"\d+",switches[0].get("bounds","")))
                 shell("input","tap",str((a+c)//2),str((b+d)//2))
                 time.sleep(1)
                 checked = [n for n in hierarchy().iter("node")
