@@ -48,7 +48,7 @@ def process_alive():
 
 
 def launch_view(mime, uri):
-    return shell("am", "start", "-W", "-a", "android.intent.action.VIEW",
+    return shell("am", "start", "-a", "android.intent.action.VIEW",
         "-t", mime, "-d", uri, "-p", PACKAGE, timeout=30)
 
 
