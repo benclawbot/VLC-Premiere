@@ -814,10 +814,11 @@ final class VideoUI extends Premiere.UI {
         }
         for (int i = 0; i < devices.length; i++) {
           Object device = devices[i];
-          destination(choices, names.get(i), "Available receiver", "network", () -> {
+          String name = names.get(i);
+          destination(choices, name, "Available receiver", "network", () -> {
             invoke(service(), "setRenderer", device);
             dialog.dismiss();
-            toast("Casting to " + names.get(Arrays.asList(devices).indexOf(device)));
+            toast("Casting to " + name);
           });
         }
       }
