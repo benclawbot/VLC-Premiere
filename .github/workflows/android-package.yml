@@ -102,7 +102,7 @@ jobs:
   android16:
     name: Android 16 permission and media acceptance
     needs: package
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
@@ -121,7 +121,15 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
-          test -r /dev/kvm && test -w /dev/kvm
+          echo "KVM device diagnostics:"
+          ls -l /dev/kvm || true
+          id
+          # udev may not reapply permissions to an already-present KVM device
+          # on GitHub hosted runners; explicitly grant access before validation.
+          test -c /dev/kvm || { echo "::error::KVM device unavailable on runner"; exit 1; }
+          sudo chmod 0666 /dev/kvm
+          test -r /dev/kvm && test -w /dev/kvm || { echo "::error::KVM is not accessible"; exit 1; }
+          echo "KVM access enabled for Android 16 hardware acceleration"
       - uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 36
