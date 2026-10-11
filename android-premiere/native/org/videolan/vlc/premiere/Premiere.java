@@ -312,7 +312,8 @@ public final class Premiere {
     int bg, panel, ink, muted, line;
     final int orange = Color.rgb(244, 107, 50);
     SeekBar seek;
-    TextView elapsed, total, playButton;
+    TextView elapsed, total, playButton, miniToggle;
+    String miniMediaKey = "";
     boolean seeking = false;
     String currentTitle = "";
     NetworkBrowser networkBrowser;
@@ -608,6 +609,17 @@ public final class Premiere {
                   update(playButton, Boolean.TRUE.equals(invoke(s, "isPlaying")) ? "Ⅱ" : "▶");
                 }
               }
+              if (!screen.equals("audio-player") && !screen.equals("queue") && !screen.equals("bookmarks")) {
+                Object current = invoke(s, "getCurrentMediaWrapper");
+                String key = current != null && number(invoke(current, "getType")) != 0
+                    ? str(invoke(current, "getUri")) : "";
+                if (!key.equals(miniMediaKey)) render();
+                else if (miniToggle != null) {
+                  boolean playing = Boolean.TRUE.equals(invoke(s, "isPlaying"));
+                  update(miniToggle, playing ? "Ⅱ" : "▶");
+                  miniToggle.setContentDescription(playing ? "Pause audio" : "Play audio");
+                }
+              }
               handler.postDelayed(this, 1200);
             }
           },
@@ -837,8 +849,10 @@ public final class Premiere {
         default:
           heading("VLC", "");
       }
-      if (!screen.equals("audio-player") && !screen.equals("queue") && !screen.equals("bookmarks"))
+      if (!screen.equals("audio-player") && !screen.equals("queue") && !screen.equals("bookmarks")) {
+        miniDock();
         nav();
+      }
     }
 
     void masthead() {
@@ -896,6 +910,8 @@ public final class Premiere {
     View icon(String type, String desc, Runnable action) {
       Icon v = new Icon(a, type, desc.equals("VLC") ? orange : ink);
       v.setContentDescription(desc);
+      v.setMinimumHeight(dp(48));
+      v.setMinimumWidth(dp(48));
       v.setFocusable(true);
       v.setOnClickListener(x -> action.run());
       return v;
@@ -1317,7 +1333,6 @@ public final class Premiere {
         else if(audios.length>0 && !audioTab.equals("Tracks"))
           body.addView(button("Show " + audios.length + " tracks",()->{audioTab="Tracks";resetScrollOnRender=true;render();},true));
       }
-      mini();
     }
 
     void musicDetail() {
@@ -1347,22 +1362,43 @@ public final class Premiere {
       for (Object v : ts) mediaRow(body, v, () -> play(v), true);
     }
 
-    void mini() {
-      Object current = invoke(service(), "getCurrentMediaWrapper");
-      if (current == null || number(invoke(current, "getType")) == 0) return;
-      gap(body, 20);
-      LinearLayout m = row();
-      m.setBackground(surface(panel, 8, true));
-      m.setPadding(dp(10), dp(10), dp(12), dp(10));
-      m.addView(art(current, 44), new LinearLayout.LayoutParams(dp(44), dp(44)));
-      TextView t = text(title(current), 13, ink);
-      t.setPadding(dp(12), 0, 0, 0);
-      m.addView(t, new LinearLayout.LayoutParams(0, -2, 1));
-      m.addView(
-          icon("play", "Open now playing", () -> go("audio-player")),
-          new LinearLayout.LayoutParams(dp(40), dp(36)));
-      m.setOnClickListener(v -> go("audio-player"));
-      body.addView(m);
+    void miniDock() {
+      Object s = service(), current = invoke(s, "getCurrentMediaWrapper");
+      miniMediaKey = current == null || number(invoke(current, "getType")) == 0
+          ? "" : str(invoke(current, "getUri"));
+      miniToggle = null;
+      if (miniMediaKey.isEmpty()) return;
+      LinearLayout dock = row();
+      dock.setGravity(Gravity.CENTER_VERTICAL);
+      dock.setPadding(dp(12), dp(7), dp(12), dp(7));
+      dock.setBackground(surface(panel, 6, true));
+      dock.addView(art(current, 42), new LinearLayout.LayoutParams(dp(42), dp(42)));
+      LinearLayout copy = column();
+      copy.setPadding(dp(12), 0, dp(4), 0);
+      TextView name = text(title(current), 13, ink);
+      name.setSingleLine(true);
+      name.setEllipsize(android.text.TextUtils.TruncateAt.END);
+      copy.addView(name);
+      TextView artist = text(str(invoke(current, "getArtistName")), 11, muted);
+      artist.setSingleLine(true);
+      artist.setEllipsize(android.text.TextUtils.TruncateAt.END);
+      copy.addView(artist);
+      dock.addView(copy, new LinearLayout.LayoutParams(0, -2, 1));
+      miniToggle = button(Boolean.TRUE.equals(invoke(s, "isPlaying")) ? "Ⅱ" : "▶", () -> {
+        Object playback = service();
+        boolean playing = Boolean.TRUE.equals(invoke(playback, "isPlaying"));
+        invoke(playback, playing ? "pause" : "play");
+        if (miniToggle != null) {
+          miniToggle.setText(playing ? "▶" : "Ⅱ");
+          miniToggle.setContentDescription(playing ? "Play audio" : "Pause audio");
+        }
+      }, false);
+      miniToggle.setContentDescription(Boolean.TRUE.equals(invoke(s, "isPlaying")) ? "Pause audio" : "Play audio");
+      dock.addView(miniToggle, new LinearLayout.LayoutParams(dp(48), dp(48)));
+      dock.setOnClickListener(v -> go("audio-player"));
+      dock.setContentDescription("Now playing " + title(current) + ". Open player");
+      dock.setFocusable(true);
+      base.addView(dock, new LinearLayout.LayoutParams(-1, -2));
     }
 
     LinearLayout group(String name) {
@@ -2605,7 +2641,11 @@ public final class Premiere {
       LinearLayout transport = row();
       transport.setGravity(Gravity.CENTER);
       transport.addView(
-          icon("shuffle", "Shuffle", () -> invoke(service(), "shuffle")),
+          icon("shuffle", Boolean.TRUE.equals(invoke(s, "isShuffling")) ? "Shuffle on" : "Shuffle off", () -> {
+            invoke(service(), "shuffle");
+            toast(Boolean.TRUE.equals(invoke(service(), "isShuffling")) ? "Shuffle on" : "Shuffle off");
+            render();
+          }),
           new LinearLayout.LayoutParams(dp(46), dp(52)));
       transport.addView(
           icon("back", "Previous track", () -> invoke(service(), "previous", true)),
@@ -2643,6 +2683,40 @@ public final class Premiere {
         tools.addView(t, new LinearLayout.LayoutParams(0, -2, 1));
       }
       body.addView(tools);
+      gap(body, 12);
+      paired(body, "Repeat: " + repeatLabel(), this::cycleRepeat,
+          "Playback speed", this::audioSpeed);
+    }
+
+    String repeatLabel() {
+      Object r = invoke(service(), "getRepeatType");
+      int mode = r instanceof Number ? ((Number) r).intValue() : 0;
+      return mode == 1 ? "One" : mode == 2 ? "All" : "Off";
+    }
+
+    void cycleRepeat() {
+      Object s = service();
+      Object r = invoke(s, "getRepeatType");
+      if (!(r instanceof Number)) {
+        toast("Repeat control unavailable");
+        return;
+      }
+      int mode = ((Number) r).intValue();
+      invoke(s, "setRepeatType", mode == 0 ? 2 : mode == 2 ? 1 : 0);
+      handler.postDelayed(this::render, 100);
+    }
+
+    void audioSpeed() {
+      LinearLayout content = column();
+      Dialog dialog = sheet("Playback speed", content);
+      Object current = invoke(service(), "getRate");
+      content.addView(text("Current speed · " + (current == null ? "1" : current) + "×", 15, ink));
+      for (float speed : new float[] {.5f, .75f, 1f, 1.25f, 1.5f, 1.75f, 2f})
+        destination(content, speed + "×", speed == 1f ? "Normal speed" : "", null, () -> {
+          invoke(service(), "setRate", speed, true);
+          dialog.dismiss();
+          toast("Playback speed · " + speed + "×");
+        });
     }
 
     void queue() {
@@ -2671,7 +2745,13 @@ public final class Premiere {
                   }
                 },
                 false),
-            new LinearLayout.LayoutParams(0, dp(40), 1));
+            new LinearLayout.LayoutParams(0, dp(48), 1));
+        actions.addView(button("Move down", () -> {
+          if (pos < queue.length - 1) {
+            invoke(manager, "moveItem", pos, pos + 1);
+            render();
+          }
+        }, false), new LinearLayout.LayoutParams(0, dp(48), 1));
         actions.addView(
             button(
                 "Remove from queue",
@@ -2680,7 +2760,7 @@ public final class Premiere {
                   render();
                 },
                 false),
-            new LinearLayout.LayoutParams(0, dp(40), 1));
+            new LinearLayout.LayoutParams(0, dp(48), 1));
         body.addView(actions);
         gap(body, 8);
       }
