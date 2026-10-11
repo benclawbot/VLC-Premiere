@@ -2583,14 +2583,14 @@ public final class Premiere {
                   }
                 }
               }
-              int count = matches;
+              int resultCount = matches;
               handler.post(() -> {
                 if (generation != searchGeneration || !screen.equals("search")
                     || results.getParent() == null) return;
                 results.removeAllViews();
-                results.addView(label(count + " matching items"
-                    + (count > 60 ? " · Showing the first 60" : "")));
-                if (count == 0) results.addView(text("No matching media found.", 14, muted));
+                results.addView(label(resultCount + " matching items"
+                    + (resultCount > 60 ? " · Showing the first 60" : "")));
+                if (resultCount == 0) results.addView(text("No matching media found.", 14, muted));
                 for (Object media : first) mediaRow(results, media, () -> play(media), true);
                 for (Object media : rest) mediaRow(results, media, () -> play(media), true);
               });
