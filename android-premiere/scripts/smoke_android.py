@@ -48,32 +48,26 @@ def process_alive():
 
 
 def launch_view(mime, uri):
-    # Keep -W: it distinguishes a stuck activity launch from intent dispatch.
-    # On timeout capture the target activity and system threads before exiting.
-    args = ("am", "start", "-W", "-a", "android.intent.action.VIEW",
-            "-t", mime, "-d", uri, "-p", PACKAGE)
-    try:
-        return shell(*args, timeout=65)
-    except subprocess.TimeoutExpired as error:
-        (OUT / "intent-timeout.txt").write_text(
-            f"Intent: {mime} {uri}\nTimeout: {error.timeout}s\n"
-            f"Partial stdout: {error.stdout!r}\nPartial stderr: {error.stderr!r}\n")
-        for name, diagnostics in [
-            ("activity-timeout.txt", ("dumpsys", "activity", "activities")),
-            ("process-timeout.txt", ("dumpsys", "activity", "processes")),
-            ("anr-timeout.txt", ("dumpsys", "activity", "anr")),
-            ("media-timeout.txt", ("dumpsys", "media_session")),
-        ]:
-            try:
-                (OUT / name).write_text(shell(*diagnostics, timeout=30, check=False))
-            except (OSError, subprocess.SubprocessError) as problem:
-                (OUT / name).write_text(repr(problem))
-        pid = shell("pidof", PACKAGE, check=False)
-        if pid:
-            shell("kill", "-3", pid.split()[0], timeout=10, check=False)
-        raise RuntimeError("Media intent activity launch did not complete; "
-                           "see intent-timeout, activity-timeout, process-timeout, "
-                           "anr-timeout and logcat in emulator evidence") from error
+    # VIEW resolves to VLC's transient StartActivity router. Android's -W
+    # waits for that component to draw, but it immediately delegates and
+    # finishes. Require downstream media processing instead.
+    output = shell("am", "start", "-a", "android.intent.action.VIEW",
+                   "-t", mime, "-d", uri, "-p", PACKAGE, timeout=30)
+    if "Error" in output or "Starting: Intent" not in output:
+        raise RuntimeError("Android rejected VIEW intent: " + output)
+    return output
+
+
+def assert_media_opened(kind, expected):
+    # Verify observed libVLC input or metadata, not just an intent dispatch.
+    session = shell("dumpsys", "media_session", timeout=60)
+    (OUT / ("session-" + kind + ".txt")).write_text(session)
+    logs = cmd("logcat", "-d", "-v", "threadtime", timeout=120)
+    (OUT / ("logcat-" + kind + ".txt")).write_text(logs)
+    evidence = expected in session or (
+        ("Creating an input for '" + expected + "'") in logs)
+    record(kind + " reached VLC media engine", evidence, expected)
+    record(kind + " media process alive", process_alive())
 
 
 def complete_first_run():
@@ -139,16 +133,13 @@ try:
     record("WAV VIEW intent accepted", "Error" not in audio, audio)
     time.sleep(4)
     screenshot("audio-view")
-    session_audio = shell("dumpsys", "media_session", timeout=90)
-    (OUT / "session-audio.txt").write_text(session_audio)
-    record("audio launch survives decoder startup", process_alive())
+    assert_media_opened("audio", "premiere-smoke.wav")
 
     video = launch_view("video/mp4", "file:///sdcard/Movies/premiere-smoke.mp4")
     record("MP4 VIEW intent accepted", "Error" not in video, video)
     time.sleep(3)
     screenshot("video-view")
-    (OUT / "session-video.txt").write_text(shell("dumpsys", "media_session", timeout=90))
-    record("video launch survives decoder startup", process_alive())
+    assert_media_opened("video", "premiere-smoke.mp4")
 
     # Surface recreation and background/foreground lifecycle smoke.
     shell("settings", "put", "system", "accelerometer_rotation", "0")
