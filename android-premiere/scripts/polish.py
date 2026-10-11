@@ -200,28 +200,11 @@ old = 'const-string v3, "app_theme"\n\n    const-string v4, "-1"'
 assert old in t
 f.write_text(t.replace(old, 'const-string v3, "app_theme"\n\n    const-string v4, "2"', 1))
 
-# Reflect the new-install selection in the actual onboarding controls. Use VLC's
-# existing click handler, guarded by the ViewModel's current choice so an explicit
-# Light/System selection is preserved if the fragment is recreated.
-f = work/'smali_classes6/org/videolan/vlc/gui/onboarding/OnboardingThemeFragment.smali'
-t = f.read_text()
-start = t.index('.method public onViewCreated(')
-end = t.index('.end method', start)
-block = t[start:end]
-old = '    return-void\n'
-assert block.count(old) == 1
-block = block.replace(old, '''    check-cast v0, Lorg/videolan/vlc/gui/onboarding/OnboardingThemeFragment;
-    invoke-direct {v0}, Lorg/videolan/vlc/gui/onboarding/OnboardingThemeFragment;->getViewModel()Lorg/videolan/vlc/gui/onboarding/OnboardingViewModel;
-    move-result-object p0
-    invoke-virtual {p0}, Lorg/videolan/vlc/gui/onboarding/OnboardingViewModel;->getTheme()I
-    move-result p0
-    const/4 p2, 0x2
-    if-ne p0, p2, :premiere_theme_end
-    invoke-virtual {v0, p1}, Lorg/videolan/vlc/gui/onboarding/OnboardingThemeFragment;->onClick(Landroid/view/View;)V
-    :premiere_theme_end
-    return-void
-''')
-f.write_text(t[:start]+block+t[end:])
+# Do not patch OnboardingThemeFragment.onViewCreated with scratch Smali
+# registers: its register allocation reuses v0/p1 for non-View values, and
+# injecting an onClick call at return causes Android 16 ART VerifyError after
+# the notification permission grant. The default theme is set above in
+# OnboardingViewModel; the original fragment handles the actual selection.
 
 (work.parent/'build/polish-layouts.json').write_text(json.dumps(changed, indent=2)+'\n')
 print(f'Polished {len(changed)} native phone layouts; binding view graphs retained')
