@@ -1,0 +1,132 @@
+name: Android package and emulator smoke
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths:
+      - 'android-premiere/**'
+      - 'res/**'
+      - 'AndroidManifest.xml'
+      - 'apktool.yml'
+      - '.github/workflows/android-package.yml'
+  pull_request:
+    paths:
+      - 'android-premiere/**'
+      - 'res/**'
+      - 'AndroidManifest.xml'
+      - 'apktool.yml'
+      - '.github/workflows/android-package.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-package-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  package:
+    name: Pinned dependency build
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platforms;android-30'
+      - uses: actions/cache@v4
+        with:
+          path: |
+            android-premiere/tools/build-tools_r36_linux.zip
+            android-premiere/tools/platform-tools_r37.0.1-linux.zip
+            android-premiere/tools/VLC-Android-3.7.1-*.apk
+            android-premiere/baseline/original-arm64-decoded
+          key: premiere-base-3.7.1-apktool3.0.3-${{ hashFiles('android-premiere/DEPENDENCIES.json') }}
+      - name: Install checksum-verified Apktool 3.0.3 and Android API 30
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p android-premiere/tools
+          curl --fail --location --retry 3 --silent --show-error \
+            https://github.com/iBotPeaches/Apktool/releases/download/v3.0.3/apktool_3.0.3.jar \
+            -o android-premiere/tools/apktool.jar
+          echo 'dbf930b076c6b9be08d57c449cacefc3bdd6b71ebd59b3066fc0e1f5b14f9423  android-premiere/tools/apktool.jar' | sha256sum -c -
+          cp "$ANDROID_SDK_ROOT/platforms/android-30/android.jar" android-premiere/tools/android.jar
+          java -jar android-premiere/tools/apktool.jar --version
+      - name: Verify and extract pinned engine dependencies
+        run: python3 android-premiere/scripts/fetch_dependencies.py
+      - name: Build both signed APK variants
+        shell: bash
+        run: bash android-premiere/scripts/build.sh
+      - name: Verify signing, checksums and outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd android-premiere/dist
+          sha256sum -c SHA256SUMS
+          test -s VLC-Premiere-arm64.apk
+          test -s VLC-Premiere-Universal.apk
+          test -s SHA256SUMS
+      - name: Upload CI-only test packages and provenance
+        uses: actions/upload-artifact@v4
+        with:
+          name: premiere-ci-test-packages
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            android-premiere/dist/VLC-Premiere-arm64.apk
+            android-premiere/dist/VLC-Premiere-Universal.apk
+            android-premiere/dist/SHA256SUMS
+            android-premiere/build/artifacts.json
+            android-premiere/build/native-source-manifest.json
+            android-premiere/tools/dependency-provenance.json
+      - name: Upload build diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: premiere-build-diagnostics
+          if-no-files-found: ignore
+          retention-days: 7
+          path: |
+            android-premiere/build/build.log
+            android-premiere/build/*.json
+
+  emulator:
+    name: Android 11 emulator smoke
+    needs: package
+    runs-on: ubuntu-22.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: premiere-ci-test-packages
+          path: android-premiere/dist
+      - name: Prepare on-device smoke fixtures
+        run: python3 android-premiere/scripts/prepare_smoke_fixtures.py
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
+          script: python3 android-premiere/scripts/smoke_android.py
+      - name: Upload emulator screenshots and logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: premiere-emulator-evidence
+          if-no-files-found: ignore
+          retention-days: 7
+          path: |
+            android-premiere/build/smoke/
