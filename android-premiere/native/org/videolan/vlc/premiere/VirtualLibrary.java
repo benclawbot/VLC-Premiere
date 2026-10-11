@@ -56,7 +56,8 @@ final class VirtualLibrary {
         TextView tab = ui.text(name, 12, name.equals(ui.audioTab) ? ui.orange : ui.muted);
         tab.setGravity(Gravity.CENTER);
         tab.setMinHeight(ui.dp(48));
-        tab.setContentDescription("Music category " + name);
+        tab.setContentDescription(PremiereLocale.text(ui.a, name));
+        tab.setSelected(name.equals(ui.audioTab));
         tab.setOnClickListener(view -> {
           ui.audioTab = name;
           ui.categoryLimit = 40;
