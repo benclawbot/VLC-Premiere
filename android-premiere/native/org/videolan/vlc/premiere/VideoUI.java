@@ -145,10 +145,10 @@ final class VideoUI extends Premiere.UI {
     top.addView(copy, new LinearLayout.LayoutParams(0, -2, 1));
     top.addView(
         icon("cast", "Cast to a device", this::cast),
-        new LinearLayout.LayoutParams(dp(44), dp(48)));
+        new LinearLayout.LayoutParams(dp(48), dp(48)));
     top.addView(
         icon("more", "Playback options", this::tools),
-        new LinearLayout.LayoutParams(dp(44), dp(48)));
+        new LinearLayout.LayoutParams(dp(48), dp(48)));
     root.addView(top, new FrameLayout.LayoutParams(-1, -2, Gravity.TOP));
     LinearLayout transport = row();
     transport.setGravity(Gravity.CENTER);
@@ -167,6 +167,8 @@ final class VideoUI extends Premiere.UI {
             },
             true);
     center.setTextSize(27);
+    center.setContentDescription(PremiereLocale.text(a,
+        Boolean.TRUE.equals(invoke(service(), "isPlaying")) ? "Pause audio" : "Play audio"));
     center.setBackground(surface(orange, 40, false));
     transport.addView(center, new LinearLayout.LayoutParams(dp(60), dp(60)));
     transport.addView(forward, new LinearLayout.LayoutParams(dp(68), dp(64)));
@@ -197,7 +199,7 @@ final class VideoUI extends Premiere.UI {
     seek.setProgress((int) number(invoke(service(), "getTime")));
     seek.setProgressTintList(android.content.res.ColorStateList.valueOf(orange));
     seek.setThumbTintList(android.content.res.ColorStateList.valueOf(orange));
-    seek.setContentDescription("Video position");
+    seek.setContentDescription(PremiereLocale.text(a, "Video position"));
     seek.setOnSeekBarChangeListener(
         new SeekBar.OnSeekBarChangeListener() {
           public void onProgressChanged(SeekBar b, int p, boolean u) {
@@ -237,7 +239,7 @@ final class VideoUI extends Premiere.UI {
     control(controls, "Speed", this::speed);
     controls.addView(
         icon("bookmark", "Video bookmarks", this::bookmarkSheet),
-        new LinearLayout.LayoutParams(dp(42), dp(42)));
+        new LinearLayout.LayoutParams(dp(48), dp(48)));
     controls.addView(
         icon(
             "lock",
@@ -247,9 +249,9 @@ final class VideoUI extends Premiere.UI {
               invoke(a, "setLocked", true);
               render();
             }),
-        new LinearLayout.LayoutParams(dp(42), dp(42)));
+        new LinearLayout.LayoutParams(dp(48), dp(48)));
     controls.addView(
-        icon("more", "Video tools", this::tools), new LinearLayout.LayoutParams(dp(42), dp(42)));
+        icon("more", "Video tools", this::tools), new LinearLayout.LayoutParams(dp(48), dp(48)));
     bottom.addView(controls);
     root.addView(bottom, new FrameLayout.LayoutParams(-1, -2, Gravity.BOTTOM));
     show(true);
@@ -303,7 +305,10 @@ final class VideoUI extends Premiere.UI {
                   time(number(invoke(s, "getTime")))
                       + " / "
                       + time(number(invoke(s, "getLength"))));
-              update(center, Boolean.TRUE.equals(invoke(s, "isPlaying")) ? "Ⅱ" : "▶");
+              boolean playing = Boolean.TRUE.equals(invoke(s, "isPlaying"));
+              update(center, playing ? "Ⅱ" : "▶");
+              center.setContentDescription(PremiereLocale.text(a,
+                  playing ? "Pause audio" : "Play audio"));
             }
             // The service may start after the first render; still auto-hide on playback.
             if (visible && !fadeScheduled && !seeking && !seekingGesture && !scalingGesture
