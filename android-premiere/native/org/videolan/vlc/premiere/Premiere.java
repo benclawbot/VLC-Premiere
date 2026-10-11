@@ -1021,6 +1021,7 @@ public final class Premiere {
       Object featured = null;
       for (Object v : videoHistory)
         if (number(invoke(v, "getType")) == 0
+            && !isWatched(v)
             && number(invoke(v, "getTime")) > 0
             && !isWatched(v)
             && number(invoke(v, "getTime")) < number(invoke(v, "getLength")) - 5000) {
@@ -1041,6 +1042,7 @@ public final class Premiere {
       long position = number(invoke(featured, "getTime"));
       body.addView(label(position > 0 ? "Continue watching" : "From your library"));
       hero(featured);
+      continueWatchingShelf(featured);
       gap(body, 18);
       LinearLayout shelfHeading = row();
       shelfHeading.addView(
@@ -1088,6 +1090,49 @@ public final class Premiere {
       TextView note = text("Your files. Your cinema.", 11, muted);
       note.setGravity(Gravity.CENTER);
       body.addView(note);
+    }
+
+    void continueWatchingShelf(Object featured) {
+      String featuredUri = str(invoke(featured, "getUri"));
+      LinkedHashMap<String, Object> unfinished = new LinkedHashMap<>();
+      for (Object[] library : new Object[][] {videoHistory, videos}) {
+        for (Object media : library) {
+          if (number(invoke(media, "getType")) != 0 || isWatched(media)) continue;
+          long position = number(invoke(media, "getTime"));
+          long length = number(invoke(media, "getLength"));
+          String uri = str(invoke(media, "getUri"));
+          if (uri.equals(featuredUri) || uri.isEmpty() || position < 5000
+              || length <= 0 || position >= length - 5000) continue;
+          unfinished.putIfAbsent(uri, media);
+          if (unfinished.size() == 8) break;
+        }
+        if (unfinished.size() == 8) break;
+      }
+      if (unfinished.isEmpty()) return;
+      gap(body, 20);
+      body.addView(label("Keep watching"));
+      HorizontalScrollView horizontal = new HorizontalScrollView(a);
+      horizontal.setHorizontalScrollBarEnabled(false);
+      LinearLayout row = row();
+      for (Object media : unfinished.values()) {
+        LinearLayout card = column();
+        card.addView(art(media, 114), new LinearLayout.LayoutParams(-1, dp(114)));
+        TextView name = text(title(media), 12, ink);
+        name.setMaxLines(2);
+        card.addView(name);
+        gap(card, 4);
+        long remaining = Math.max(0, number(invoke(media, "getLength"))
+            - number(invoke(media, "getTime")));
+        card.addView(text(time(remaining) + " left", 11, muted));
+        card.setContentDescription("Resume " + title(media));
+        card.setFocusable(true);
+        card.setOnClickListener(v -> play(media));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(126), -2);
+        params.rightMargin = dp(10);
+        row.addView(card, params);
+      }
+      horizontal.addView(row);
+      body.addView(horizontal);
     }
 
     void posterCard(LinearLayout parent, Object media, int posterHeight) {
