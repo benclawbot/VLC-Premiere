@@ -20,12 +20,18 @@ final class VirtualLibrary {
 
   static boolean handles(Premiere.UI ui) {
     return "videos".equals(ui.screen)
-        || ("audio".equals(ui.screen) && "Tracks".equals(ui.audioTab));
+        || ("audio".equals(ui.screen) && "Tracks".equals(ui.audioTab))
+        || (("album".equals(ui.screen) || "artist".equals(ui.screen)
+            || "genre".equals(ui.screen)) && ui.detailTracks.containsKey(ui.item));
   }
 
   static void render(Premiere.UI ui, int savedPosition, int savedTop) {
     boolean videos = "videos".equals(ui.screen);
-    Object[] items = videos ? ui.filteredVideos() : ui.audios;
+    boolean musicTracks = "audio".equals(ui.screen);
+    Object[] items = videos ? ui.filteredVideos()
+        : musicTracks ? ui.audios : ui.detailTracks.get(ui.item);
+    if (items == null) items = new Object[0];
+    final Object[] visibleItems = items;
     boolean posters = videos && !ui.prefs.getBoolean("premiere_video_list", false);
 
     ui.body = ui.column();
@@ -36,6 +42,13 @@ final class VirtualLibrary {
       ui.heading("All videos", items.length == ui.videos.length
           ? items.length + " videos · On this device"
           : items.length + " of " + ui.videos.length + " videos · Filtered");
+    } else if (!musicTracks) {
+      ui.heading(Premiere.title(ui.item), items.length + " tracks · On this device");
+      ui.body.addView(ui.art(ui.item, 210),
+          new LinearLayout.LayoutParams(-1, ui.dp(210)));
+      ui.gap(ui.body, 12);
+      ui.paired(ui.body, "▶ Play all", () -> ui.playList(visibleItems, false),
+          "Shuffle", () -> ui.playList(visibleItems, true));
     } else {
       ui.heading("Your music", ui.audios.length + " tracks · On this device");
       LinearLayout tabs = ui.row();
@@ -54,8 +67,8 @@ final class VirtualLibrary {
       }
       ui.body.addView(tabs);
       ui.gap(ui.body, 8);
-      ui.paired(ui.body, "▶ Play all", () -> ui.playList(items, false),
-          "Shuffle", () -> ui.playList(items, true));
+      ui.paired(ui.body, "▶ Play all", () -> ui.playList(visibleItems, false),
+          "Shuffle", () -> ui.playList(visibleItems, true));
     }
 
     if (items.length == 0) {
