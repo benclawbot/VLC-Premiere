@@ -30,7 +30,8 @@ if ':premiere_acceleration_ready' not in options_text:
         snippets = [updated[max(0, match.start()-160):match.end()+160]
                     for match in re.finditer(r'if-eqz p0', updated)]
         raise SystemExit('Could not locate unique acceleration branch: '
-                         + repr({'candidates': len(candidates), 'nearby': snippets[:8]}))
+                         + repr({'candidates': len(candidates), 'nearby': snippets[:8],
+                                 'method_excerpt': method_text[:6500]}))
     hook = candidates[0]
     target = hook.group(2)
     accel_fallback = f'''    {hook.group(1)}
