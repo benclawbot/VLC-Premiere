@@ -76,6 +76,38 @@ def launch_view(mime, uri):
                            "anr-timeout and logcat in emulator evidence") from error
 
 
+def complete_first_run():
+    # Fresh installs show OnboardingActivity. Ensure it is dismissed before
+    # asking ActivityManager to synchronously launch VIEW intents.
+    import xml.etree.ElementTree as ET
+    state = shell("dumpsys", "activity", "activities", timeout=45)
+    if ".gui.onboarding.OnboardingActivity" not in state:
+        return
+    (OUT / "first-run-before.txt").write_text(state)
+    shell("uiautomator", "dump", "/sdcard/premiere-onboarding.xml", timeout=45)
+    xml = shell("cat", "/sdcard/premiere-onboarding.xml", timeout=30)
+    (OUT / "first-run-ui.xml").write_text(xml)
+    nodes = ET.fromstring(xml).iter("node")
+    matches = [n for n in nodes if n.get("text") == "Skip" or n.get("content-desc") == "Skip"]
+    if len(matches) != 1:
+        raise RuntimeError("Expected a single Premiere Skip control; found " + str(len(matches)))
+    bounds = list(map(int, re.findall(r"\d+", matches[0].get("bounds", ""))))
+    if len(bounds) != 4:
+        raise RuntimeError("Onboarding Skip control has invalid bounds")
+    shell("input", "tap", str((bounds[0]+bounds[2])//2), str((bounds[1]+bounds[3])//2))
+    for _ in range(15):
+        time.sleep(2)
+        state = shell("dumpsys", "activity", "activities", timeout=45)
+        if "mResumedActivity:" in state:
+            resumed = state.split("mResumedActivity:", 1)[1].split("\n", 1)[0]
+            if "OnboardingActivity" not in resumed:
+                (OUT / "first-run-after.txt").write_text(state)
+                record("onboarding completed before intent playback", True)
+                return
+    (OUT / "first-run-after.txt").write_text(state)
+    raise RuntimeError("Onboarding remains foreground after tapping Skip")
+
+
 try:
     report["device"]["sdk"] = shell("getprop", "ro.build.version.sdk")
     report["device"]["abi"] = shell("getprop", "ro.product.cpu.abi")
@@ -95,6 +127,8 @@ try:
     screenshot("launch")
     record("Premiere activity process survives startup", process_alive())
     (OUT / "activity-startup.txt").write_text(shell("dumpsys", "activity", "activities", timeout=90))
+    complete_first_run()
+    screenshot("after-onboarding")
 
     # Exercise VLC's exported VIEW handler with real independently generated media.
     shell("mkdir", "-p", "/sdcard/Music", "/sdcard/Movies")
