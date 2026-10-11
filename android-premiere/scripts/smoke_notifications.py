@@ -81,6 +81,28 @@ try:
             break
         if "Skip" in buttons and index==15:
             raise RuntimeError("Could not reach notification onboarding; last screen had " + repr(buttons[:35]))
+        # Android 16 may open its dedicated All files access Settings screen.
+        # This is an app-op settings toggle, not a runtime Allow button.
+        # Exercise the real toggle, verify its state, and return to onboarding.
+        if "Allow access to manage all files" in buttons:
+            save("all-files-access-before")
+            switches = [n for n in root.iter("node")
+                        if n.get("checkable") == "true"
+                        and n.get("clickable") == "true"]
+            if len(switches) != 1:
+                raise RuntimeError("Expected one All files access switch, got " + str(len(switches)))
+            if switches[0].get("checked") != "true":
+                a,b,c,d = map(int,re.findall(r"\\d+",switches[0].get("bounds","")))
+                shell("input","tap",str((a+c)//2),str((b+d)//2))
+                time.sleep(1)
+                checked = [n for n in hierarchy().iter("node")
+                           if n.get("checkable") == "true"]
+                status("all-files access switch activated",
+                       len(checked) == 1 and checked[0].get("checked") == "true")
+            shell("input","keyevent","KEYCODE_BACK")
+            time.sleep(2)
+            save("all-files-access-return")
+            continue
         # Use actual call-to-action on each onboarding stage, and grant runtime
         # Android media permission when its system dialog appears.
         candidates=["Get started","Allow media access","Continue","Find my media",
