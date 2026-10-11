@@ -99,6 +99,35 @@ jobs:
             android-premiere/build/build.log
             android-premiere/build/*.json
 
+  notifications:
+    name: Android 13 notification permission
+    needs: package
+    runs-on: ubuntu-22.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: premiere-ci-test-packages
+          path: android-premiere
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 33
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
+          script: python3 android-premiere/scripts/smoke_notifications.py
+      - name: Preserve notification crash diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: premiere-notification-evidence
+          if-no-files-found: ignore
+          retention-days: 7
+          path: android-premiere/build/notification-smoke/
+
   emulator:
     name: Android 11 emulator smoke
     needs: package
