@@ -783,51 +783,58 @@ final class VideoUI extends Premiere.UI {
   }
 
   void cast() {
-    LinearLayout c = column();
-    Dialog d = sheet("Cast to a device", c);
-    Object dataset =
-        invoke(singleton("org.videolan.vlc.RendererDelegate", "INSTANCE"), "getRenderers");
-    Object[] devices = array(invoke(dataset, "getValue"));
-    if (devices.length == 0) {
-      c.addView(text("Looking for devices…", 20, ink));
-      gap(c, 14);
-      c.addView(text("Connect your phone and receiver to the same Wi-Fi network.", 14, muted));
-    }
-    for (Object device : devices) {
-      String name = "";
-      try {
-        name = str(device.getClass().getField("name").get(device));
-      } catch (Exception e) {
-        name = str(invoke(device, "getName"));
+    LinearLayout content = column();
+    Dialog dialog = sheet("Cast to a device", content);
+    content.addView(text("Devices on your Wi-Fi network update automatically.", 13, muted));
+    gap(content, 14);
+    LinearLayout choices = column();
+    content.addView(choices);
+    final String[] previous = {""};
+    final Runnable[] poll = new Runnable[1];
+    poll[0] = () -> {
+      if (!dialog.isShowing() || a.isDestroyed() || a.isFinishing()) return;
+      Object dataset = invoke(singleton("org.videolan.vlc.RendererDelegate", "INSTANCE"),
+          "getRenderers");
+      Object[] devices = array(invoke(dataset, "getValue"));
+      ArrayList<String> names = new ArrayList<>();
+      for (Object device : devices) {
+        String name = "";
+        try { name = str(device.getClass().getField("name").get(device)); }
+        catch (Exception ignored) { name = str(invoke(device, "getName")); }
+        names.add(name);
       }
-      destination(
-          c,
-          name,
-          "Available on your network",
-          "network",
-          () -> {
+      String fingerprint = names.toString();
+      if (!fingerprint.equals(previous[0])) {
+        previous[0] = fingerprint;
+        choices.removeAllViews();
+        if (devices.length == 0) {
+          choices.addView(text("Searching for devices…", 17, ink));
+          gap(choices, 8);
+          choices.addView(text("Make sure your receiver is on the same network.", 13, muted));
+        }
+        for (int i = 0; i < devices.length; i++) {
+          Object device = devices[i];
+          destination(choices, names.get(i), "Available receiver", "network", () -> {
             invoke(service(), "setRenderer", device);
-            d.dismiss();
+            dialog.dismiss();
+            toast("Casting to " + names.get(Arrays.asList(devices).indexOf(device)));
           });
-    }
-    gap(c, 18);
-    c.addView(
-        button(
-            "Refresh devices",
-            () -> {
-              d.dismiss();
-              cast();
-            },
-            false));
-    destination(
-        c,
-        "Play on this device",
-        "Disconnect receiver",
-        null,
-        () -> {
-          invoke(service(), "setRenderer", (Object) null);
-          d.dismiss();
-        });
+        }
+      }
+      handler.postDelayed(poll[0], 2000);
+    };
+    content.addView(button("Refresh devices", () -> {
+      handler.removeCallbacks(poll[0]);
+      previous[0] = "";
+      poll[0].run();
+    }, false));
+    gap(content, 10);
+    destination(content, "Play on this device", "Disconnect receiver", null, () -> {
+      invoke(service(), "setRenderer", (Object) null);
+      dialog.dismiss();
+    });
+    dialog.setOnDismissListener(ignored -> handler.removeCallbacks(poll[0]));
+    poll[0].run();
   }
 
   void popup() {
