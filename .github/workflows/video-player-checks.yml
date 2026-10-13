@@ -6,6 +6,7 @@ on:
       - 'android-premiere/native/**'
       - 'android-premiere/scripts/check_premiere_locales.py'
       - 'res/values*/premiere_strings.xml'
+      - 'res/values*/premiere_plurals.xml'
       - 'android-premiere/tests/**'
       - '.github/workflows/video-player-checks.yml'
   pull_request:
@@ -13,6 +14,7 @@ on:
       - 'android-premiere/native/**'
       - 'android-premiere/scripts/check_premiere_locales.py'
       - 'res/values*/premiere_strings.xml'
+      - 'res/values*/premiere_plurals.xml'
       - 'android-premiere/tests/**'
       - '.github/workflows/video-player-checks.yml'
 
