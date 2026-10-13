@@ -53,17 +53,21 @@ final class VirtualLibrary {
 
     if (videos) {
       ui.heading("All videos", items.length == ui.videos.length
-          ? items.length + " videos · On this device"
-          : items.length + " of " + ui.videos.length + " videos · Filtered");
+          ? PremiereLocale.plural(ui.a, "premiere_video_count", items.length, items.length)
+              + " · " + PremiereLocale.text(ui.a, "On this device")
+          : PremiereLocale.plural(ui.a, "premiere_video_filtered",
+              items.length, items.length, ui.videos.length));
     } else if (!musicTracks) {
-      ui.heading(Premiere.title(ui.item), items.length + " tracks · On this device");
+      ui.heading(Premiere.title(ui.item), PremiereLocale.plural(ui.a, "premiere_track_count", items.length, items.length)
+          + " · " + PremiereLocale.text(ui.a, "On this device"));
       ui.body.addView(ui.art(ui.item, 210),
           new LinearLayout.LayoutParams(-1, ui.dp(210)));
       ui.gap(ui.body, 12);
       ui.paired(ui.body, "▶ Play all", () -> ui.playList(visibleItems, false),
           "Shuffle", () -> ui.playList(visibleItems, true));
     } else {
-      ui.heading("Your music", ui.audios.length + " tracks · On this device");
+      ui.heading("Your music", PremiereLocale.plural(ui.a, "premiere_track_count",
+          ui.audios.length, ui.audios.length) + " · " + PremiereLocale.text(ui.a, "On this device"));
       LinearLayout tabs = ui.row();
       for (String name : new String[]{"Artists", "Albums", "Tracks", "Genres"}) {
         TextView tab = ui.text(name, 12, name.equals(ui.audioTab) ? ui.orange : ui.muted);
