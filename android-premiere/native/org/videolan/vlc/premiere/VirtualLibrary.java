@@ -25,7 +25,20 @@ final class VirtualLibrary {
             || "genre".equals(ui.screen)) && ui.detailTracks.containsKey(ui.item));
   }
 
-  static void render(Premiere.UI ui, int savedPosition, int savedTop) {
+  /** Choose an identity from the media library, not the row index or artwork cache key. */
+  static String itemKey(Object media) {
+    if (media == null) return "";
+    String uri = Premiere.str(Premiere.invoke(media, "getUri"));
+    if (!uri.isEmpty() && !"null".equals(uri)) return "uri:" + uri;
+    long id = Premiere.number(Premiere.invoke(media, "getId"));
+    if (id > 0) return "id:" + id;
+    // Fallback for media records that have not received a library ID yet.
+    return "meta:" + ArtworkMatch.itemIdentity(
+        "", "", Premiere.title(media), Premiere.str(Premiere.invoke(media, "getDate")),
+        Premiere.number(Premiere.invoke(media, "getLength")));
+  }
+
+  static void render(Premiere.UI ui, int savedPosition, int savedTop, String anchorKey) {
     boolean videos = "videos".equals(ui.screen);
     boolean musicTracks = "audio".equals(ui.screen);
     Object[] items = videos ? ui.filteredVideos()
@@ -95,7 +108,8 @@ final class VirtualLibrary {
     ui.virtualList = list;
     ui.base.addView(list, new LinearLayout.LayoutParams(-1, 0, 1));
     if (savedPosition > 0 || savedTop != 0) {
-      int position = Math.max(0, Math.min(savedPosition, list.getCount() - 1));
+      int position = LibraryPosition.restore(savedPosition, list.getCount(), anchorKey,
+          row -> itemKey(visibleItems[posters ? row * 2 : row]));
       list.post(() -> {
         if (ui.virtualList == list && list.isAttachedToWindow()) {
           list.setSelectionFromTop(position, savedTop);
