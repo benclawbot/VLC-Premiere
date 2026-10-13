@@ -727,6 +727,9 @@ public final class Premiere {
       final int previousItem = preserveVirtual ? virtualList.getFirstVisiblePosition() : 0;
       final View first = preserveVirtual ? virtualList.getChildAt(0) : null;
       final int previousOffset = first == null ? 0 : first.getTop();
+      final String previousAnchor = preserveVirtual && previousItem < virtualList.getCount()
+          ? VirtualLibrary.itemKey(virtualList.getAdapter().getItem(previousItem))
+          : "";
       renderedScreen = screen;
       resetScrollOnRender = false;
       root.removeAllViews();
@@ -736,7 +739,7 @@ public final class Premiere {
       virtualList = null;
       if (VirtualLibrary.handles(this)) {
         currentScroll = null;
-        VirtualLibrary.render(this, preserveVirtual ? previousItem : 0, previousOffset);
+        VirtualLibrary.render(this, preserveVirtual ? previousItem : 0, previousOffset, previousAnchor);
         miniDock();
         nav();
         return;
