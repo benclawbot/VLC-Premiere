@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="premiere_video_count">
+        <item quantity="one">%d vidéo</item>
+        <item quantity="other">%d vidéos</item>
+    </plurals>
+    <plurals name="premiere_video_filtered">
+        <item quantity="one">%1$d sur %2$d vidéo · Filtrées</item>
+        <item quantity="other">%1$d sur %2$d vidéos · Filtrées</item>
+    </plurals>
+    <plurals name="premiere_track_count">
+        <item quantity="one">%d titre</item>
+        <item quantity="other">%d titres</item>
+    </plurals>
+</resources>
