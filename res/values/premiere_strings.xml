@@ -127,4 +127,6 @@
     <string name="premiere_welcome">Welcome</string>
     <string name="premiere_scan">Scan</string>
     <string name="premiere_open_now_playing">Open now playing</string>
+    <string name="premiere_no_videos_filter">No videos match this filter. Change the filter in Display options.</string>
+    <string name="premiere_no_music_found">No music found. Add a music folder in Browse.</string>
 </resources>

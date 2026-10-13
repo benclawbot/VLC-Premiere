@@ -129,6 +129,8 @@ final class PremiereLocale {
     KEYS.put("No chapters available for this track.", "premiere_no_chapters_available_for_this_track");
     KEYS.put("VLC · PREMIERE", "premiere_vlc_premiere");
     KEYS.put("Loading music…", "premiere_loading_music");
+    KEYS.put("No videos match this filter. Change the filter in Display options.", "premiere_no_videos_filter");
+    KEYS.put("No music found. Add a music folder in Browse.", "premiere_no_music_found");
     KEYS.put("Loading tracks…", "premiere_loading_tracks");
     KEYS.put("Skip", "premiere_skip");
     KEYS.put("Continue", "premiere_continue");
@@ -137,6 +139,14 @@ final class PremiereLocale {
     KEYS.put("Scan", "premiere_scan");
     KEYS.put("Open now playing", "premiere_open_now_playing");
   }
+  /** Quantity selection belongs to Android's locale-aware Resources, not Java concatenation. */
+  static String plural(Context context, String resourceName, int count, Object... formatArgs) {
+    int id = context.getResources().getIdentifier(
+        resourceName, "plurals", context.getPackageName());
+    return id == 0 ? count + " items"
+        : context.getResources().getQuantityString(id, count, formatArgs);
+  }
+
   private PremiereLocale() {}
   static String text(Context context, String english) {
     if (english == null || english.isEmpty()) return english;
