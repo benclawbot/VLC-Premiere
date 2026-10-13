@@ -127,4 +127,6 @@
     <string name="premiere_welcome">Bienvenue</string>
     <string name="premiere_scan">Analyser</string>
     <string name="premiere_open_now_playing">Ouvrir la lecture en cours</string>
+    <string name="premiere_no_videos_filter">Aucune vidéo ne correspond au filtre. Modifiez-le dans les options d’affichage.</string>
+    <string name="premiere_no_music_found">Aucune musique trouvée. Ajoutez un dossier musical dans Parcourir.</string>
 </resources>
