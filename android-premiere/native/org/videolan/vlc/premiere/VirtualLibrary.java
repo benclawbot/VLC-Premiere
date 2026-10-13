@@ -107,7 +107,7 @@ final class VirtualLibrary {
     list.setAdapter(new MediaAdapter(ui, items, posters));
     ui.virtualList = list;
     ui.base.addView(list, new LinearLayout.LayoutParams(-1, 0, 1));
-    if (savedPosition > 0 || savedTop != 0) {
+    if (savedPosition > 0 || savedTop != 0 || (anchorKey != null && !anchorKey.isEmpty())) {
       int position = LibraryPosition.restore(savedPosition, list.getCount(), anchorKey,
           row -> itemKey(visibleItems[posters ? row * 2 : row]));
       list.post(() -> {
