@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Compile the native presentation and hook VLC's existing application lifecycle."""
 from pathlib import Path
-import subprocess,sys,zipfile,shutil,hashlib,json
+import subprocess,sys,zipfile,shutil,hashlib,json,os
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from toolchain import java_tool
 
@@ -149,7 +149,11 @@ if mode=='prepare':
     if classes.exists():shutil.rmtree(classes)
     classes.mkdir(parents=True,exist_ok=True)
     sources=sorted((base/'native').rglob('*.java'))
-    subprocess.run([str(java_tool('javac')),'-source','8','-target','8','-classpath',str(base/'tools/android.jar'),'-d',str(classes),*[str(s) for s in sources]],check=True)
+    subprocess.run([sys.executable,str(base/'scripts/fetch_recyclerview_api.py')],check=True)
+    compile_api=os.pathsep.join([str(base/'tools/android.jar'),
+                                 str(base/'tools/recyclerview-1.3.2.jar'),
+                                 str(base/'tools/core-1.12.0.jar')])
+    subprocess.run([str(java_tool('javac')),'-source','8','-target','8','-classpath',compile_api,'-d',str(classes),*[str(s) for s in sources]],check=True)
     jar=base/'build/native-ui.jar'
     with zipfile.ZipFile(jar,'w') as z:
         for f in classes.rglob('*.class'):z.write(f,str(f.relative_to(classes)))
@@ -166,7 +170,11 @@ elif mode=='refresh':
     if classes.exists():shutil.rmtree(classes)
     classes.mkdir(parents=True,exist_ok=True)
     sources=sorted((base/'native').rglob('*.java'))
-    subprocess.run([str(java_tool('javac')),'-source','8','-target','8','-classpath',str(base/'tools/android.jar'),'-d',str(classes),*[str(s) for s in sources]],check=True)
+    subprocess.run([sys.executable,str(base/'scripts/fetch_recyclerview_api.py')],check=True)
+    compile_api=os.pathsep.join([str(base/'tools/android.jar'),
+                                 str(base/'tools/recyclerview-1.3.2.jar'),
+                                 str(base/'tools/core-1.12.0.jar')])
+    subprocess.run([str(java_tool('javac')),'-source','8','-target','8','-classpath',compile_api,'-d',str(classes),*[str(s) for s in sources]],check=True)
     jar=base/'build/native-ui.jar'
     with zipfile.ZipFile(jar,'w') as z:
         for f in classes.rglob('*.class'):z.write(f,str(f.relative_to(classes)))

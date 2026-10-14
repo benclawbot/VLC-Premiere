@@ -40,6 +40,15 @@ public final class LibraryPositionTest {
     require(LibraryPosition.restore(19999, 20000, "missing",
         i -> "track-" + i) == 19999,
         "deleted focused media falls back to a valid row");
+    require(LibraryPosition.stableId("uri:file:///a.mp4")
+        == LibraryPosition.stableId("uri:file:///a.mp4"),
+        "stable IDs survive rebinds");
+    require(LibraryPosition.stableId("uri:file:///a.mp4")
+        != LibraryPosition.stableId("uri:file:///b.mp4"),
+        "different media get different stable IDs");
+    String[] grid = {"videoA", "videoB", "videoC", "videoD", "videoE"};
+    require(LibraryPosition.restore(2, grid.length, "videoD", i -> grid[i]) == 3,
+        "grid uses item indices rather than the old paired-ListView row indices");
     System.out.println(checks + " library scroll restoration assertions passed");
   }
 }

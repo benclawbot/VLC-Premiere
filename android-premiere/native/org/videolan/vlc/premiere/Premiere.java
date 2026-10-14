@@ -306,7 +306,7 @@ public final class Premiere {
     String[] lastVideoSnapshot = new String[0], lastAudioSnapshot = new String[0];
     boolean hasLibrarySnapshot = false, resetScrollOnRender = false;
     ScrollView currentScroll;
-    android.widget.ListView virtualList;
+    VirtualLibrary.MediaRecyclerView virtualList;
     String renderedScreen = "";
     Runnable libraryRefresh;
     boolean mediaQueryPending = false, mediaQueryDirty = false, mediaQueryForceRender = false;
@@ -750,7 +750,7 @@ public final class Premiere {
         currentScroll = null;
         VirtualLibrary.render(this, preserveVirtual ? previousItem : 0, previousOffset, previousAnchor);
         if (!previousFocusKey.isEmpty() && previousFocusRow >= 0 && virtualList != null) {
-          final android.widget.ListView restoredList = virtualList;
+          final VirtualLibrary.MediaRecyclerView restoredList = virtualList;
           final int focusedRow = LibraryPosition.restore(
               previousFocusRow, restoredList.getCount(), previousFocusKey,
               row -> VirtualLibrary.itemKey(restoredList.getAdapter().getItem(row)));
@@ -758,9 +758,9 @@ public final class Premiere {
           // Restore focus only after ListView has completed its first recycled layout.
           restoredList.postOnAnimation(() -> {
             if (virtualList != restoredList || !restoredList.isAttachedToWindow()) return;
-            int visibleIndex = focusedRow - restoredList.getFirstVisiblePosition();
-            View visibleRow = restoredList.getChildAt(visibleIndex);
-            if (visibleIndex >= 0 && visibleRow != null) visibleRow.requestFocus();
+            androidx.recyclerview.widget.RecyclerView.ViewHolder focusedHolder =
+                restoredList.findViewHolderForAdapterPosition(focusedRow);
+            if (focusedHolder != null) focusedHolder.itemView.requestFocus();
           });
         }
         miniDock();
