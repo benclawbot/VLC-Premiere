@@ -75,6 +75,8 @@ jobs:
           test -s VLC-Premiere-arm64.apk
           test -s VLC-Premiere-Universal.apk
           test -s SHA256SUMS
+      - name: Verify VLC-bundled AndroidX runtime for RecyclerView migration
+        run: python3 android-premiere/scripts/verify_androidx_runtime.py
       - name: Upload CI-only test packages and provenance
         uses: actions/upload-artifact@v4
         with:
