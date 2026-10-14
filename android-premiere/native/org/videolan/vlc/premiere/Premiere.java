@@ -1018,7 +1018,8 @@ public final class Premiere {
       search.setTextColor(muted);
       search.setTextSize(12);
       search.setGravity(Gravity.CENTER_VERTICAL);
-      search.setMinHeight(dp(40));
+      // The search action must remain a full 48dp touch target after layout.
+      search.setMinHeight(dp(48));
       search.setPadding(dp(12), dp(8), dp(12), dp(8));
       body.addView(search);
       if (count < 0) {
