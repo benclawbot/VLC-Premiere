@@ -30,6 +30,16 @@ public final class LibraryPositionTest {
     require(LibraryPosition.restore(0, 20000, "item19999",
         i -> "item" + i) == 19999,
         "large libraries can restore an anchor beyond the visible range");
+    // Media callbacks can reorder thousands of rows while one row has keyboard focus.
+    require(LibraryPosition.restore(500, 10000, "video-9090",
+        i -> "video-" + i) == 9090,
+        "10k video rows retain the focused media identity across a reorder");
+    require(LibraryPosition.restore(19999, 20000, "track-3",
+        i -> "track-" + i) == 3,
+        "20k audio tracks retain the focused identity near the start");
+    require(LibraryPosition.restore(19999, 20000, "missing",
+        i -> "track-" + i) == 19999,
+        "deleted focused media falls back to a valid row");
     System.out.println(checks + " library scroll restoration assertions passed");
   }
 }
