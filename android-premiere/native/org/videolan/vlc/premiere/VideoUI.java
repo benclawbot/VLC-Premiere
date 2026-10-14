@@ -123,7 +123,7 @@ final class VideoUI extends Premiere.UI {
               },
               false);
       FrameLayout.LayoutParams p =
-          new FrameLayout.LayoutParams(dp(150), dp(44), Gravity.RIGHT | Gravity.BOTTOM);
+          new FrameLayout.LayoutParams(dp(150), dp(48), Gravity.RIGHT | Gravity.BOTTOM);
       p.rightMargin = dp(20);
       p.bottomMargin = dp(24);
       root.addView(unlock, p);
@@ -135,7 +135,7 @@ final class VideoUI extends Premiere.UI {
         new GradientDrawable(
             GradientDrawable.Orientation.TOP_BOTTOM, new int[] {0xe6171615, 0x00171615}));
     top.addView(
-        icon("back", "Back to library", a::finish), new LinearLayout.LayoutParams(dp(42), dp(48)));
+        icon("back", "Back to library", a::finish), new LinearLayout.LayoutParams(dp(48), dp(48)));
     LinearLayout copy = column();
     titleView = text(title(invoke(service(), "getCurrentMediaWrapper")), 17, ink);
     titleView.setMaxLines(1);
@@ -230,7 +230,19 @@ final class VideoUI extends Premiere.UI {
     sizeLabel = text(prefs.getString("premiere_video_size", "Best fit"), 11, muted);
     TextView size = sizeLabel;
     size.setOnClickListener(v -> sizes());
-    size.setPadding(dp(8), dp(8), 0, dp(8));
+    size.setFocusable(true);
+    size.setMinHeight(dp(48));
+    size.setMinWidth(dp(48));
+    size.setContentDescription(PremiereLocale.text(a, "Video size"));
+    size.setAccessibilityDelegate(new View.AccessibilityDelegate() {
+      @Override public void onInitializeAccessibilityNodeInfo(
+          View host, android.view.accessibility.AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(host, info);
+        info.setClassName("android.widget.Button");
+      }
+    });
+    size.setGravity(Gravity.CENTER_VERTICAL);
+    size.setPadding(dp(8), dp(8), dp(8), dp(8));
     timeline.addView(size);
     bottom.addView(timeline);
     gap(bottom, 8);
@@ -262,7 +274,14 @@ final class VideoUI extends Premiere.UI {
     b.setGravity(Gravity.CENTER);
     b.setMinHeight(dp(48));
     b.setFocusable(true);
-    b.setContentDescription(label);
+    b.setContentDescription(PremiereLocale.text(a, label));
+    b.setAccessibilityDelegate(new View.AccessibilityDelegate() {
+      @Override public void onInitializeAccessibilityNodeInfo(
+          View host, android.view.accessibility.AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(host, info);
+        info.setClassName("android.widget.Button");
+      }
+    });
     b.setOnClickListener(v -> action.run());
     r.addView(b, new LinearLayout.LayoutParams(0, -2, 1));
   }
