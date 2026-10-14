@@ -6,6 +6,16 @@ import java.util.function.IntFunction;
 final class LibraryPosition {
   private LibraryPosition() {}
 
+  /** Deterministic 64-bit FNV-1a key for RecyclerView stable adapter IDs. */
+  static long stableId(String value) {
+    long hash = 0xcbf29ce484222325L;
+    for (int i = 0; i < value.length(); i++) {
+      hash ^= value.charAt(i);
+      hash *= 0x100000001b3L;
+    }
+    return hash;
+  }
+
   /** Find the nearest occurrence of the anchored row, falling back to its prior index.
    * Avoid materializing a second full-library key array for 10k+ media items.
    */
