@@ -106,10 +106,29 @@ def complete_first_run():
         shell("uiautomator", "dump", "/sdcard/premiere-onboarding.xml", timeout=45)
         xml = shell("cat", "/sdcard/premiere-onboarding.xml", timeout=30)
         (OUT / "first-run-ui.xml").write_text(xml)
-        nodes = ET.fromstring(xml).iter("node")
+        nodes = list(ET.fromstring(xml).iter("node"))
         matches = [n for n in nodes if n.get("text") == "Skip" or n.get("content-desc") == "Skip"]
         if len(matches) == 1:
             break
+        # Overloaded CI emulators may display a system Pixel Launcher ANR over
+        # the still-running VLC onboarding activity. Recover only this exact
+        # infrastructure dialog; a VLC ANR must remain an acceptance failure.
+        launcher_anr = any(n.get("text") == "Pixel Launcher isn't responding" for n in nodes)
+        if launcher_anr:
+            waits = [n for n in nodes if n.get("resource-id") == "android:id/aerr_wait"
+                     and n.get("text") == "Wait"]
+            if len(waits) != 1:
+                raise RuntimeError("Pixel Launcher ANR without a single Wait action")
+            bounds = list(map(int, re.findall(r"\\d+", waits[0].get("bounds", ""))))
+            if len(bounds) != 4:
+                raise RuntimeError("Pixel Launcher ANR Wait action has invalid bounds")
+            screenshot("pixel-launcher-anr-" + str(attempt))
+            report.setdefault("infrastructure_recoveries", []).append(
+                {"kind": "pixel-launcher-anr", "attempt": attempt})
+            shell("input", "tap", str((bounds[0] + bounds[2]) // 2),
+                  str((bounds[1] + bounds[3]) // 2))
+            time.sleep(2)
+            continue
         if len(matches) > 1:
             raise RuntimeError("Ambiguous Premiere Skip controls: " + str(len(matches)))
         if attempt < 11:
