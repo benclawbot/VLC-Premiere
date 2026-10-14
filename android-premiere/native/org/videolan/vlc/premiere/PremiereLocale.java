@@ -138,6 +138,12 @@ final class PremiereLocale {
     KEYS.put("Welcome", "premiere_welcome");
     KEYS.put("Scan", "premiere_scan");
     KEYS.put("Open now playing", "premiere_open_now_playing");
+    KEYS.put("Show more artists", "premiere_more_artists");
+    KEYS.put("Show more albums", "premiere_more_albums");
+    KEYS.put("Show more genres", "premiere_more_genres");
+    KEYS.put("Current speed · %s×", "premiere_current_speed_format");
+    KEYS.put("Version %s · Android", "premiere_version_format");
+    KEYS.put("Delete “%s” from this device?", "premiere_delete_named_media");
     KEYS.put("TV series · Browse seasons", "premiere_browse_seasons");
     KEYS.put("Your files. Your cinema.", "premiere_files_cinema");
     KEYS.put("▶  Play", "premiere_play_spaced");
@@ -212,6 +218,18 @@ final class PremiereLocale {
         resourceName, "plurals", context.getPackageName());
     return id == 0 ? count + " items"
         : context.getResources().getQuantityString(id, count, formatArgs);
+  }
+
+  /** Locale-aware rendering of parameterized Premiere-owned UI labels. */
+  static String format(Context context, String englishFormat, Object... args) {
+    String key = KEYS.get(englishFormat);
+    if (key != null) {
+      Integer cached = IDS.get(key);
+      int id = cached == null ? context.getResources().getIdentifier(key, "string", context.getPackageName()) : cached;
+      if (cached == null) IDS.put(key, id);
+      if (id != 0) return context.getString(id, args);
+    }
+    return String.format(Locale.getDefault(), englishFormat, args);
   }
 
   private PremiereLocale() {}
