@@ -196,4 +196,10 @@
     <string name="premiere_permanent_delete">Die Datei wird dauerhaft gelöscht.</string>
     <string name="premiere_play_season">▶ Staffel der Reihe nach abspielen</string>
     <string name="premiere_correct_title_hint">Verwenden Sie einen genauen Film- oder Serientitel für bessere Plakate. Dafür sind Online-Cover und ein TMDB-Token nötig.</string>
+    <string name="premiere_more_artists">Weitere Künstler anzeigen</string>
+    <string name="premiere_more_albums">Weitere Alben anzeigen</string>
+    <string name="premiere_more_genres">Weitere Genres anzeigen</string>
+    <string name="premiere_current_speed_format">Aktuelle Geschwindigkeit · %s×</string>
+    <string name="premiere_version_format">Version %s · Android</string>
+    <string name="premiere_delete_named_media">„%s“ von diesem Gerät löschen?</string>
 </resources>
