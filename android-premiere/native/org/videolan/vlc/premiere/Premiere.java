@@ -730,6 +730,15 @@ public final class Premiere {
       final String previousAnchor = preserveVirtual && previousItem < virtualList.getCount()
           ? VirtualLibrary.itemKey(virtualList.getAdapter().getItem(previousItem))
           : "";
+      // Rebuilding a recycled ListView also detaches the keyboard-focused media row.
+      // Retain its media identity across insertions or sorting, not merely its index.
+      final View oldFocus = preserveVirtual ? virtualList.findFocus() : null;
+      final int previousFocusRow = oldFocus == null ? -1
+          : virtualList.getPositionForView(oldFocus);
+      final String previousFocusKey = previousFocusRow >= 0
+          && previousFocusRow < virtualList.getCount()
+          ? VirtualLibrary.itemKey(virtualList.getAdapter().getItem(previousFocusRow))
+          : "";
       renderedScreen = screen;
       resetScrollOnRender = false;
       root.removeAllViews();
@@ -740,6 +749,20 @@ public final class Premiere {
       if (VirtualLibrary.handles(this)) {
         currentScroll = null;
         VirtualLibrary.render(this, preserveVirtual ? previousItem : 0, previousOffset, previousAnchor);
+        if (!previousFocusKey.isEmpty() && previousFocusRow >= 0 && virtualList != null) {
+          final android.widget.ListView restoredList = virtualList;
+          final int focusedRow = LibraryPosition.restore(
+              previousFocusRow, restoredList.getCount(), previousFocusKey,
+              row -> VirtualLibrary.itemKey(restoredList.getAdapter().getItem(row)));
+          // Do not scroll to an offscreen focused item: keep the preserved viewport.
+          // Restore focus only after ListView has completed its first recycled layout.
+          restoredList.postOnAnimation(() -> {
+            if (virtualList != restoredList || !restoredList.isAttachedToWindow()) return;
+            int visibleIndex = focusedRow - restoredList.getFirstVisiblePosition();
+            View visibleRow = restoredList.getChildAt(visibleIndex);
+            if (visibleIndex >= 0 && visibleRow != null) visibleRow.requestFocus();
+          });
+        }
         miniDock();
         nav();
         return;
