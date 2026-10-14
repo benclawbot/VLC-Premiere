@@ -42,10 +42,10 @@ assert len(expected) >= 100, "Accidental major loss of localized interface cover
 # navigation/presentation surface. Symbols and concatenation prefixes are not labels.
 PREMIERE = (ROOT / "android-premiere/native/org/videolan/vlc/premiere/Premiere.java").read_text()
 english_labels = set(re.findall(
-    r'\\b(?:text|button|heading|label|destination|group)\\s*\\(\\s*"([^"]+)"',
+    r'\b(?:text|button|heading|label|destination|group)\s*\(\s*"([^"]+)"',
     PREMIERE,
 ))
-translated_labels = set(re.findall(r'KEYS\\.put\\("([^"]+)",', java))
+translated_labels = set(re.findall(r'KEYS\.put\("([^"]+)",', java))
 NON_TEXT_LABELS = {
     "VLC", "▶", "↑", "×", "“", "▲",
     "Show more ",  # Followed by a known audioTab; each category is translated.
@@ -64,8 +64,8 @@ FORMAT_KEYS = {
 for language in LANGS:
     for key, formats in FORMAT_KEYS.items():
         text = parsed[language][key]
-        placeholders = re.findall(r"%(?:[1-9]\\d*\\$)?[sd]", text)
-        normalized = [re.sub(r"%[1-9]\\d*\\$", "%", part) for part in placeholders]
+        placeholders = re.findall(r"%(?:[1-9]\d*\$)?[sd]", text)
+        normalized = [re.sub(r"%[1-9]\d*\$", "%", part) for part in placeholders]
         if normalized != formats:
             raise AssertionError(f"{language}/{key}: expected {formats}, got {placeholders}")
 
