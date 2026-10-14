@@ -159,7 +159,7 @@ jobs:
     timeout-minutes: 45
     strategy:
       fail-fast: false
-      max-parallel: 3
+      max-parallel: 2
       matrix:
         # Android 11–15; the existing android16 job covers API 36.
         api-level: [30, 31, 32, 33, 34, 35]
