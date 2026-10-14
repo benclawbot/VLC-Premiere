@@ -138,6 +138,79 @@ final class PremiereLocale {
     KEYS.put("Welcome", "premiere_welcome");
     KEYS.put("Scan", "premiere_scan");
     KEYS.put("Open now playing", "premiere_open_now_playing");
+    KEYS.put("Show more artists", "premiere_more_artists");
+    KEYS.put("Show more albums", "premiere_more_albums");
+    KEYS.put("Show more genres", "premiere_more_genres");
+    KEYS.put("Current speed · %s×", "premiere_current_speed_format");
+    KEYS.put("Version %s · Android", "premiere_version_format");
+    KEYS.put("Delete “%s” from this device?", "premiere_delete_named_media");
+    KEYS.put("TV series · Browse seasons", "premiere_browse_seasons");
+    KEYS.put("Your files. Your cinema.", "premiere_files_cinema");
+    KEYS.put("▶  Play", "premiere_play_spaced");
+    KEYS.put("+ Add server", "premiere_add_server");
+    KEYS.put("Use an SMB, FTP, SFTP, NFS or HTTP address.", "premiere_network_address_hint");
+    KEYS.put("+ Create playlist", "premiere_create_playlist_plus");
+    KEYS.put("Give this collection a name.", "premiere_collection_name_hint");
+    KEYS.put("+ Add media", "premiere_add_media_plus");
+    KEYS.put("+ Create a new playlist", "premiere_create_new_playlist");
+    KEYS.put("Movie and TV posters", "premiere_movie_tv_posters");
+    KEYS.put("Add a TMDB read token to look up posters. The token stays in private app storage and is hidden while you type.", "premiere_tmdb_token_hint");
+    KEYS.put("Movie and TV poster lookups are enabled.", "premiere_tmdb_enabled");
+    KEYS.put("Save and enable posters", "premiere_save_enable_posters");
+    KEYS.put("Clear artwork cache", "premiere_clear_art_cache");
+    KEYS.put("Covers use tags and filenames with fuzzy matching, including numbered tracks. MusicBrainz and Deezer supply album covers. YouTube thumbnails provide matching song and live-set images. An identified artist's release can supply a representative cover when no closer match is available. Embedded covers are used first.", "premiere_cover_source_hint");
+    KEYS.put("Retry missing artwork", "premiere_retry_missing_art");
+    KEYS.put("This setting could not be opened.", "premiere_setting_open_failed");
+    KEYS.put("Clear recently played media? Your files stay on this device.", "premiere_clear_recent_confirm");
+    KEYS.put("File", "premiere_file");
+    KEYS.put("+ Add bookmark", "premiere_add_bookmark_plus");
+    KEYS.put("Media player, for everyone.", "premiere_for_everyone");
+    KEYS.put("The project", "premiere_project");
+    KEYS.put("Artwork credits", "premiere_artwork_credits");
+    KEYS.put("This product uses the TMDB API but is not endorsed or certified by TMDB.", "premiere_tmdb_disclaimer");
+    KEYS.put("On your home screen", "premiere_on_home_screen");
+    KEYS.put("Add a VLC widget to pause, skip and resume without opening the app.", "premiere_widget_hint");
+    KEYS.put("Device access", "premiere_device_access");
+    KEYS.put("Save collection", "premiere_save_collection");
+    KEYS.put("The file will be permanently removed.", "premiere_permanent_delete");
+    KEYS.put("▶ Play season in order", "premiere_play_season");
+    KEYS.put("Use an exact film or TV title to improve poster matching. Requires online artwork and a TMDB token.", "premiere_correct_title_hint");
+    KEYS.put("Show more videos", "premiere_show_more_videos");
+    KEYS.put("Show more tracks", "premiere_show_more_tracks");
+    KEYS.put("⌕  Find something to watch", "premiere_find_watch");
+    KEYS.put("Loading your library…", "premiere_loading_library");
+    KEYS.put("Your next film starts here.", "premiere_next_film");
+    KEYS.put("Choose a folder to find the videos already on your device.", "premiere_find_device_videos");
+    KEYS.put("Choose a file", "premiere_choose_file");
+    KEYS.put("Files", "premiere_files");
+    KEYS.put("Saved servers", "premiere_saved_servers");
+    KEYS.put("Refresh", "premiere_refresh");
+    KEYS.put("Connect", "premiere_connect");
+    KEYS.put("No saved locations yet.", "premiere_no_saved_locations");
+    KEYS.put("Open a stream", "premiere_open_a_stream");
+    KEYS.put("Open stream", "premiere_open_stream");
+    KEYS.put("Recent streams", "premiere_recent_streams");
+    KEYS.put("Your playlists", "premiere_your_playlists");
+    KEYS.put("Save playlist", "premiere_save_playlist");
+    KEYS.put("Edit playlist", "premiere_edit_playlist");
+    KEYS.put("Your media", "premiere_your_media");
+    KEYS.put("Tools", "premiere_tools");
+    KEYS.put("Media library", "premiere_media_library");
+    KEYS.put("Personalize", "premiere_personalize");
+    KEYS.put("Artwork", "premiere_artwork");
+    KEYS.put("Music covers", "premiere_music_covers");
+    KEYS.put("Preferences", "premiere_preferences");
+    KEYS.put("No matching media found.", "premiere_no_matching_media");
+    KEYS.put("History", "premiere_history");
+    KEYS.put("Up next", "premiere_up_next");
+    KEYS.put("About VLC", "premiere_about_vlc");
+    KEYS.put("Add a VLC widget", "premiere_add_vlc_widget");
+    KEYS.put("Delete file", "premiere_delete_file");
+    KEYS.put("Search with this title", "premiere_search_exact_title");
+    KEYS.put("Restore automatic matching", "premiere_restore_matching");
+    KEYS.put("Clear history", "premiere_clear_history");
+    KEYS.put("Searching…", "premiere_searching");
+    KEYS.put("▶ Play media", "premiere_play_media");
   }
   /** Quantity selection belongs to Android's locale-aware Resources, not Java concatenation. */
   static String plural(Context context, String resourceName, int count, Object... formatArgs) {
@@ -145,6 +218,18 @@ final class PremiereLocale {
         resourceName, "plurals", context.getPackageName());
     return id == 0 ? count + " items"
         : context.getResources().getQuantityString(id, count, formatArgs);
+  }
+
+  /** Locale-aware rendering of parameterized Premiere-owned UI labels. */
+  static String format(Context context, String englishFormat, Object... args) {
+    String key = KEYS.get(englishFormat);
+    if (key != null) {
+      Integer cached = IDS.get(key);
+      int id = cached == null ? context.getResources().getIdentifier(key, "string", context.getPackageName()) : cached;
+      if (cached == null) IDS.put(key, id);
+      if (id != 0) return context.getString(id, args);
+    }
+    return String.format(Locale.getDefault(), englishFormat, args);
   }
 
   private PremiereLocale() {}
