@@ -33,8 +33,6 @@ jobs:
           java-version: '17'
       - name: Check translated Android resources
         run: python3 android-premiere/scripts/check_premiere_locales.py
-      - name: Test UIAutomator touch-target bounds parser
-        run: python3 -m unittest discover -s android-premiere/tests -p 'test_a11y_targets.py'
       - name: Run pure-Java player regression tests
         run: |
           mkdir -p /tmp/vlc-premiere-tests
@@ -61,3 +59,11 @@ jobs:
             -source 8 -target 8 \
             -classpath "$ANDROID_SDK_ROOT/platforms/android-30/android.jar" \
             -d /tmp/vlc-premiere-classes
+
+  accessibility-parser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test UIAutomator touch-target bounds parser
+        run: python3 -m unittest discover -s android-premiere/tests -p 'test_a11y_targets.py'
