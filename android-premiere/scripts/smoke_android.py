@@ -67,20 +67,43 @@ def dismiss_launcher_anr(xml, label, attempt):
 def audited_controls(xml_file, output_name, label, density, attempts=12):
     """Wait for real VLC controls, without overlooking small targets or app failures."""
     from a11y_targets import inspect_xml
+    audit = None
     for attempt in range(attempts):
-        shell("uiautomator", "dump", xml_file, timeout=60)
-        xml = shell("cat", xml_file, timeout=30)
+        # UIAutomator occasionally returns without writing its requested file
+        # on overloaded API 33 emulators. Never use a stale previous dump.
+        shell("rm", "-f", xml_file, check=False)
+        dump_output = shell("uiautomator", "dump", xml_file, timeout=60, check=False)
+        xml = shell("cat", xml_file, timeout=30, check=False)
         (OUT / output_name).write_text(xml)
-        if dismiss_launcher_anr(xml, label, attempt):
-            time.sleep(2)
-            continue
-        audit = inspect_xml(xml, density)
-        if audit["problems"] or audit["clickable_controls"] > 0:
-            return audit
+        if not xml.lstrip().startswith("<"):
+            report.setdefault("ui_dump_retries", []).append(
+                {"phase": label, "attempt": attempt, "reason": "missing-xml",
+                 "dump": dump_output[:200]})
+        else:
+            try:
+                if dismiss_launcher_anr(xml, label, attempt):
+                    time.sleep(2)
+                    continue
+                audit = inspect_xml(xml, density)
+            except Exception as error:
+                if isinstance(error, ValueError) and "Display density" in str(error):
+                    raise
+                # A malformed hierarchy is not valid evidence. Retry before
+                # declaring the emulator unable to produce a usable UI dump.
+                import xml.etree.ElementTree as ET
+                if not isinstance(error, ET.ParseError):
+                    raise
+                report.setdefault("ui_dump_retries", []).append(
+                    {"phase": label, "attempt": attempt, "reason": "invalid-xml"})
+            else:
+                if audit["problems"] or audit["clickable_controls"] > 0:
+                    return audit
         if not process_alive():
             raise RuntimeError("VLC process died while waiting for visible controls: " + label)
         if attempt < attempts - 1:
             time.sleep(2)
+    if audit is None:
+        raise RuntimeError("UIAutomator could not provide a valid hierarchy: " + label)
     return audit
 
 
@@ -144,10 +167,17 @@ def complete_first_run():
     # laid out. Retry actual UI hierarchy evidence rather than tapping blind.
     matches = []
     for attempt in range(12):
-        shell("uiautomator", "dump", "/sdcard/premiere-onboarding.xml", timeout=45)
-        xml = shell("cat", "/sdcard/premiere-onboarding.xml", timeout=30)
+        shell("rm", "-f", "/sdcard/premiere-onboarding.xml", check=False)
+        shell("uiautomator", "dump", "/sdcard/premiere-onboarding.xml", timeout=45, check=False)
+        xml = shell("cat", "/sdcard/premiere-onboarding.xml", timeout=30, check=False)
         (OUT / "first-run-ui.xml").write_text(xml)
-        nodes = list(ET.fromstring(xml).iter("node"))
+        try:
+            nodes = list(ET.fromstring(xml).iter("node"))
+        except ET.ParseError:
+            report.setdefault("ui_dump_retries", []).append(
+                {"phase": "onboarding", "attempt": attempt, "reason": "missing-or-invalid-xml"})
+            time.sleep(2)
+            continue
         matches = [n for n in nodes if n.get("text") == "Skip" or n.get("content-desc") == "Skip"]
         if len(matches) == 1:
             break
