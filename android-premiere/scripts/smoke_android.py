@@ -59,15 +59,26 @@ def launch_view(mime, uri):
 
 
 def assert_media_opened(kind, expected):
-    # Verify observed libVLC input or metadata, not just an intent dispatch.
-    session = shell("dumpsys", "media_session", timeout=60)
+    # A cold emulator can launch VideoPlayerActivity before libVLC opens the
+    # URI. Wait for actual media-engine evidence, with a bounded deadline.
+    deadline = time.monotonic() + 30
+    session = ""
+    logs = ""
+    evidence = False
+    alive = False
+    while True:
+        session = shell("dumpsys", "media_session", timeout=60)
+        logs = cmd("logcat", "-d", "-v", "threadtime", timeout=120)
+        evidence = expected in session or (
+            ("Creating an input for '" + expected + "'") in logs)
+        alive = process_alive()
+        if (evidence and alive) or time.monotonic() >= deadline:
+            break
+        time.sleep(2)
     (OUT / ("session-" + kind + ".txt")).write_text(session)
-    logs = cmd("logcat", "-d", "-v", "threadtime", timeout=120)
     (OUT / ("logcat-" + kind + ".txt")).write_text(logs)
-    evidence = expected in session or (
-        ("Creating an input for '" + expected + "'") in logs)
     record(kind + " reached VLC media engine", evidence, expected)
-    record(kind + " media process alive", process_alive())
+    record(kind + " media process alive", alive)
 
 
 def foreground_activity(state):
