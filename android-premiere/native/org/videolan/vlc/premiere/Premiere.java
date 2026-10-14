@@ -1438,7 +1438,7 @@ public final class Premiere {
                   },
                   true));
         else if(audios.length>0 && !audioTab.equals("Tracks"))
-          body.addView(button("Show " + audios.length + " tracks",()->{audioTab="Tracks";resetScrollOnRender=true;render();},true));
+          body.addView(button(PremiereLocale.plural(a, "premiere_show_tracks", audios.length, audios.length),()->{audioTab="Tracks";resetScrollOnRender=true;render();},true));
       }
     }
 
@@ -2857,7 +2857,7 @@ public final class Premiere {
       LinearLayout content = column();
       Dialog dialog = sheet("Playback speed", content);
       Object current = invoke(service(), "getRate");
-      content.addView(text("Current speed · " + (current == null ? "1" : current) + "×", 15, ink));
+      content.addView(text(PremiereLocale.format(a, "Current speed · %s×", current == null ? "1" : current), 15, ink));
       for (float speed : new float[] {.5f, .75f, 1f, 1.25f, 1.5f, 1.75f, 2f})
         destination(content, speed + "×", speed == 1f ? "Normal speed" : "", null, () -> {
           invoke(service(), "setRate", speed, true);
@@ -3065,7 +3065,7 @@ public final class Premiere {
         version = a.getPackageManager().getPackageInfo(a.getPackageName(), 0).versionName;
       } catch (Exception e) {
       }
-      TextView ver = text("Version " + version + " · Android", 12, muted);
+      TextView ver = text(PremiereLocale.format(a, "Version %s · Android", version), 12, muted);
       ver.setGravity(Gravity.CENTER);
       body.addView(ver);
       LinearLayout project = group("The project");
@@ -3292,7 +3292,7 @@ public final class Premiere {
 
     void delete(Object media) {
       LinearLayout c = column();
-      c.addView(text("Delete “" + title(media) + "” from this device?", 18, ink));
+      c.addView(text(PremiereLocale.format(a, "Delete “%s” from this device?", title(media)), 18, ink));
       gap(c, 12);
       c.addView(text("The file will be permanently removed.", 13, muted));
       Dialog d = sheet("Delete media", c);
