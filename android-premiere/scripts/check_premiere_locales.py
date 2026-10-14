@@ -41,6 +41,7 @@ PLURAL_FORMATS = {
     "premiere_video_count": ["%d"],
     "premiere_video_filtered": ["%1$d", "%2$d"],
     "premiere_track_count": ["%d"],
+    "premiere_show_tracks": ["%d"],
 }
 for language in LANGS:
     file = ROOT / "res" / language / "premiere_plurals.xml"
