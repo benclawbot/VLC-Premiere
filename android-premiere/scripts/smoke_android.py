@@ -148,6 +148,33 @@ try:
            not a11y["problems"] and a11y["clickable_controls"] > 0,
            a11y["problems"][:12] or a11y["clickable_controls"])
 
+    # Re-measure accessible touch targets after Android relays a 150% font-scale
+    # configuration change. Verify actual laid-out bounds, not minHeight APIs.
+    initial_font_scale = shell("settings", "get", "system", "font_scale", check=False).strip()
+    shell("settings", "put", "system", "font_scale", "1.5")
+    try:
+        shell("am", "force-stop", PACKAGE)
+        shell("monkey", "-p", PACKAGE, "-c", "android.intent.category.LAUNCHER", "1", timeout=60)
+        time.sleep(4)
+        screenshot("font-scale-150-percent")
+        shell("uiautomator", "dump", "/sdcard/premiere-a11y-large-font.xml", timeout=60)
+        font_xml = shell("cat", "/sdcard/premiere-a11y-large-font.xml")
+        (OUT / "a11y-large-font.xml").write_text(font_xml)
+        large_font = inspect_xml(font_xml, int(density_match[-1]))
+        (OUT / "a11y-large-font.json").write_text(json.dumps(large_font, indent=2) + "\n")
+        record("150% font scale preserves 48dp visible Premiere controls",
+               large_font["clickable_controls"] > 0 and not large_font["problems"],
+               large_font["problems"][:12] or large_font["clickable_controls"])
+        record("150% font scale activity survives relaunch", process_alive())
+    finally:
+        shell("settings", "put", "system", "font_scale",
+              initial_font_scale if re.fullmatch(r"\d+(?:\.\d+)?", initial_font_scale) else "1.0",
+              check=False)
+        shell("am", "force-stop", PACKAGE, check=False)
+        shell("monkey", "-p", PACKAGE, "-c", "android.intent.category.LAUNCHER", "1",
+              timeout=60, check=False)
+        time.sleep(2)
+
     # Exercise VLC's exported VIEW handler with real independently generated media.
     shell("mkdir", "-p", "/sdcard/Music", "/sdcard/Movies")
     cmd("push", str(OUT / "premiere-smoke.wav"), "/sdcard/Music/premiere-smoke.wav", timeout=75)
