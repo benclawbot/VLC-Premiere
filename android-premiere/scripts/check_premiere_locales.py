@@ -37,6 +37,38 @@ if len(mapped) != len(expected) or set(mapped) != expected:
     raise AssertionError("PremiereLocale and res/values do not contain identical keys")
 
 assert len(expected) >= 100, "Accidental major loss of localized interface coverage"
+
+# Enforce translation coverage for static user-facing labels on Premiere's main
+# navigation/presentation surface. Symbols and concatenation prefixes are not labels.
+PREMIERE = (ROOT / "android-premiere/native/org/videolan/vlc/premiere/Premiere.java").read_text()
+english_labels = set(re.findall(
+    r'\\b(?:text|button|heading|label|destination|group)\\s*\\(\\s*"([^"]+)"',
+    PREMIERE,
+))
+translated_labels = set(re.findall(r'KEYS\\.put\\("([^"]+)",', java))
+NON_TEXT_LABELS = {
+    "VLC", "▶", "↑", "×", "“", "▲",
+    "Show more ",  # Followed by a known audioTab; each category is translated.
+    "Use an exact film or TV title to improve poster matching. ",
+    # The full concatenated literal is translated by premiere_correct_title_hint.
+}
+missing_labels = sorted(english_labels - translated_labels - NON_TEXT_LABELS)
+if missing_labels:
+    raise AssertionError(f"Unlocalized static Premiere labels: {missing_labels}")
+
+FORMAT_KEYS = {
+    "premiere_current_speed_format": ["%s"],
+    "premiere_version_format": ["%s"],
+    "premiere_delete_named_media": ["%s"],
+}
+for language in LANGS:
+    for key, formats in FORMAT_KEYS.items():
+        text = parsed[language][key]
+        placeholders = re.findall(r"%(?:[1-9]\\d*\\$)?[sd]", text)
+        normalized = [re.sub(r"%[1-9]\\d*\\$", "%", part) for part in placeholders]
+        if normalized != formats:
+            raise AssertionError(f"{language}/{key}: expected {formats}, got {placeholders}")
+
 PLURAL_FORMATS = {
     "premiere_video_count": ["%d"],
     "premiere_video_filtered": ["%1$d", "%2$d"],
