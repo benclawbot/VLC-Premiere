@@ -138,6 +138,42 @@ final class PremiereLocale {
     KEYS.put("Welcome", "premiere_welcome");
     KEYS.put("Scan", "premiere_scan");
     KEYS.put("Open now playing", "premiere_open_now_playing");
+    KEYS.put("Show more videos", "premiere_show_more_videos");
+    KEYS.put("Show more tracks", "premiere_show_more_tracks");
+    KEYS.put("⌕  Find something to watch", "premiere_find_watch");
+    KEYS.put("Loading your library…", "premiere_loading_library");
+    KEYS.put("Your next film starts here.", "premiere_next_film");
+    KEYS.put("Choose a folder to find the videos already on your device.", "premiere_find_device_videos");
+    KEYS.put("Choose a file", "premiere_choose_file");
+    KEYS.put("Files", "premiere_files");
+    KEYS.put("Saved servers", "premiere_saved_servers");
+    KEYS.put("Refresh", "premiere_refresh");
+    KEYS.put("Connect", "premiere_connect");
+    KEYS.put("No saved locations yet.", "premiere_no_saved_locations");
+    KEYS.put("Open a stream", "premiere_open_a_stream");
+    KEYS.put("Open stream", "premiere_open_stream");
+    KEYS.put("Recent streams", "premiere_recent_streams");
+    KEYS.put("Your playlists", "premiere_your_playlists");
+    KEYS.put("Save playlist", "premiere_save_playlist");
+    KEYS.put("Edit playlist", "premiere_edit_playlist");
+    KEYS.put("Your media", "premiere_your_media");
+    KEYS.put("Tools", "premiere_tools");
+    KEYS.put("Media library", "premiere_media_library");
+    KEYS.put("Personalize", "premiere_personalize");
+    KEYS.put("Artwork", "premiere_artwork");
+    KEYS.put("Music covers", "premiere_music_covers");
+    KEYS.put("Preferences", "premiere_preferences");
+    KEYS.put("No matching media found.", "premiere_no_matching_media");
+    KEYS.put("History", "premiere_history");
+    KEYS.put("Up next", "premiere_up_next");
+    KEYS.put("About VLC", "premiere_about_vlc");
+    KEYS.put("Add a VLC widget", "premiere_add_vlc_widget");
+    KEYS.put("Delete file", "premiere_delete_file");
+    KEYS.put("Search with this title", "premiere_search_exact_title");
+    KEYS.put("Restore automatic matching", "premiere_restore_matching");
+    KEYS.put("Clear history", "premiere_clear_history");
+    KEYS.put("Searching…", "premiere_searching");
+    KEYS.put("▶ Play media", "premiere_play_media");
   }
   /** Quantity selection belongs to Android's locale-aware Resources, not Java concatenation. */
   static String plural(Context context, String resourceName, int count, Object... formatArgs) {
