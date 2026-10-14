@@ -119,7 +119,7 @@ def complete_first_run():
                      and n.get("text") == "Wait"]
             if len(waits) != 1:
                 raise RuntimeError("Pixel Launcher ANR without a single Wait action")
-            bounds = list(map(int, re.findall(r"\\d+", waits[0].get("bounds", ""))))
+            bounds = list(map(int, re.findall(r"\d+", waits[0].get("bounds", ""))))
             if len(bounds) != 4:
                 raise RuntimeError("Pixel Launcher ANR Wait action has invalid bounds")
             screenshot("pixel-launcher-anr-" + str(attempt))
