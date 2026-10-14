@@ -725,12 +725,11 @@ public final class Premiere {
       final boolean preserveScroll = !resetScrollOnRender && screen.equals(renderedScreen);
       final boolean preserveVirtual = preserveScroll && virtualList != null;
       final int previousItem = preserveVirtual ? virtualList.getFirstVisiblePosition() : 0;
-      final View first = preserveVirtual ? virtualList.getChildAt(0) : null;
-      final int previousOffset = first == null ? 0 : first.getTop();
+      final int previousOffset = preserveVirtual ? virtualList.getFirstVisibleOffset() : 0;
       final String previousAnchor = preserveVirtual && previousItem < virtualList.getCount()
           ? VirtualLibrary.itemKey(virtualList.getAdapter().getItem(previousItem))
           : "";
-      // Rebuilding a recycled ListView also detaches the keyboard-focused media row.
+      // Rebuilding the RecyclerView detaches the keyboard-focused media control.
       // Retain its media identity across insertions or sorting, not merely its index.
       final View oldFocus = preserveVirtual ? virtualList.findFocus() : null;
       final int previousFocusRow = oldFocus == null ? -1
@@ -739,6 +738,8 @@ public final class Premiere {
           && previousFocusRow < virtualList.getCount()
           ? VirtualLibrary.itemKey(virtualList.getAdapter().getItem(previousFocusRow))
           : "";
+      final String previousFocusTarget = oldFocus == null ? LibraryPosition.FOCUS_CARD
+          : LibraryPosition.focusTarget(oldFocus.getTag());
       renderedScreen = screen;
       resetScrollOnRender = false;
       root.removeAllViews();
@@ -755,12 +756,17 @@ public final class Premiere {
               previousFocusRow, restoredList.getCount(), previousFocusKey,
               row -> VirtualLibrary.itemKey(restoredList.getAdapter().getItem(row)));
           // Do not scroll to an offscreen focused item: keep the preserved viewport.
-          // Restore focus only after ListView has completed its first recycled layout.
+          // Restore the same action (card, overflow, or play) after recycling.
+          // Avoid scrolling to offscreen focus targets and moving the viewport.
           restoredList.postOnAnimation(() -> {
             if (virtualList != restoredList || !restoredList.isAttachedToWindow()) return;
             androidx.recyclerview.widget.RecyclerView.ViewHolder focusedHolder =
                 restoredList.findViewHolderForAdapterPosition(focusedRow);
-            if (focusedHolder != null) focusedHolder.itemView.requestFocus();
+            if (focusedHolder == null) return;
+            View focusTarget = focusedHolder.itemView.findViewWithTag(previousFocusTarget);
+            if (focusTarget == null || !focusTarget.isFocusable())
+              focusTarget = focusedHolder.itemView;
+            focusTarget.requestFocus();
           });
         }
         miniDock();
