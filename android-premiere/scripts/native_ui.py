@@ -151,7 +151,8 @@ if mode=='prepare':
     sources=sorted((base/'native').rglob('*.java'))
     subprocess.run([sys.executable,str(base/'scripts/fetch_recyclerview_api.py')],check=True)
     compile_api=os.pathsep.join([str(base/'tools/android.jar'),
-                                 str(base/'tools/recyclerview-1.3.2.jar')])
+                                 str(base/'tools/recyclerview-1.3.2.jar'),
+                                 str(base/'tools/core-1.12.0.jar')])
     subprocess.run([str(java_tool('javac')),'-source','8','-target','8','-classpath',compile_api,'-d',str(classes),*[str(s) for s in sources]],check=True)
     jar=base/'build/native-ui.jar'
     with zipfile.ZipFile(jar,'w') as z:
@@ -171,7 +172,8 @@ elif mode=='refresh':
     sources=sorted((base/'native').rglob('*.java'))
     subprocess.run([sys.executable,str(base/'scripts/fetch_recyclerview_api.py')],check=True)
     compile_api=os.pathsep.join([str(base/'tools/android.jar'),
-                                 str(base/'tools/recyclerview-1.3.2.jar')])
+                                 str(base/'tools/recyclerview-1.3.2.jar'),
+                                 str(base/'tools/core-1.12.0.jar')])
     subprocess.run([str(java_tool('javac')),'-source','8','-target','8','-classpath',compile_api,'-d',str(classes),*[str(s) for s in sources]],check=True)
     jar=base/'build/native-ui.jar'
     with zipfile.ZipFile(jar,'w') as z:
