@@ -155,6 +155,13 @@ final class VirtualLibrary {
       return Math.max(0, linearManager.findFirstVisibleItemPosition());
     }
 
+    /** Obtain the offset from the same adapter row used as the anchor. */
+    int getFirstVisibleOffset() {
+      int first = linearManager.findFirstVisibleItemPosition();
+      View child = first < 0 ? null : linearManager.findViewByPosition(first);
+      return child == null ? 0 : child.getTop();
+    }
+
     int getPositionForView(View view) {
       RecyclerView.ViewHolder holder = findContainingViewHolder(view);
       return holder == null ? -1 : holder.getAdapterPosition();
@@ -232,6 +239,7 @@ final class VirtualLibrary {
       view.setPadding(poster ? ui.dp(3) : 0, ui.dp(7),
           poster ? ui.dp(3) : 0, ui.dp(7));
       view.setFocusable(true);
+      view.setTag(LibraryPosition.FOCUS_CARD);
       image = new ImageView(ui.a);
       image.setScaleType(ImageView.ScaleType.CENTER_CROP);
       image.setBackgroundColor(ui.panel);
@@ -265,9 +273,11 @@ final class VirtualLibrary {
       }
 
       more = ui.icon("more", "Media actions", () -> {});
+      more.setTag(LibraryPosition.FOCUS_ACTIONS);
       if (poster) {
         LinearLayout actions = ui.row();
         play = ui.text("▶ Play", 12, ui.orange);
+        play.setTag(LibraryPosition.FOCUS_PLAY);
         play.setGravity(Gravity.CENTER_VERTICAL);
         play.setMinHeight(ui.dp(48));
         actions.addView(play, new LinearLayout.LayoutParams(0, ui.dp(48), 1));
