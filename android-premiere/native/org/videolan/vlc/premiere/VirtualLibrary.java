@@ -75,6 +75,15 @@ final class VirtualLibrary {
         tab.setMinHeight(ui.dp(48));
         tab.setContentDescription(PremiereLocale.text(ui.a, name));
         tab.setSelected(name.equals(ui.audioTab));
+        tab.setFocusable(true);
+        tab.setAccessibilityDelegate(new View.AccessibilityDelegate() {
+          @Override public void onInitializeAccessibilityNodeInfo(
+              View host, android.view.accessibility.AccessibilityNodeInfo info) {
+            super.onInitializeAccessibilityNodeInfo(host, info);
+            info.setClassName("android.widget.Button");
+            info.setSelected(name.equals(ui.audioTab));
+          }
+        });
         tab.setOnClickListener(view -> {
           ui.audioTab = name;
           ui.categoryLimit = 40;
@@ -207,7 +216,8 @@ final class VirtualLibrary {
       image = new ImageView(ui.a);
       image.setScaleType(ImageView.ScaleType.CENTER_CROP);
       image.setBackgroundColor(ui.panel);
-      image.setContentDescription("Media artwork");
+      // The actionable card already speaks the title; separate artwork focus duplicates it.
+      image.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
       if (poster) {
         int side = (ui.a.getResources().getDisplayMetrics().widthPixels
             - ui.dp(56)) / 2;
@@ -235,7 +245,7 @@ final class VirtualLibrary {
         view.addView(copy, new LinearLayout.LayoutParams(0, -2, 1));
       }
 
-      more = ui.icon("more", "Media options", () -> {});
+      more = ui.icon("more", "Media actions", () -> {});
       if (poster) {
         LinearLayout actions = ui.row();
         play = ui.text("▶ Play", 12, ui.orange);
@@ -261,7 +271,7 @@ final class VirtualLibrary {
               + " · " + Premiere.time(Premiere.number(Premiere.invoke(media, "getLength"))));
 
       image.setImageDrawable(null);
-      image.setContentDescription("Artwork for " + title);
+      // Decoration is intentionally excluded from the accessibility traversal.
       String fingerprint = ArtworkMatch.itemIdentity(
           Premiere.str(Premiere.invoke(media, "getUri")),
           Premiere.str(Premiere.invoke(media, "getId")),
@@ -270,13 +280,14 @@ final class VirtualLibrary {
           Premiere.number(Premiere.invoke(media, "getLength")));
       Artwork.resolve(ui.a.getApplicationContext(), media, fingerprint, image);
 
-      view.setContentDescription((video ? "Play video " : "Play audio ") + title);
+      view.setContentDescription(PremiereLocale.text(ui.a, video ? "▶ Play" : "Play audio")
+          + " " + title);
       view.setOnClickListener(v -> ui.play(media));
       view.setOnLongClickListener(v -> { ui.actions(media); return true; });
-      more.setContentDescription("Actions for " + title);
+      more.setContentDescription(PremiereLocale.text(ui.a, "Media actions") + ": " + title);
       more.setOnClickListener(v -> ui.actions(media));
       if (play != null) {
-        play.setContentDescription("Play " + title);
+        play.setContentDescription(PremiereLocale.text(ui.a, "▶ Play") + " " + title);
         play.setOnClickListener(v -> ui.play(media));
       }
     }
