@@ -37,6 +37,12 @@ class ReleaseGateTest(unittest.TestCase):
         with self.assertRaisesRegex(ReleaseBlocked, "Cannot verify"):
             require_no_open_issues("fake-token", fetch_json=offline)
 
+    def test_signing_entrypoint_enforces_gate_before_any_signing(self):
+        script = (Path(__file__).resolve().parents[1] / "scripts" / "sign.py").read_text()
+        self.assertIn("if config['mode'] == 'release':", script)
+        self.assertIn("require_no_open_issues(os.environ.get('PREMIERE_RELEASE_GITHUB_TOKEN'))", script)
+        self.assertLess(script.index("require_no_open_issues("), script.index("def run("))
+
     def test_owner_filter_is_part_of_query(self):
         def check(url):
             self.assertIn("user%3Abenclawbot", url)
