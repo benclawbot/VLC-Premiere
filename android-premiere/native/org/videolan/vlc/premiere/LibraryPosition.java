@@ -6,6 +6,17 @@ import java.util.function.IntFunction;
 final class LibraryPosition {
   private LibraryPosition() {}
 
+  /** Stable per-cell focus destinations survive recycled view recreation. */
+  static final String FOCUS_CARD = "premiere-media-card";
+  static final String FOCUS_ACTIONS = "premiere-media-actions";
+  static final String FOCUS_PLAY = "premiere-media-play";
+
+  static String focusTarget(Object tag) {
+    if (FOCUS_ACTIONS.equals(tag)) return FOCUS_ACTIONS;
+    if (FOCUS_PLAY.equals(tag)) return FOCUS_PLAY;
+    return FOCUS_CARD;
+  }
+
   /** Deterministic 64-bit FNV-1a key for RecyclerView stable adapter IDs. */
   static long stableId(String value) {
     long hash = 0xcbf29ce484222325L;
