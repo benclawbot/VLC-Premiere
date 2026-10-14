@@ -234,6 +234,13 @@ final class VideoUI extends Premiere.UI {
     size.setMinHeight(dp(48));
     size.setMinWidth(dp(48));
     size.setContentDescription(PremiereLocale.text(a, "Video size"));
+    size.setAccessibilityDelegate(new View.AccessibilityDelegate() {
+      @Override public void onInitializeAccessibilityNodeInfo(
+          View host, android.view.accessibility.AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(host, info);
+        info.setClassName("android.widget.Button");
+      }
+    });
     size.setGravity(Gravity.CENTER_VERTICAL);
     size.setPadding(dp(8), dp(8), dp(8), dp(8));
     timeline.addView(size);
@@ -268,6 +275,13 @@ final class VideoUI extends Premiere.UI {
     b.setMinHeight(dp(48));
     b.setFocusable(true);
     b.setContentDescription(PremiereLocale.text(a, label));
+    b.setAccessibilityDelegate(new View.AccessibilityDelegate() {
+      @Override public void onInitializeAccessibilityNodeInfo(
+          View host, android.view.accessibility.AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(host, info);
+        info.setClassName("android.widget.Button");
+      }
+    });
     b.setOnClickListener(v -> action.run());
     r.addView(b, new LinearLayout.LayoutParams(0, -2, 1));
   }
