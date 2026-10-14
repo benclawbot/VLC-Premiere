@@ -33,6 +33,8 @@ jobs:
           java-version: '17'
       - name: Check translated Android resources
         run: python3 android-premiere/scripts/check_premiere_locales.py
+      - name: Test production signing configuration safeguards
+        run: python3 -m unittest discover -s android-premiere/tests -p 'test_signing_config.py'
       - name: Run pure-Java player regression tests
         run: |
           mkdir -p /tmp/vlc-premiere-tests
