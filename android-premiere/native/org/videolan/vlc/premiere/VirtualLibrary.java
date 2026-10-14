@@ -9,11 +9,17 @@ import android.view.ViewGroup;
 import android.widget.*;
 import android.text.TextUtils;
 import java.util.Locale;
+import java.util.Arrays;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.ListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Bounded-view, Android-native list virtualization without additional dependencies.
- * The adapter creates only visible media cells and rebinds them when rows recycle.
- * Keep this outside the screen ScrollView: nested ListViews defeat virtualization.
+ * AndroidX RecyclerView/ListAdapter media surfaces backed by VLC's bundled AndroidX runtime.
+ * Only visible media cells are created; DiffUtil retains identity and scroll anchors.
+ * Keep this outside the screen ScrollView: nested scrolling defeats virtualization.
  */
 final class VirtualLibrary {
   private VirtualLibrary() {}
@@ -107,22 +113,18 @@ final class VirtualLibrary {
       return;
     }
 
-    ListView list = new ListView(ui.a);
+    MediaRecyclerView list = new MediaRecyclerView(ui.a, posters);
     list.setId(View.generateViewId());
     list.setBackgroundColor(ui.bg);
-    list.setDivider(null);
-    list.setDividerHeight(0);
     list.setVerticalScrollBarEnabled(true);
-    list.setFastScrollEnabled(items.length > 250);
     list.setClipToPadding(false);
     list.setPadding(ui.dp(20), 0, ui.dp(20), ui.dp(8));
-    list.setChoiceMode(ListView.CHOICE_MODE_NONE);
     list.setAdapter(new MediaAdapter(ui, items, posters));
     ui.virtualList = list;
     ui.base.addView(list, new LinearLayout.LayoutParams(-1, 0, 1));
     if (savedPosition > 0 || savedTop != 0 || (anchorKey != null && !anchorKey.isEmpty())) {
       int position = LibraryPosition.restore(savedPosition, list.getCount(), anchorKey,
-          row -> itemKey(visibleItems[posters ? row * 2 : row]));
+          row -> itemKey(visibleItems[row]));
       list.post(() -> {
         if (ui.virtualList == list && list.isAttachedToWindow()) {
           list.setSelectionFromTop(position, savedTop);
@@ -131,68 +133,85 @@ final class VirtualLibrary {
     }
   }
 
-  private static final class MediaAdapter extends BaseAdapter {
-    final Premiere.UI ui;
-    final Object[] media;
-    final boolean poster;
-
-    MediaAdapter(Premiere.UI ui, Object[] media, boolean poster) {
-      this.ui = ui;
-      this.media = media;
-      this.poster = poster;
+  /** Bridge viewport state into Premiere's existing navigation stack. */
+  static final class MediaRecyclerView extends RecyclerView {
+    final LinearLayoutManager linearManager;
+    MediaRecyclerView(android.content.Context context, boolean posters) {
+      super(context);
+      linearManager = posters ? new GridLayoutManager(context, 2)
+          : new LinearLayoutManager(context);
+      setLayoutManager(linearManager);
+      setItemAnimator(null); // Refreshes must not jump or animate an offscreen anchor.
+      setHasFixedSize(false); // Titles vary with font scaling and translations.
     }
 
-    @Override public int getCount() {
-      return poster ? (media.length + 1) / 2 : media.length;
+    @Override public MediaAdapter getAdapter() {
+      return (MediaAdapter) super.getAdapter();
     }
 
-    @Override public Object getItem(int index) {
-      return media[poster ? index * 2 : index];
+    int getCount() { return getAdapter() == null ? 0 : getAdapter().getItemCount(); }
+
+    int getFirstVisiblePosition() {
+      return Math.max(0, linearManager.findFirstVisibleItemPosition());
     }
 
-    @Override public long getItemId(int index) { return index; }
-    @Override public boolean hasStableIds() { return false; }
+    int getPositionForView(View view) {
+      RecyclerView.ViewHolder holder = findContainingViewHolder(view);
+      return holder == null ? -1 : holder.getAdapterPosition();
+    }
 
-    @Override public View getView(int index, View recycled, ViewGroup parent) {
-      if (poster) {
-        LinearLayout line;
-        PosterPair holders;
-        if (!(recycled instanceof LinearLayout)
-            || !(((LinearLayout) recycled).getTag() instanceof PosterPair)) {
-          line = ui.row();
-          line.setGravity(Gravity.TOP);
-          holders = new PosterPair(new MediaCell(ui, true), new MediaCell(ui, true));
-          LinearLayout.LayoutParams left = new LinearLayout.LayoutParams(0, -2, 1);
-          left.rightMargin = ui.dp(8);
-          line.addView(holders.left.view, left);
-          line.addView(holders.right.view, new LinearLayout.LayoutParams(0, -2, 1));
-          line.setTag(holders);
-        } else {
-          line = (LinearLayout) recycled;
-          holders = (PosterPair) line.getTag();
-        }
-        holders.left.bind(media[index * 2]);
-        int rightIndex = index * 2 + 1;
-        holders.right.view.setVisibility(rightIndex < media.length ? View.VISIBLE : View.INVISIBLE);
-        if (rightIndex < media.length) holders.right.bind(media[rightIndex]);
-        return line;
-      }
-
-      MediaCell cell;
-      if (recycled != null && recycled.getTag() instanceof MediaCell) {
-        cell = (MediaCell) recycled.getTag();
-      } else {
-        cell = new MediaCell(ui, false);
-        cell.view.setTag(cell);
-      }
-      cell.bind(media[index]);
-      return cell.view;
+    void setSelectionFromTop(int row, int offset) {
+      linearManager.scrollToPositionWithOffset(row, offset);
     }
   }
 
-  private static final class PosterPair {
-    final MediaCell left, right;
-    PosterPair(MediaCell left, MediaCell right) { this.left = left; this.right = right; }
+  static final class MediaAdapter extends ListAdapter<Object, MediaHolder> {
+    private static final DiffUtil.ItemCallback<Object> MEDIA_DIFF =
+        new DiffUtil.ItemCallback<Object>() {
+          @Override public boolean areItemsTheSame(Object oldItem, Object newItem) {
+            return itemKey(oldItem).equals(itemKey(newItem));
+          }
+          @Override public boolean areContentsTheSame(Object oldItem, Object newItem) {
+            return Premiere.title(oldItem).equals(Premiere.title(newItem))
+                && Premiere.number(Premiere.invoke(oldItem, "getLength"))
+                    == Premiere.number(Premiere.invoke(newItem, "getLength"))
+                && Premiere.str(Premiere.invoke(oldItem, "getArtistName"))
+                    .equals(Premiere.str(Premiere.invoke(newItem, "getArtistName")));
+          }
+        };
+    final Premiere.UI ui;
+    final boolean poster;
+    MediaAdapter(Premiere.UI ui, Object[] media, boolean poster) {
+      super(MEDIA_DIFF);
+      this.ui = ui;
+      this.poster = poster;
+      setHasStableIds(true);
+      submitList(Arrays.asList(media));
+    }
+
+    @Override public Object getItem(int index) { return super.getItem(index); }
+
+    @Override public long getItemId(int index) {
+      return LibraryPosition.stableId(itemKey(getItem(index)));
+    }
+
+    @Override public MediaHolder onCreateViewHolder(ViewGroup parent, int type) {
+      MediaCell cell = new MediaCell(ui, poster);
+      cell.view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+      return new MediaHolder(cell);
+    }
+
+    @Override public void onBindViewHolder(MediaHolder holder, int index) {
+      holder.cell.bind(getItem(index));
+    }
+  }
+
+  static final class MediaHolder extends RecyclerView.ViewHolder {
+    final MediaCell cell;
+    MediaHolder(MediaCell cell) {
+      super(cell.view);
+      this.cell = cell;
+    }
   }
 
   private static final class MediaCell {
