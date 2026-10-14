@@ -196,4 +196,10 @@
     <string name="premiere_permanent_delete">The file will be permanently removed.</string>
     <string name="premiere_play_season">▶ Play season in order</string>
     <string name="premiere_correct_title_hint">Use an exact film or TV title to improve poster matching. Requires online artwork and a TMDB token.</string>
+    <string name="premiere_more_artists">Show more artists</string>
+    <string name="premiere_more_albums">Show more albums</string>
+    <string name="premiere_more_genres">Show more genres</string>
+    <string name="premiere_current_speed_format">Current speed · %s×</string>
+    <string name="premiere_version_format">Version %s · Android</string>
+    <string name="premiere_delete_named_media">Delete “%s” from this device?</string>
 </resources>
