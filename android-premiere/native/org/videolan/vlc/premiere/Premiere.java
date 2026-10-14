@@ -1095,7 +1095,7 @@ public final class Premiere {
       shelfHeading.addView(
           text("Recently added", 14, ink), new LinearLayout.LayoutParams(0, -2, 1));
       TextView all = text("See all", 11, orange);
-      all.setMinHeight(dp(28));
+      all.setMinHeight(dp(48));
       all.setGravity(Gravity.CENTER);
       all.setOnClickListener(v -> go("videos"));
       shelfHeading.addView(all);
@@ -2036,7 +2036,7 @@ public final class Premiere {
                   }
                 },
                 false),
-            new LinearLayout.LayoutParams(dp(44), dp(44)));
+            new LinearLayout.LayoutParams(dp(48), dp(48)));
         r.addView(
             button(
                 "×",
@@ -2045,7 +2045,7 @@ public final class Premiere {
                   render();
                 },
                 false),
-            new LinearLayout.LayoutParams(dp(44), dp(44)));
+            new LinearLayout.LayoutParams(dp(48), dp(48)));
         body.addView(r);
       }
       gap(body, 20);
@@ -2809,7 +2809,7 @@ public final class Premiere {
       for (String name : new String[] {"Equalizer", "Sleep timer", "Bookmarks"}) {
         TextView t = text(name, 11, orange);
         t.setGravity(Gravity.CENTER);
-        t.setMinHeight(dp(44));
+        t.setMinHeight(dp(48));
         t.setOnClickListener(
             v -> {
               if (name.equals("Equalizer")) go("equalizer");
@@ -3663,7 +3663,7 @@ public final class Premiere {
       head.addView(text(title, 22, ink), new LinearLayout.LayoutParams(0, -2, 1));
       head.addView(
           icon("close", "Close " + title, d::dismiss),
-          new LinearLayout.LayoutParams(dp(40), dp(36)));
+          new LinearLayout.LayoutParams(dp(48), dp(48)));
       shell.addView(head);
       gap(shell, 18);
       ScrollView sc =
