@@ -213,7 +213,11 @@ try:
     # codec verification by ending the audio playback session first; keep
     # the completed first-run permissions and preferences.
     shell("am", "force-stop", PACKAGE)
-    time.sleep(1)
+    # Android 13 may report the still-exiting VLC process just after
+    # force-stop returns. Require observed termination within a deadline.
+    audio_deadline = time.monotonic() + 12
+    while process_alive() and time.monotonic() < audio_deadline:
+        time.sleep(0.5)
     record("audio playback session terminated before video", not process_alive())
     cmd("logcat", "-c")
 
