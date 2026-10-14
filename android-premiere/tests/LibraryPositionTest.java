@@ -46,6 +46,16 @@ public final class LibraryPositionTest {
     require(LibraryPosition.stableId("uri:file:///a.mp4")
         != LibraryPosition.stableId("uri:file:///b.mp4"),
         "different media get different stable IDs");
+    require(LibraryPosition.FOCUS_CARD.equals(LibraryPosition.focusTarget(null)),
+        "untagged focus restores the media card");
+    require(LibraryPosition.FOCUS_CARD.equals(LibraryPosition.focusTarget("foreign-view")),
+        "unknown focus targets cannot hijack restored focus");
+    require(LibraryPosition.FOCUS_ACTIONS.equals(
+        LibraryPosition.focusTarget(LibraryPosition.FOCUS_ACTIONS)),
+        "recycled overflow actions retain their focus destination");
+    require(LibraryPosition.FOCUS_PLAY.equals(
+        LibraryPosition.focusTarget(LibraryPosition.FOCUS_PLAY)),
+        "recycled poster play actions retain their focus destination");
     String[] grid = {"videoA", "videoB", "videoC", "videoD", "videoE"};
     require(LibraryPosition.restore(2, grid.length, "videoD", i -> grid[i]) == 3,
         "grid uses item indices rather than the old paired-ListView row indices");
