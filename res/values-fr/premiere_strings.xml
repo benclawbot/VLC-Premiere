@@ -196,4 +196,10 @@
     <string name="premiere_permanent_delete">Le fichier sera supprimé définitivement.</string>
     <string name="premiere_play_season">▶ Lire la saison dans l’ordre</string>
     <string name="premiere_correct_title_hint">Utilisez un titre exact de film ou de série pour améliorer les affiches. Une connexion et un jeton TMDB sont nécessaires.</string>
+    <string name="premiere_more_artists">Afficher plus d’artistes</string>
+    <string name="premiere_more_albums">Afficher plus d’albums</string>
+    <string name="premiere_more_genres">Afficher plus de genres</string>
+    <string name="premiere_current_speed_format">Vitesse actuelle · %s×</string>
+    <string name="premiere_version_format">Version %s · Android</string>
+    <string name="premiere_delete_named_media">Supprimer « %s » de cet appareil ?</string>
 </resources>
