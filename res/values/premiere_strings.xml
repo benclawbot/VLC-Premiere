@@ -179,7 +179,7 @@
     <string name="premiere_tmdb_enabled">Movie and TV poster lookups are enabled.</string>
     <string name="premiere_save_enable_posters">Save and enable posters</string>
     <string name="premiere_clear_art_cache">Clear artwork cache</string>
-    <string name="premiere_cover_source_hint">Covers use tags and filenames with fuzzy matching, including numbered tracks. MusicBrainz and Deezer supply album covers. YouTube thumbnails provide matching song and live-set images. An identified artist's release can supply a representative cover when no closer match is available. Embedded covers are used first.</string>
+    <string name="premiere_cover_source_hint">Covers use tags and filenames with fuzzy matching, including numbered tracks. MusicBrainz and Deezer supply album covers. YouTube thumbnails provide matching song and live-set images. An identified artist\'s release can supply a representative cover when no closer match is available. Embedded covers are used first.</string>
     <string name="premiere_retry_missing_art">Retry missing artwork</string>
     <string name="premiere_setting_open_failed">This setting could not be opened.</string>
     <string name="premiere_clear_recent_confirm">Clear recently played media? Your files stay on this device.</string>
