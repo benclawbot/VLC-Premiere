@@ -132,6 +132,22 @@ try:
     complete_first_run()
     screenshot("after-onboarding")
 
+    # Measure actual visible interactive control bounds after Android layout.
+    # Preserve the UI hierarchy and the report for diagnosing any 48dp failure.
+    from a11y_targets import inspect_xml
+    shell("uiautomator", "dump", "/sdcard/premiere-target-audit.xml", timeout=60)
+    hierarchy = shell("cat", "/sdcard/premiere-target-audit.xml")
+    (OUT / "a11y-targets.xml").write_text(hierarchy)
+    density_output = shell("wm", "density")
+    density_match = re.findall(r"(?:Override|Physical) density:\s*(\d+)", density_output)
+    if not density_match:
+        raise RuntimeError("Could not determine emulator display density")
+    a11y = inspect_xml(hierarchy, int(density_match[-1]))
+    (OUT / "a11y-targets.json").write_text(json.dumps(a11y, indent=2) + "\n")
+    record("visible Premiere controls are at least 48dp after layout",
+           not a11y["problems"] and a11y["clickable_controls"] > 0,
+           a11y["problems"][:12] or a11y["clickable_controls"])
+
     # Exercise VLC's exported VIEW handler with real independently generated media.
     shell("mkdir", "-p", "/sdcard/Music", "/sdcard/Movies")
     cmd("push", str(OUT / "premiere-smoke.wav"), "/sdcard/Music/premiere-smoke.wav", timeout=75)
