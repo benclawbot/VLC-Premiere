@@ -43,6 +43,47 @@ def screenshot(label):
         (OUT / (label + ".png")).write_bytes(result.stdout)
 
 
+def dismiss_launcher_anr(xml, label, attempt):
+    """Close only a confirmed Pixel Launcher ANR, never a VLC ANR."""
+    import xml.etree.ElementTree as ET
+    nodes = list(ET.fromstring(xml).iter("node"))
+    if not any(n.get("text") == "Pixel Launcher isn't responding" for n in nodes):
+        return False
+    choices = [n for n in nodes if n.get("resource-id") == "android:id/aerr_close"
+               and n.get("text") == "Close app"]
+    if len(choices) != 1:
+        raise RuntimeError("Pixel Launcher ANR lacks one unambiguous Close app action")
+    bounds = list(map(int, re.findall(r"\d+", choices[0].get("bounds", ""))))
+    if len(bounds) != 4 or bounds[2] <= bounds[0] or bounds[3] <= bounds[1]:
+        raise RuntimeError("Pixel Launcher ANR Close app action has invalid bounds")
+    screenshot("launcher-anr-" + label + "-" + str(attempt))
+    report.setdefault("infrastructure_recoveries", []).append(
+        {"kind": "pixel-launcher-anr", "phase": label, "attempt": attempt})
+    shell("input", "tap", str((bounds[0] + bounds[2]) // 2),
+          str((bounds[1] + bounds[3]) // 2))
+    return True
+
+
+def audited_controls(xml_file, output_name, label, density, attempts=12):
+    """Wait for real VLC controls, without overlooking small targets or app failures."""
+    from a11y_targets import inspect_xml
+    for attempt in range(attempts):
+        shell("uiautomator", "dump", xml_file, timeout=60)
+        xml = shell("cat", xml_file, timeout=30)
+        (OUT / output_name).write_text(xml)
+        if dismiss_launcher_anr(xml, label, attempt):
+            time.sleep(2)
+            continue
+        audit = inspect_xml(xml, density)
+        if audit["problems"] or audit["clickable_controls"] > 0:
+            return audit
+        if not process_alive():
+            raise RuntimeError("VLC process died while waiting for visible controls: " + label)
+        if attempt < attempts - 1:
+            time.sleep(2)
+    return audit
+
+
 def process_alive():
     return bool(shell("pidof", PACKAGE, check=False))
 
@@ -110,23 +151,7 @@ def complete_first_run():
         matches = [n for n in nodes if n.get("text") == "Skip" or n.get("content-desc") == "Skip"]
         if len(matches) == 1:
             break
-        # Overloaded CI emulators may display a system Pixel Launcher ANR over
-        # the still-running VLC onboarding activity. Recover only this exact
-        # infrastructure dialog; a VLC ANR must remain an acceptance failure.
-        launcher_anr = any(n.get("text") == "Pixel Launcher isn't responding" for n in nodes)
-        if launcher_anr:
-            waits = [n for n in nodes if n.get("resource-id") == "android:id/aerr_wait"
-                     and n.get("text") == "Wait"]
-            if len(waits) != 1:
-                raise RuntimeError("Pixel Launcher ANR without a single Wait action")
-            bounds = list(map(int, re.findall(r"\d+", waits[0].get("bounds", ""))))
-            if len(bounds) != 4:
-                raise RuntimeError("Pixel Launcher ANR Wait action has invalid bounds")
-            screenshot("pixel-launcher-anr-" + str(attempt))
-            report.setdefault("infrastructure_recoveries", []).append(
-                {"kind": "pixel-launcher-anr", "attempt": attempt})
-            shell("input", "tap", str((bounds[0] + bounds[2]) // 2),
-                  str((bounds[1] + bounds[3]) // 2))
+        if dismiss_launcher_anr(xml, "onboarding", attempt):
             time.sleep(2)
             continue
         if len(matches) > 1:
@@ -176,14 +201,13 @@ try:
     # Measure actual visible interactive control bounds after Android layout.
     # Preserve the UI hierarchy and the report for diagnosing any 48dp failure.
     from a11y_targets import inspect_xml
-    shell("uiautomator", "dump", "/sdcard/premiere-target-audit.xml", timeout=60)
-    hierarchy = shell("cat", "/sdcard/premiere-target-audit.xml")
-    (OUT / "a11y-targets.xml").write_text(hierarchy)
     density_output = shell("wm", "density")
     density_match = re.findall(r"(?:Override|Physical) density:\s*(\d+)", density_output)
     if not density_match:
         raise RuntimeError("Could not determine emulator display density")
-    a11y = inspect_xml(hierarchy, int(density_match[-1]))
+    a11y = audited_controls("/sdcard/premiere-target-audit.xml",
+                            "a11y-targets.xml", "normal-font",
+                            int(density_match[-1]))
     (OUT / "a11y-targets.json").write_text(json.dumps(a11y, indent=2) + "\n")
     record("visible Premiere controls are at least 48dp after layout",
            not a11y["problems"] and a11y["clickable_controls"] > 0,
@@ -198,10 +222,9 @@ try:
         shell("monkey", "-p", PACKAGE, "-c", "android.intent.category.LAUNCHER", "1", timeout=60)
         time.sleep(4)
         screenshot("font-scale-150-percent")
-        shell("uiautomator", "dump", "/sdcard/premiere-a11y-large-font.xml", timeout=60)
-        font_xml = shell("cat", "/sdcard/premiere-a11y-large-font.xml")
-        (OUT / "a11y-large-font.xml").write_text(font_xml)
-        large_font = inspect_xml(font_xml, int(density_match[-1]))
+        large_font = audited_controls("/sdcard/premiere-a11y-large-font.xml",
+                                      "a11y-large-font.xml", "large-font",
+                                      int(density_match[-1]))
         (OUT / "a11y-large-font.json").write_text(json.dumps(large_font, indent=2) + "\n")
         record("150% font scale preserves 48dp visible Premiere controls",
                large_font["clickable_controls"] > 0 and not large_font["problems"],
