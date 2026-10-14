@@ -139,11 +139,11 @@ try:
     hierarchy = shell("cat", "/sdcard/premiere-target-audit.xml")
     (OUT / "a11y-targets.xml").write_text(hierarchy)
     density_output = shell("wm", "density")
-    density_match = re.findall(r"(?:Override|Physical) density:\\s*(\\d+)", density_output)
+    density_match = re.findall(r"(?:Override|Physical) density:\s*(\d+)", density_output)
     if not density_match:
         raise RuntimeError("Could not determine emulator display density")
     a11y = inspect_xml(hierarchy, int(density_match[-1]))
-    (OUT / "a11y-targets.json").write_text(json.dumps(a11y, indent=2) + "\\n")
+    (OUT / "a11y-targets.json").write_text(json.dumps(a11y, indent=2) + "\n")
     record("visible Premiere controls are at least 48dp after layout",
            not a11y["problems"] and a11y["clickable_controls"] > 0,
            a11y["problems"][:12] or a11y["clickable_controls"])
