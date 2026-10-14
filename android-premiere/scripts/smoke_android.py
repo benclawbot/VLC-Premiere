@@ -99,13 +99,24 @@ def complete_first_run():
     if "OnboardingActivity" not in foreground_activity(state):
         return
     (OUT / "first-run-before.txt").write_text(state)
-    shell("uiautomator", "dump", "/sdcard/premiere-onboarding.xml", timeout=45)
-    xml = shell("cat", "/sdcard/premiere-onboarding.xml", timeout=30)
-    (OUT / "first-run-ui.xml").write_text(xml)
-    nodes = ET.fromstring(xml).iter("node")
-    matches = [n for n in nodes if n.get("text") == "Skip" or n.get("content-desc") == "Skip"]
+    # Android 14 can report OnboardingActivity before its Skip button has
+    # laid out. Retry actual UI hierarchy evidence rather than tapping blind.
+    matches = []
+    for attempt in range(12):
+        shell("uiautomator", "dump", "/sdcard/premiere-onboarding.xml", timeout=45)
+        xml = shell("cat", "/sdcard/premiere-onboarding.xml", timeout=30)
+        (OUT / "first-run-ui.xml").write_text(xml)
+        nodes = ET.fromstring(xml).iter("node")
+        matches = [n for n in nodes if n.get("text") == "Skip" or n.get("content-desc") == "Skip"]
+        if len(matches) == 1:
+            break
+        if len(matches) > 1:
+            raise RuntimeError("Ambiguous Premiere Skip controls: " + str(len(matches)))
+        if attempt < 11:
+            time.sleep(2)
     if len(matches) != 1:
-        raise RuntimeError("Expected a single Premiere Skip control; found " + str(len(matches)))
+        screenshot("onboarding-skip-missing")
+        raise RuntimeError("Expected a single Premiere Skip control after bounded retries; found " + str(len(matches)))
     bounds = list(map(int, re.findall(r"\d+", matches[0].get("bounds", ""))))
     if len(bounds) != 4:
         raise RuntimeError("Onboarding Skip control has invalid bounds")
