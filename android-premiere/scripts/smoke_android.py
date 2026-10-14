@@ -20,7 +20,8 @@ report = {"checks": [], "device": {}, "limitations": [
 
 
 def cmd(*args, timeout=45, check=True):
-    done = subprocess.run(["adb", *args], capture_output=True, text=True, timeout=timeout)
+    done = subprocess.run(["adb", *args], capture_output=True, text=True,
+                          encoding="utf-8", errors="replace", timeout=timeout)
     if check and done.returncode:
         raise RuntimeError(f"ADB failed ({done.returncode}): {' '.join(args)}\n{done.stderr}")
     return done.stdout.strip()
@@ -41,6 +42,70 @@ def screenshot(label):
     result = subprocess.run(["adb", "exec-out", "screencap", "-p"], capture_output=True, timeout=30)
     if result.returncode == 0 and result.stdout.startswith(b"\x89PNG"):
         (OUT / (label + ".png")).write_bytes(result.stdout)
+
+
+def dismiss_launcher_anr(xml, label, attempt):
+    """Close only a confirmed Pixel Launcher ANR, never a VLC ANR."""
+    import xml.etree.ElementTree as ET
+    nodes = list(ET.fromstring(xml).iter("node"))
+    if not any(n.get("text") == "Pixel Launcher isn't responding" for n in nodes):
+        return False
+    choices = [n for n in nodes if n.get("resource-id") == "android:id/aerr_close"
+               and n.get("text") == "Close app"]
+    if len(choices) != 1:
+        raise RuntimeError("Pixel Launcher ANR lacks one unambiguous Close app action")
+    bounds = list(map(int, re.findall(r"\d+", choices[0].get("bounds", ""))))
+    if len(bounds) != 4 or bounds[2] <= bounds[0] or bounds[3] <= bounds[1]:
+        raise RuntimeError("Pixel Launcher ANR Close app action has invalid bounds")
+    screenshot("launcher-anr-" + label + "-" + str(attempt))
+    report.setdefault("infrastructure_recoveries", []).append(
+        {"kind": "pixel-launcher-anr", "phase": label, "attempt": attempt})
+    shell("input", "tap", str((bounds[0] + bounds[2]) // 2),
+          str((bounds[1] + bounds[3]) // 2))
+    return True
+
+
+def audited_controls(xml_file, output_name, label, density, attempts=12):
+    """Wait for real VLC controls, without overlooking small targets or app failures."""
+    from a11y_targets import inspect_xml
+    audit = None
+    for attempt in range(attempts):
+        # UIAutomator occasionally returns without writing its requested file
+        # on overloaded API 33 emulators. Never use a stale previous dump.
+        shell("rm", "-f", xml_file, check=False)
+        dump_output = shell("uiautomator", "dump", xml_file, timeout=60, check=False)
+        xml = shell("cat", xml_file, timeout=30, check=False)
+        (OUT / output_name).write_text(xml)
+        if not xml.lstrip().startswith("<"):
+            report.setdefault("ui_dump_retries", []).append(
+                {"phase": label, "attempt": attempt, "reason": "missing-xml",
+                 "dump": dump_output[:200]})
+        else:
+            try:
+                if dismiss_launcher_anr(xml, label, attempt):
+                    time.sleep(2)
+                    continue
+                audit = inspect_xml(xml, density)
+            except Exception as error:
+                if isinstance(error, ValueError) and "Display density" in str(error):
+                    raise
+                # A malformed hierarchy is not valid evidence. Retry before
+                # declaring the emulator unable to produce a usable UI dump.
+                import xml.etree.ElementTree as ET
+                if not isinstance(error, ET.ParseError):
+                    raise
+                report.setdefault("ui_dump_retries", []).append(
+                    {"phase": label, "attempt": attempt, "reason": "invalid-xml"})
+            else:
+                if audit["problems"] or audit["clickable_controls"] > 0:
+                    return audit
+        if not process_alive():
+            raise RuntimeError("VLC process died while waiting for visible controls: " + label)
+        if attempt < attempts - 1:
+            time.sleep(2)
+    if audit is None:
+        raise RuntimeError("UIAutomator could not provide a valid hierarchy: " + label)
+    return audit
 
 
 def process_alive():
@@ -99,13 +164,34 @@ def complete_first_run():
     if "OnboardingActivity" not in foreground_activity(state):
         return
     (OUT / "first-run-before.txt").write_text(state)
-    shell("uiautomator", "dump", "/sdcard/premiere-onboarding.xml", timeout=45)
-    xml = shell("cat", "/sdcard/premiere-onboarding.xml", timeout=30)
-    (OUT / "first-run-ui.xml").write_text(xml)
-    nodes = ET.fromstring(xml).iter("node")
-    matches = [n for n in nodes if n.get("text") == "Skip" or n.get("content-desc") == "Skip"]
+    # Android 14 can report OnboardingActivity before its Skip button has
+    # laid out. Retry actual UI hierarchy evidence rather than tapping blind.
+    matches = []
+    for attempt in range(12):
+        shell("rm", "-f", "/sdcard/premiere-onboarding.xml", check=False)
+        shell("uiautomator", "dump", "/sdcard/premiere-onboarding.xml", timeout=45, check=False)
+        xml = shell("cat", "/sdcard/premiere-onboarding.xml", timeout=30, check=False)
+        (OUT / "first-run-ui.xml").write_text(xml)
+        try:
+            nodes = list(ET.fromstring(xml).iter("node"))
+        except ET.ParseError:
+            report.setdefault("ui_dump_retries", []).append(
+                {"phase": "onboarding", "attempt": attempt, "reason": "missing-or-invalid-xml"})
+            time.sleep(2)
+            continue
+        matches = [n for n in nodes if n.get("text") == "Skip" or n.get("content-desc") == "Skip"]
+        if len(matches) == 1:
+            break
+        if dismiss_launcher_anr(xml, "onboarding", attempt):
+            time.sleep(2)
+            continue
+        if len(matches) > 1:
+            raise RuntimeError("Ambiguous Premiere Skip controls: " + str(len(matches)))
+        if attempt < 11:
+            time.sleep(2)
     if len(matches) != 1:
-        raise RuntimeError("Expected a single Premiere Skip control; found " + str(len(matches)))
+        screenshot("onboarding-skip-missing")
+        raise RuntimeError("Expected a single Premiere Skip control after bounded retries; found " + str(len(matches)))
     bounds = list(map(int, re.findall(r"\d+", matches[0].get("bounds", ""))))
     if len(bounds) != 4:
         raise RuntimeError("Onboarding Skip control has invalid bounds")
@@ -146,14 +232,13 @@ try:
     # Measure actual visible interactive control bounds after Android layout.
     # Preserve the UI hierarchy and the report for diagnosing any 48dp failure.
     from a11y_targets import inspect_xml
-    shell("uiautomator", "dump", "/sdcard/premiere-target-audit.xml", timeout=60)
-    hierarchy = shell("cat", "/sdcard/premiere-target-audit.xml")
-    (OUT / "a11y-targets.xml").write_text(hierarchy)
     density_output = shell("wm", "density")
     density_match = re.findall(r"(?:Override|Physical) density:\s*(\d+)", density_output)
     if not density_match:
         raise RuntimeError("Could not determine emulator display density")
-    a11y = inspect_xml(hierarchy, int(density_match[-1]))
+    a11y = audited_controls("/sdcard/premiere-target-audit.xml",
+                            "a11y-targets.xml", "normal-font",
+                            int(density_match[-1]))
     (OUT / "a11y-targets.json").write_text(json.dumps(a11y, indent=2) + "\n")
     record("visible Premiere controls are at least 48dp after layout",
            not a11y["problems"] and a11y["clickable_controls"] > 0,
@@ -168,10 +253,9 @@ try:
         shell("monkey", "-p", PACKAGE, "-c", "android.intent.category.LAUNCHER", "1", timeout=60)
         time.sleep(4)
         screenshot("font-scale-150-percent")
-        shell("uiautomator", "dump", "/sdcard/premiere-a11y-large-font.xml", timeout=60)
-        font_xml = shell("cat", "/sdcard/premiere-a11y-large-font.xml")
-        (OUT / "a11y-large-font.xml").write_text(font_xml)
-        large_font = inspect_xml(font_xml, int(density_match[-1]))
+        large_font = audited_controls("/sdcard/premiere-a11y-large-font.xml",
+                                      "a11y-large-font.xml", "large-font",
+                                      int(density_match[-1]))
         (OUT / "a11y-large-font.json").write_text(json.dumps(large_font, indent=2) + "\n")
         record("150% font scale preserves 48dp visible Premiere controls",
                large_font["clickable_controls"] > 0 and not large_font["problems"],
@@ -202,7 +286,11 @@ try:
     # codec verification by ending the audio playback session first; keep
     # the completed first-run permissions and preferences.
     shell("am", "force-stop", PACKAGE)
-    time.sleep(1)
+    # Android 13 may report the still-exiting VLC process just after
+    # force-stop returns. Require observed termination within a deadline.
+    audio_deadline = time.monotonic() + 12
+    while process_alive() and time.monotonic() < audio_deadline:
+        time.sleep(0.5)
     record("audio playback session terminated before video", not process_alive())
     cmd("logcat", "-c")
 
