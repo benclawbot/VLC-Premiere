@@ -27,13 +27,12 @@ final class LibraryPosition {
     return hash;
   }
 
-  /** Find the nearest occurrence of the anchored row, falling back to its prior index.
-   * Avoid materializing a second full-library key array for 10k+ media items.
+  /** Find the same media identity or report its deletion; do not transfer focus to another item.
+   * Examine nearby rows first without materializing an extra key array for large libraries.
    */
-  static int restore(int previous, int count, String anchor, IntFunction<String> keyAt) {
-    if (count <= 0) return 0;
+  static int find(int previous, int count, String anchor, IntFunction<String> keyAt) {
+    if (count <= 0 || anchor == null || anchor.isEmpty()) return -1;
     int baseline = Math.max(0, Math.min(previous, count - 1));
-    if (anchor == null || anchor.isEmpty()) return baseline;
     if (anchor.equals(keyAt.apply(baseline))) return baseline;
     for (int distance = 1; distance < count; distance++) {
       int earlier = baseline - distance;
@@ -42,6 +41,13 @@ final class LibraryPosition {
       if (later < count && anchor.equals(keyAt.apply(later))) return later;
       if (earlier < 0 && later >= count) break;
     }
-    return baseline;
+    return -1;
+  }
+
+  /** Keep the viewport at a valid row even when the anchored media was deleted. */
+  static int restore(int previous, int count, String anchor, IntFunction<String> keyAt) {
+    if (count <= 0) return 0;
+    int matched = find(previous, count, anchor, keyAt);
+    return matched >= 0 ? matched : Math.max(0, Math.min(previous, count - 1));
   }
 }
