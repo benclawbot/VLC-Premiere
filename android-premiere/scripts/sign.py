@@ -13,9 +13,15 @@ keytool = java_tool('keytool')
 bt = root/'tools/build-tools/android-16'
 signing = root/'signing'; signing.mkdir(exist_ok=True,mode=0o700)
 config = select_signing(root)
-if config['mode'] == 'release':
+# Release candidates must be signed and tested before issue #5 can close.
+# Only a final publication-signing invocation enforces the owner-wide issue gate.
+stage = os.environ.get('PREMIERE_RELEASE_STAGE', 'candidate')
+if stage not in ('candidate', 'publication'):
+    raise ValueError('PREMIERE_RELEASE_STAGE must be candidate or publication')
+if stage == 'publication':
+    if config['mode'] != 'release':
+        raise ValueError('Publication signing requires production credentials')
     from release_gate import require_no_open_issues
-    # Fail before touching release keys or producing signed APKs.
     require_no_open_issues(os.environ.get('PREMIERE_RELEASE_GITHUB_TOKEN'))
 key, password, alias = config['key'], config['password'], config['alias']
 def run(args, **kw): return subprocess.run([str(a) for a in args],check=True,**kw)
