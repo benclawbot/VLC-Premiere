@@ -20,6 +20,16 @@ public final class LibraryPositionTest {
     String[] removed = {"zero", "one", "three"};
     require(LibraryPosition.restore(2, removed.length, "two", i -> removed[i]) == 2,
         "removed anchor falls back safely");
+    require(LibraryPosition.find(2, removed.length, "two", i -> removed[i]) == -1,
+        "deleted media must never give keyboard focus to another item");
+    require(LibraryPosition.find(2, 0, "two", i -> { throw new AssertionError("no media"); }) == -1,
+        "empty list cannot restore keyboard focus");
+    require(LibraryPosition.find(2, removed.length, "", i -> removed[i]) == -1,
+        "missing focus identity never restores focus");
+    require(LibraryPosition.find(2, added.length, "two", i -> added[i]) == 3,
+        "inserted row retains its keyboard focus by identity");
+    require(LibraryPosition.find(0, 20000, "item19999", i -> "item" + i) == 19999,
+        "20k-item reorders find focused media identity");
     require(LibraryPosition.restore(999, removed.length, null, i -> removed[i]) == 2,
         "out of range positions clamp");
     require(LibraryPosition.restore(22, 0, "two", i -> { throw new AssertionError("no media"); }) == 0,
