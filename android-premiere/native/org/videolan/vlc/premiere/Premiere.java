@@ -752,13 +752,13 @@ public final class Premiere {
         VirtualLibrary.render(this, preserveVirtual ? previousItem : 0, previousOffset, previousAnchor);
         if (!previousFocusKey.isEmpty() && previousFocusRow >= 0 && virtualList != null) {
           final VirtualLibrary.MediaRecyclerView restoredList = virtualList;
-          final int focusedRow = LibraryPosition.restore(
+          final int focusedRow = LibraryPosition.find(
               previousFocusRow, restoredList.getCount(), previousFocusKey,
               row -> VirtualLibrary.itemKey(restoredList.getAdapter().getItem(row)));
           // Do not scroll to an offscreen focused item: keep the preserved viewport.
           // Restore the same action (card, overflow, or play) after recycling.
           // Avoid scrolling to offscreen focus targets and moving the viewport.
-          restoredList.postOnAnimation(() -> {
+          if (focusedRow >= 0) restoredList.postOnAnimation(() -> {
             if (virtualList != restoredList || !restoredList.isAttachedToWindow()) return;
             androidx.recyclerview.widget.RecyclerView.ViewHolder focusedHolder =
                 restoredList.findViewHolderForAdapterPosition(focusedRow);
