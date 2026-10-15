@@ -5,6 +5,9 @@ on:
     paths:
       - 'android-premiere/native/**'
       - 'android-premiere/scripts/check_premiere_locales.py'
+      - 'android-premiere/scripts/release_gate.py'
+      - 'android-premiere/scripts/sign.py'
+      - 'android-premiere/scripts/signing_config.py'
       - 'res/values*/premiere_strings.xml'
       - 'res/values*/premiere_plurals.xml'
       - 'android-premiere/tests/**'
@@ -13,6 +16,9 @@ on:
     paths:
       - 'android-premiere/native/**'
       - 'android-premiere/scripts/check_premiere_locales.py'
+      - 'android-premiere/scripts/release_gate.py'
+      - 'android-premiere/scripts/sign.py'
+      - 'android-premiere/scripts/signing_config.py'
       - 'res/values*/premiere_strings.xml'
       - 'res/values*/premiere_plurals.xml'
       - 'android-premiere/tests/**'
