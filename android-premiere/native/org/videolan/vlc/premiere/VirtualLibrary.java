@@ -277,6 +277,7 @@ final class VirtualLibrary {
       if (poster) {
         LinearLayout actions = ui.row();
         play = ui.text("▶ Play", 12, ui.orange);
+        play.setFocusable(true);
         play.setTag(LibraryPosition.FOCUS_PLAY);
         play.setGravity(Gravity.CENTER_VERTICAL);
         play.setMinHeight(ui.dp(48));
