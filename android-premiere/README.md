@@ -30,3 +30,23 @@ Publish the matching signed ARM64/Universal APKs and `SHA256SUMS` only after
 all hardware scenarios pass. This repository does not automatically publish
 release packages from CI, and signature/checksum validation alone does not
 satisfy device acceptance.
+
+## Two-stage production APK signing
+
+Build and sign **release candidates** with `PREMIERE_RELEASE_STAGE=candidate`
+(the default). Install those exact production-certificate-signed candidate APKs
+and complete issue #5's device, accessibility and certificate acceptance before
+closing the issue.
+
+After all acceptance issues are closed, use
+`PREMIERE_RELEASE_STAGE=publication` when signing the final APKs. This invokes
+the fail-closed owner-wide issue gate before writing signed APKs. Use
+`PREMIERE_RELEASE_GITHUB_TOKEN` set to a **classic personal access token**
+owned by `benclawbot` with full `repo` scope, including private repositories.
+Fine-grained and GitHub App tokens are intentionally rejected because their
+repository selection cannot prove full owner coverage.
+
+**Publication is a separate manual step**; no script can prevent someone from
+manually uploading a candidate APK. Never publish a candidate-stage APK.
+Reverify the final publication-stage artifacts and their certificate/checksums
+before manual distribution. Do not expose the token in logs or CI.

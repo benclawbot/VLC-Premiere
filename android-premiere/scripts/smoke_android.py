@@ -20,7 +20,8 @@ report = {"checks": [], "device": {}, "limitations": [
 
 
 def cmd(*args, timeout=45, check=True):
-    done = subprocess.run(["adb", *args], capture_output=True, text=True, timeout=timeout)
+    done = subprocess.run(["adb", *args], capture_output=True, text=True,
+                          encoding="utf-8", errors="replace", timeout=timeout)
     if check and done.returncode:
         raise RuntimeError(f"ADB failed ({done.returncode}): {' '.join(args)}\n{done.stderr}")
     return done.stdout.strip()
