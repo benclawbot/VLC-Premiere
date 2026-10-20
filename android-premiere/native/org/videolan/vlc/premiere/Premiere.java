@@ -3611,10 +3611,38 @@ public final class Premiere {
     void seriesList() {
       Map<String, List<Object>> groups = seriesGroups();
       heading("TV series", groups.size() + " seasons · On this device");
+      boolean first = true;
       for (Map.Entry<String, List<Object>> group : groups.entrySet()) {
         String name = group.getKey();
-        destination(body, name, group.getValue().size() + " episodes",
-            "video", () -> goItem("series-season", name));
+        List<Object> episodes = group.getValue();
+        if (episodes.isEmpty()) continue;
+        if (!first) {
+          View divider = new View(a);
+          divider.setBackgroundColor(line);
+          body.addView(divider, new LinearLayout.LayoutParams(-1, dp(1)));
+        }
+        first = false;
+        LinearLayout card = row();
+        card.setPadding(0, dp(10), 0, dp(10));
+        // The same episode-backed resolver already fetches the TV show's TMDB
+        // poster for episode details; reuse it on the season selection screen.
+        ImageView poster = art(episodes.get(0), 112);
+        poster.setContentDescription("Poster for " + name);
+        card.addView(poster, new LinearLayout.LayoutParams(dp(76), dp(112)));
+        LinearLayout copy = column();
+        copy.setPadding(dp(14), 0, dp(10), 0);
+        TextView title = text(name, 14, ink);
+        title.setMaxLines(2);
+        copy.addView(title);
+        gap(copy, 6);
+        copy.addView(text(episodes.size() + " episodes", 11, muted));
+        card.addView(copy, new LinearLayout.LayoutParams(0, -2, 1));
+        card.addView(new Icon(a, "next", muted),
+            new LinearLayout.LayoutParams(dp(18), dp(22)));
+        card.setOnClickListener(v -> goItem("series-season", name));
+        card.setFocusable(true);
+        card.setContentDescription("Open " + name + ", " + episodes.size() + " episodes");
+        body.addView(card);
       }
       if (groups.isEmpty()) empty("No TV episodes detected.",
           "Files named Show.S01E01 or similar will be grouped automatically.");
@@ -3623,11 +3651,15 @@ public final class Premiere {
     void seriesSeason() {
       String group = str(item);
       List<Object> episodes = seriesGroups().get(group);
-      if (episodes == null) {
+      if (episodes == null || episodes.isEmpty()) {
         heading(group, "This season is no longer available.");
         return;
       }
       heading(group, episodes.size() + " episodes");
+      ImageView poster = art(episodes.get(0), 180);
+      poster.setContentDescription("Poster for " + group);
+      body.addView(poster, new LinearLayout.LayoutParams(dp(120), dp(180)));
+      gap(body, 16);
       Object[] media = episodes.toArray();
       body.addView(button("▶ Play season in order", () -> playList(media, false), true));
       gap(body, 16);
