@@ -4,6 +4,15 @@ package org.videolan.vlc.premiere;
 final class PlaybackUX {
   private PlaybackUX() {}
 
+  /** Match media by stable identity rather than Java wrapper object identity. */
+  static int indexOf(String identity, Object[] queue,
+      java.util.function.Function<Object, String> keyOf) {
+    if (identity == null || identity.isEmpty() || queue == null) return -1;
+    for (int i = 0; i < queue.length; i++)
+      if (identity.equals(keyOf.apply(queue[i]))) return i;
+    return -1;
+  }
+
   static boolean matchesVideoFilter(String filter, long position, long duration, long seen) {
     boolean completed = seen > 0 || (duration > 0
         && position >= Math.ceil(duration * .95));

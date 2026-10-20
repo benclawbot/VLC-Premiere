@@ -18,6 +18,10 @@ final class SeriesUX {
       this.episode = episode;
     }
     String group() { return series + " · Season " + season; }
+    String episodeCode() {
+      return String.format(java.util.Locale.ROOT, "S%02dE%02d", season, episode);
+    }
+    String displayTitle() { return series + " · " + episodeCode(); }
   }
 
   static Episode from(String filename) {

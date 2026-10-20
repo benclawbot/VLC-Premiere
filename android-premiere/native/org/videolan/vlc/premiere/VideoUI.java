@@ -156,7 +156,11 @@ final class VideoUI extends Premiere.UI {
         forward = button("+10", () -> jump(10000), false);
     rewind.setBackgroundColor(Color.TRANSPARENT);
     forward.setBackgroundColor(Color.TRANSPARENT);
-    transport.addView(rewind, new LinearLayout.LayoutParams(dp(68), dp(64)));
+    transport.addView(icon("back", "Previous video", () -> {
+      invoke(service(), "previous", true);
+      show(true);
+    }), new LinearLayout.LayoutParams(dp(48), dp(64)));
+    transport.addView(rewind, new LinearLayout.LayoutParams(dp(56), dp(64)));
     center =
         button(
             Boolean.TRUE.equals(invoke(service(), "isPlaying")) ? "Ⅱ" : "▶",
@@ -171,7 +175,11 @@ final class VideoUI extends Premiere.UI {
         Boolean.TRUE.equals(invoke(service(), "isPlaying")) ? "Pause audio" : "Play audio"));
     center.setBackground(surface(orange, 40, false));
     transport.addView(center, new LinearLayout.LayoutParams(dp(60), dp(60)));
-    transport.addView(forward, new LinearLayout.LayoutParams(dp(68), dp(64)));
+    transport.addView(forward, new LinearLayout.LayoutParams(dp(56), dp(64)));
+    transport.addView(icon("next", "Next video", () -> {
+      invoke(service(), "next", true);
+      show(true);
+    }), new LinearLayout.LayoutParams(dp(48), dp(64)));
     transport.setTag("transport");
     root.addView(transport, new FrameLayout.LayoutParams(-2, dp(70), Gravity.CENTER));
     LinearLayout playbackFeedback = column();
