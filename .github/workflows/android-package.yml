@@ -175,7 +175,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          cd release
+          cd release/dist
           sha256sum -c SHA256SUMS
           test -s VLC-Premiere-arm64.apk
           test -s VLC-Premiere-Universal.apk
