@@ -30,6 +30,17 @@ public final class PlaybackUXTest {
     check("One".equals(PlaybackUX.repeatLabel(1)), "label one");
     check("All".equals(PlaybackUX.repeatLabel(2)), "label all");
     check("Off".equals(PlaybackUX.repeatLabel(0)), "label off");
+    Object[] queue = {"uri:first", "uri:second", "uri:third"};
+    check(PlaybackUX.indexOf("uri:second", queue, Object::toString) == 1,
+        "start playback from selected queue position");
+    check(PlaybackUX.indexOf("uri:first", queue, Object::toString) == 0,
+        "first item can play");
+    check(PlaybackUX.indexOf("uri:missing", queue, Object::toString) == -1,
+        "missing item falls back to a single-item queue");
+    check(PlaybackUX.indexOf("", queue, Object::toString) == -1,
+        "empty media identity is not a valid selection");
+    check(PlaybackUX.indexOf("uri:first", new Object[0], Object::toString) == -1,
+        "empty playlist is not indexed");
     System.out.println(count + " playback UX assertions passed");
   }
 }
