@@ -151,3 +151,64 @@ jobs:
           path: |
             android-premiere/build/notification-smoke/
             android-premiere/build/smoke/
+
+  # One-time release on the PR #23 merge commit, not on every push.
+  publish_pr23_release:
+    name: Publish tested APK release after PR #23 merge
+    needs: [package, android16]
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/master' &&
+      contains(github.event.head_commit.message, '[publish-premiere]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: premiere-ci-test-packages
+          path: release
+      - name: Check APK checksums and publish GitHub release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          cd release
+          sha256sum -c SHA256SUMS
+          test -s VLC-Premiere-arm64.apk
+          test -s VLC-Premiere-Universal.apk
+          tag="premiere-$(date -u +%Y.%m.%d)"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            tag="${tag}-${GITHUB_SHA:0:7}"
+          fi
+          cat > RELEASE_NOTES.md <<EOF
+          VLC Première — playback and navigation improvements.
+
+          - Added previous/next video controls and context-aware video/audio playback queues.
+          - Preserved library browsing state when returning from playback.
+          - Displayed season and episode codes (such as S01E02) in Recently Added.
+          - Kept Android 16 acceptance tests while removing the Android 11–15 test matrix.
+
+          ## Downloads
+          - **VLC-Premiere-arm64.apk:** for ARM64 phones.
+          - **VLC-Premiere-Universal.apk:** for ARM64, ARMv7, x86, and x86_64.
+          - **SHA256SUMS:** checksums to verify the two files.
+
+          These development-signed builds can update compatible previous Première builds,
+          but cannot directly update an official VLC installation.
+
+          Both variants were freshly built and their checksums verified on the merged master
+          commit. Android 16 emulator acceptance and the APK build must pass before
+          this release is published.
+
+          Source commit: `$GITHUB_SHA`
+          EOF
+          gh release create "$tag" \
+            VLC-Premiere-arm64.apk VLC-Premiere-Universal.apk SHA256SUMS \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "VLC Première — ${tag#premiere-}" \
+            --notes-file RELEASE_NOTES.md \
+            --latest
