@@ -1156,9 +1156,14 @@ public final class Premiere {
         if (episode == null) episode = SeriesUX.from(title(v));
         String recentTitle = episode == null
             ? ArtworkMatch.videoTitle(title(v)) : episode.displayTitle();
-        TextView name = text(recentTitle, 11, ink);
+        TextView name = text(episode == null
+            ? recentTitle : episode.series, 11, ink);
         name.setMaxLines(2);
         card.addView(name);
+        if (episode != null) {
+          gap(card, 4);
+          card.addView(text(episode.episodeCode(), 10, orange));
+        }
         gap(card, 5);
         card.addView(text(time(number(invoke(v, "getLength"))), 10, muted));
         card.setOnClickListener(x -> play(v));
