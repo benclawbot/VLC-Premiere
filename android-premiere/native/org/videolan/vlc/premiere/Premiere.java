@@ -82,7 +82,11 @@ public final class Premiere {
 
           public void onActivityResumed(Activity a) {
             UI u = live.get(a);
-            if (u != null) u.refresh();
+            if (u != null) {
+              // Returning from the video player must not query/rebuild the visible library.
+              if (u.skipResumeRefresh && u.root != null) u.skipResumeRefresh = false;
+              else u.refresh();
+            }
           }
 
           public void onActivitySaveInstanceState(Activity a, Bundle b) {
@@ -272,6 +276,9 @@ public final class Premiere {
     String screen, xml, networkLocation;
     Object item;
     File folder;
+    LinearLayout display, displayBody;
+    ScrollView displayScroll;
+    VirtualLibrary.MediaRecyclerView displayList;
 
     State(UI u) {
       screen = u.screen;
@@ -279,6 +286,15 @@ public final class Premiere {
       item = u.item;
       folder = u.folder;
       networkLocation = u.networkLocation;
+    }
+
+    // Audio playback lives in MainActivity. Keep the actual prior view tree
+    // (including horizontal shelves and RecyclerView position) rather than rebuilding it.
+    void preserveDisplay(UI u) {
+      display = u.base;
+      displayBody = u.body;
+      displayScroll = u.currentScroll;
+      displayList = u.virtualList;
     }
   }
 
@@ -305,6 +321,7 @@ public final class Premiere {
     int count = -1;
     String[] lastVideoSnapshot = new String[0], lastAudioSnapshot = new String[0];
     boolean hasLibrarySnapshot = false, resetScrollOnRender = false;
+    boolean skipResumeRefresh = false;
     ScrollView currentScroll;
     VirtualLibrary.MediaRecyclerView virtualList;
     String renderedScreen = "";
@@ -450,7 +467,8 @@ public final class Premiere {
         if (libraryRefresh != null) handler.removeCallbacks(libraryRefresh);
         libraryRefresh = () -> {
           UI current = weak.get();
-          if (current != null && !current.a.isDestroyed() && !current.a.isFinishing()) current.refresh(false);
+          if (current != null && !current.skipResumeRefresh
+              && !current.a.isDestroyed() && !current.a.isFinishing()) current.refresh(false);
         };
         handler.postDelayed(libraryRefresh, 350);
       });
@@ -620,7 +638,7 @@ public final class Premiere {
                 Object current = invoke(s, "getCurrentMediaWrapper");
                 String key = current != null && number(invoke(current, "getType")) != 0
                     ? str(invoke(current, "getUri")) : "";
-                if (!key.equals(miniMediaKey)) render();
+                if (!key.equals(miniMediaKey)) refreshMiniDock();
                 else if (miniToggle != null) {
                   boolean playing = Boolean.TRUE.equals(invoke(s, "isPlaying"));
                   update(miniToggle, playing ? "Ⅱ" : "▶");
@@ -663,7 +681,9 @@ public final class Premiere {
         if (intent instanceof Intent) a.startActivityForResult((Intent) intent, 773);
         return;
       }
-      history.push(new State(this));
+      State previous = new State(this);
+      if (next.equals("audio-player")) previous.preserveDisplay(this);
+      history.push(previous);
       screen = next;
       resetScrollOnRender = true;
       render();
@@ -693,8 +713,22 @@ public final class Premiere {
       item = s.item;
       folder = s.folder;
       networkLocation = s.networkLocation;
-      resetScrollOnRender = true;
-      render();
+      if (s.display != null && root != null) {
+        // Restore the exact list, filters and scroll positions from before playback.
+        root.removeAllViews();
+        root.addView(s.display, new FrameLayout.LayoutParams(-1, -1));
+        base = s.display;
+        body = s.displayBody;
+        currentScroll = s.displayScroll;
+        virtualList = s.displayList;
+        renderedScreen = screen;
+        resetScrollOnRender = false;
+        seek = null;
+        refreshMiniDock();
+      } else {
+        resetScrollOnRender = true;
+        render();
+      }
       return true;
     }
 
@@ -1001,6 +1035,7 @@ public final class Premiere {
 
     void nav() {
       LinearLayout n = row();
+      n.setTag("premiere-bottom-nav");
       n.setBackgroundColor(panel);
       n.setPadding(dp(2), dp(8), dp(2), dp(6));
       String[] names = {"Video", "Audio", "Browse", "Playlists", "More"},
@@ -1117,7 +1152,11 @@ public final class Premiere {
         LinearLayout card = column();
         card.addView(art(v, 159), new LinearLayout.LayoutParams(-1, dp(159)));
         gap(card, 8);
-        TextView name = text(ArtworkMatch.videoTitle(title(v)), 11, ink);
+        SeriesUX.Episode episode = SeriesUX.from(str(invoke(v, "getFileName")));
+        if (episode == null) episode = SeriesUX.from(title(v));
+        String recentTitle = episode == null
+            ? ArtworkMatch.videoTitle(title(v)) : episode.displayTitle();
+        TextView name = text(recentTitle, 11, ink);
         name.setMaxLines(2);
         card.addView(name);
         gap(card, 5);
@@ -1128,7 +1167,7 @@ public final class Premiere {
               actions(v);
               return true;
             });
-        card.setContentDescription("Play " + title(v));
+        card.setContentDescription("Play " + recentTitle);
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(dp(106), -2);
         p.rightMargin = dp(10);
         shelf.addView(card, p);
@@ -1330,31 +1369,73 @@ public final class Premiere {
       parent.addView(r);
     }
 
+    Object[] playbackContext(Object media) {
+      Object[] candidates;
+      switch (screen) {
+        case "video":
+          candidates = recentVideos.length == 0 ? videos : recentVideos;
+          if (PlaybackUX.indexOf(VirtualLibrary.itemKey(media), candidates,
+              VirtualLibrary::itemKey) < 0) candidates = videos;
+          break;
+        case "videos":
+          candidates = filteredVideos();
+          break;
+        case "audio":
+          candidates = audios;
+          break;
+        case "artist":
+        case "album":
+        case "genre":
+          candidates = detailTracks.get(item);
+          break;
+        case "series-season":
+          List<Object> episodes = seriesGroups().get(str(item));
+          candidates = episodes == null ? null : episodes.toArray();
+          break;
+        case "playlist":
+        case "group":
+          candidates = tracks(item);
+          break;
+        case "history":
+          candidates = videoHistory;
+          break;
+        default:
+          candidates = number(invoke(media, "getType")) == 0 ? videos : audios;
+      }
+      return candidates == null ? new Object[0] : candidates;
+    }
+
     void play(Object media) {
-      // Use VLC's non-blocking playback path. openMedia() routes through a
-      // suspend dialog callback and can leave Premiere's row tap without a
-      // service load when there is no pending playback to resume.
-      invoke(singleton("org.videolan.vlc.media.MediaUtils", "INSTANCE"), "openMediaNoUi", a, media);
-      if (number(invoke(media, "getType")) != 0) {
-        history.push(new State(this));
-        screen = "audio-player";
-        handler.postDelayed(this::render, 450);
+      // A single row needs its surrounding collection in VLC's playlist so
+      // next/previous works in both the video and audio players.
+      Object[] queue = playbackContext(media);
+      int index = PlaybackUX.indexOf(VirtualLibrary.itemKey(media), queue,
+          VirtualLibrary::itemKey);
+      if (index < 0) {
+        queue = new Object[] {media};
+        index = 0;
+      }
+      startQueue(queue, index, false);
+    }
+
+    void startQueue(Object[] media, int index, boolean shuffle) {
+      if (media.length == 0) return;
+      boolean video = number(invoke(media[index], "getType")) == 0;
+      // openList is VLC's non-blocking playback route and retains the queue.
+      invoke(singleton("org.videolan.vlc.media.MediaUtils", "INSTANCE"),
+          "openList", a, Arrays.asList(media), index, shuffle);
+      if (video) {
+        skipResumeRefresh = true;
+      } else {
+        go("audio-player");
+        handler.postDelayed(() -> {
+          if ("audio-player".equals(screen)) render();
+        }, 450);
       }
     }
 
     void playList(Object[] media, boolean shuffle) {
-      if (media.length == 0) return;
-      invoke(
-          singleton("org.videolan.vlc.media.MediaUtils", "INSTANCE"),
-          "openList",
-          a,
-          Arrays.asList(media),
-          0,
-          shuffle);
-      if (number(invoke(media[0], "getType")) != 0) {
-        go("audio-player");
-        handler.postDelayed(this::render, 450);
-      }
+      startQueue(media, 0, shuffle);
     }
 
     void music() {
@@ -1483,6 +1564,7 @@ public final class Premiere {
       if (miniMediaKey.isEmpty()) return;
       LinearLayout dock = row();
       dock.setGravity(Gravity.CENTER_VERTICAL);
+      dock.setTag("premiere-mini-dock");
       dock.setPadding(dp(12), dp(7), dp(12), dp(7));
       dock.setBackground(surface(panel, 6, true));
       dock.addView(art(current, 42), new LinearLayout.LayoutParams(dp(42), dp(42)));
@@ -1513,6 +1595,21 @@ public final class Premiere {
       dock.setContentDescription("Now playing " + title(current) + ". Open player");
       dock.setFocusable(true);
       base.addView(dock, new LinearLayout.LayoutParams(-1, -2));
+    }
+
+    void refreshMiniDock() {
+      if (base == null) return;
+      View previous = base.findViewWithTag("premiere-mini-dock");
+      if (previous != null) base.removeView(previous);
+      View last = base.getChildCount() == 0 ? null : base.getChildAt(base.getChildCount() - 1);
+      int beforeNavigation = last != null && "premiere-bottom-nav".equals(last.getTag())
+          ? Math.max(0, base.getChildCount() - 2) : -1;
+      miniDock();
+      View fresh = base.findViewWithTag("premiere-mini-dock");
+      if (fresh != null && beforeNavigation >= 0) {
+        base.removeView(fresh);
+        base.addView(fresh, beforeNavigation);
+      }
     }
 
     LinearLayout group(String name) {
