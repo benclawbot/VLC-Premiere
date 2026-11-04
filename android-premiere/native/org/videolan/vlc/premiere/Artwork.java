@@ -371,7 +371,7 @@ final class Artwork {
   private static final Object migrationLock=new Object();
   private static volatile boolean artworkMigrated;
   private static File cache(Context c){
-    File durable=new File(c.getFilesDir(),"premiere-art");
+    File durable=new File(c.getNoBackupFilesDir(),"premiere-art");
     if(!artworkMigrated)synchronized(migrationLock){
       if(!artworkMigrated)try{
         ArtworkStorage.migrate(new File(c.getCacheDir(),"premiere-art"),durable);
