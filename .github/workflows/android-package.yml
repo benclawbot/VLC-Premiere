@@ -63,8 +63,43 @@ jobs:
           java -jar android-premiere/tools/apktool.jar --version
       - name: Verify and extract pinned engine dependencies
         run: python3 android-premiere/scripts/fetch_dependencies.py
+      # Publishing must reuse the original private signing key. PR checks stay
+      # development-signed and never receive production credentials.
+      - name: Load stable, pinned release signing identity
+        if: >-
+          github.event_name == 'push' &&
+          github.ref == 'refs/heads/master' &&
+          contains(github.event.head_commit.message, '[publish-premiere]')
+        shell: bash
+        env:
+          RELEASE_KEYSTORE_B64: ${{ secrets.PREMIERE_RELEASE_KEYSTORE_B64 }}
+          RELEASE_PASSWORD: ${{ secrets.PREMIERE_RELEASE_PASSWORD }}
+          RELEASE_ALIAS: ${{ secrets.PREMIERE_RELEASE_ALIAS }}
+          RELEASE_CERT_SHA256: ${{ secrets.PREMIERE_RELEASE_CERT_SHA256 }}
+          RELEASE_GATE_TOKEN: ${{ secrets.PREMIERE_RELEASE_GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          for setting in RELEASE_KEYSTORE_B64 RELEASE_PASSWORD RELEASE_ALIAS RELEASE_CERT_SHA256 RELEASE_GATE_TOKEN; do
+            if [[ -z "${!setting}" ]]; then
+              echo "::error::Required release signing secret is missing: $setting"
+              exit 1
+            fi
+          done
+          umask 077
+          mkdir -p android-premiere/signing
+          printf '%s' "$RELEASE_KEYSTORE_B64" | base64 --decode > android-premiere/signing/release.p12
+          printf '%s' "$RELEASE_PASSWORD" > android-premiere/signing/release-password.txt
+          {
+            echo "PREMIERE_RELEASE_KEYSTORE=$GITHUB_WORKSPACE/android-premiere/signing/release.p12"
+            echo "PREMIERE_RELEASE_PASSWORD_FILE=$GITHUB_WORKSPACE/android-premiere/signing/release-password.txt"
+            echo "PREMIERE_RELEASE_ALIAS=$RELEASE_ALIAS"
+            echo "PREMIERE_RELEASE_CERT_SHA256=$RELEASE_CERT_SHA256"
+            echo "PREMIERE_RELEASE_STAGE=publication"
+          } >> "$GITHUB_ENV"
       - name: Build both signed APK variants
         shell: bash
+        env:
+          PREMIERE_RELEASE_GITHUB_TOKEN: ${{ secrets.PREMIERE_RELEASE_GITHUB_TOKEN }}
         run: bash android-premiere/scripts/build.sh
       - name: Verify signing, checksums and outputs
         shell: bash
@@ -75,6 +110,36 @@ jobs:
           test -s VLC-Premiere-arm64.apk
           test -s VLC-Premiere-Universal.apk
           test -s SHA256SUMS
+      - name: Refuse release if it cannot upgrade the latest installed APK
+        if: >-
+          github.event_name == 'push' &&
+          github.ref == 'refs/heads/master' &&
+          contains(github.event.head_commit.message, '[publish-premiere]')
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          previous="android-premiere/build/previous-release"
+          mkdir -p "$previous"
+          gh release download --repo "$GITHUB_REPOSITORY" \
+            --pattern 'VLC-Premiere-arm64.apk' --dir "$previous"
+          prior="$previous/VLC-Premiere-arm64.apk"
+          test -s "$prior"
+          java -jar android-premiere/tools/build-tools/android-16/lib/apksigner.jar \
+            verify --print-certs "$prior" > "$previous/certificate.txt"
+          aapt2="android-premiere/tools/build-tools/android-16/aapt2"
+          "$aapt2" dump badging "$prior" > "$previous/badging.txt"
+          "$aapt2" dump badging android-premiere/dist/VLC-Premiere-arm64.apk \
+            > "$previous/new-arm64.txt"
+          "$aapt2" dump badging android-premiere/dist/VLC-Premiere-Universal.apk \
+            > "$previous/new-universal.txt"
+          python3 android-premiere/scripts/verify_release_upgrade.py \
+            --artifacts android-premiere/build/artifacts.json \
+            --old-certificate "$previous/certificate.txt" \
+            --old-badging "$previous/badging.txt" \
+            --new-arm64-badging "$previous/new-arm64.txt" \
+            --new-universal-badging "$previous/new-universal.txt"
       - name: Verify VLC-bundled AndroidX runtime for RecyclerView migration
         run: python3 android-premiere/scripts/verify_androidx_runtime.py
       - name: Upload CI-only test packages and provenance
@@ -152,9 +217,9 @@ jobs:
             android-premiere/build/notification-smoke/
             android-premiere/build/smoke/
 
-  # One-time release on the PR #23 merge commit, not on every push.
-  publish_pr23_release:
-    name: Publish tested APK release after PR #23 merge
+  # Release only from a marked master commit, after upgrade identity and emulator checks.
+  publish_release:
+    name: Publish upgrade-compatible APK release
     needs: [package, android16]
     if: >-
       github.event_name == 'push' &&
@@ -176,6 +241,16 @@ jobs:
         run: |
           set -euo pipefail
           cd release/dist
+          # Prevent a regression that publishes a fresh, unrelated development key.
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          artifacts=json.loads(Path("../build/artifacts.json").read_text())
+          if len(artifacts)!=2 or any(x.get("signing_mode")!="release" for x in artifacts):
+              raise SystemExit("Release blocked: unsigned or development-signed APK")
+          if len({x.get("certificate_sha256") for x in artifacts})!=1:
+              raise SystemExit("Release blocked: APK variants have different signing certificates")
+          PY
           sha256sum -c SHA256SUMS
           test -s VLC-Premiere-arm64.apk
           test -s VLC-Premiere-Universal.apk
@@ -184,24 +259,25 @@ jobs:
             tag="${tag}-${GITHUB_SHA:0:7}"
           fi
           cat > RELEASE_NOTES.md <<EOF
-          VLC Première — playback and navigation improvements.
+          VLC Première — upgrade-safe release and persistent artwork.
 
-          - Added previous/next video controls and context-aware video/audio playback queues.
-          - Preserved library browsing state when returning from playback.
-          - Displayed season and episode codes (such as S01E02) in Recently Added.
-          - Kept Android 16 acceptance tests while removing the Android 11–15 test matrix.
+          - Preserved video posters and music covers in durable app-private storage, migrating the old cache on first access.
+          - Kept the TMDB token and user settings during a compatible in-place APK update.
+          - Verified that both APK variants retain the prior release certificate, package identity, and a newer versionCode.
+          - Preserved automatic video/audio library rescanning on launch.
 
           ## Downloads
           - **VLC-Premiere-arm64.apk:** for ARM64 phones.
           - **VLC-Premiere-Universal.apk:** for ARM64, ARMv7, x86, and x86_64.
           - **SHA256SUMS:** checksums to verify the two files.
 
-          These development-signed builds can update compatible previous Première builds,
-          but cannot directly update an official VLC installation.
+          Install over the prior compatible VLC Première version without uninstalling to retain
+          private TMDB credentials and artwork. The release gate checked the previous published
+          APK certificate and increasing versionCode. These packages cannot update official VLC
+          or earlier Première installations signed with a different certificate.
 
-          Both variants were freshly built and their checksums verified on the merged master
-          commit. Android 16 emulator acceptance and the APK build must pass before
-          this release is published.
+          Both variants were built with the pinned production key and checksums verified on
+          the merged master commit. Android 16 emulator acceptance must pass before publication.
 
           Source commit: `$GITHUB_SHA`
           EOF
