@@ -1,0 +1,32 @@
+name: Temporary APK signing tool bridge
+
+on:
+  push:
+    branches: [tooling/apksigner-bridge]
+
+permissions:
+  contents: read
+
+jobs:
+  tool:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - name: Download pinned Android SDK signing tool
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --silent --show-error \
+            https://dl.google.com/android/repository/build-tools_r36_linux.zip \
+            -o /tmp/build-tools.zip
+          echo '5d9ac77fb6ff43d9da518a337b4fcf8f9097113df531d99ccefe80ef7ce8250b  /tmp/build-tools.zip' | sha256sum -c -
+          mkdir -p /tmp/signing-tools
+          unzip -p /tmp/build-tools.zip 'android-16/lib/apksigner.jar' > /tmp/signing-tools/apksigner.jar
+          test -s /tmp/signing-tools/apksigner.jar
+          java -jar /tmp/signing-tools/apksigner.jar version
+      - uses: actions/upload-artifact@v4
+        with:
+          name: premiere-android-signing-tool
+          path: /tmp/signing-tools/apksigner.jar
+          retention-days: 1
+          if-no-files-found: error
