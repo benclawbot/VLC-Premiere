@@ -9,6 +9,39 @@ This directory contains the native Premiere phone interface and the scripts used
 
 From the repository root, run `python3 android-premiere/scripts/fetch_dependencies.py` and then `bash android-premiere/scripts/build.sh`. Requirements: Python 3, Java 17 (`JAVA_HOME`, a JDK in `tools/jdk`, or Java on `PATH`), Apktool 3.0.3 (`APKTOOL_JAR` or `tools/apktool.jar`), and Android API 30's `android.jar` at `tools/android.jar`. The dependency fetch downloads checksum-verified VLC APKs and Android build-tools, but does not install Apktool or the Android platform jar. Preparation reuses a root decoded smali tree when available; otherwise it verifies and decodes the fetched ARM64 APK into `baseline/original-arm64-decoded/`. See the root [README](../README.md) for the complete build and signing details. Downloaded tools, decoded baseline, work files, signing material, and handset evidence are kept in ignored directories.
 
+## In-place upgrades, TMDB credentials and poster retention
+
+Android updates require **the exact same package name and compatible signing identity**
+as the APK already installed, plus a non-decreasing versionCode. Première keeps
+`org.videolan.vlc`; the next versionCode is incremented to `13070110`.
+
+The release workflow no longer publishes a fresh CI-generated development signer.
+For a marked `[publish-premiere]` push, configure these repository **Actions secrets**:
+`PREMIERE_RELEASE_KEYSTORE_B64` (base64 of the *existing* release keystore),
+`PREMIERE_RELEASE_PASSWORD`, `PREMIERE_RELEASE_ALIAS`,
+`PREMIERE_RELEASE_CERT_SHA256` (pinned SHA-256 of the signing certificate),
+and `PREMIERE_RELEASE_GITHUB_TOKEN` (the classic PAT needed by the existing
+publication issue gate). The workflow aborts if any is absent, if the certificate
+does not match the most recent published APK, if the package changes, or if the
+new versionCode is not greater. It also requires a completed Android 16 emulator
+run before release. Never use a brand-new keystore for an upgrade release.
+
+**Legacy limitation:** Prior GitHub Actions releases signed with ephemeral
+development keys may be impossible to update in-place if the original private
+key has been lost. Android will not allow changing the signer while preserving
+app-private data. A signing check can prevent future incompatible releases, but
+cannot retroactively make those old APKs upgradeable. Do not tell users to uninstall
+to fix an update error; that deletes local TMDB credentials and artwork. A
+separate, user-controlled migration/export workflow would be required for a
+different-signer reinstall.
+
+For matching-signer updates the saved TMDB read token remains in
+`noBackupFilesDir/premiere_tmdb_token`, settings remain in private preferences,
+and already matched video posters/music covers are migrated from the old
+evictable cache to `noBackupFilesDir/premiere-art`. Both online lookup providers
+and offline cached images continue to work. Uninstalling or clearing data
+removes this information.
+
 ## Production signing and release acceptance
 
 The default local and pull-request builds use a **development** certificate. Never
