@@ -42,6 +42,7 @@ jobs:
       - name: Test production signing and issue-gate safeguards
         run: |
           python3 -m unittest discover -s android-premiere/tests -p 'test_signing_config.py'
+          python3 -m unittest discover -s android-premiere/tests -p 'test_verify_release_upgrade.py'
           python3 -m unittest discover -s android-premiere/tests -p 'test_release_gate.py'
           python3 -m py_compile android-premiere/scripts/smoke_android.py
       - name: Run pure-Java player regression tests
@@ -53,7 +54,9 @@ jobs:
             android-premiere/native/org/videolan/vlc/premiere/SeriesUX.java \
             android-premiere/native/org/videolan/vlc/premiere/LibraryPosition.java \
             android-premiere/native/org/videolan/vlc/premiere/LaunchScanGate.java \
+            android-premiere/native/org/videolan/vlc/premiere/ArtworkStorage.java \
             android-premiere/tests/LaunchScanGateTest.java \
+            android-premiere/tests/ArtworkStorageTest.java \
             android-premiere/tests/VideoSeekTest.java \
             android-premiere/tests/PlaybackUXTest.java \
             android-premiere/tests/SeriesUXTest.java \
@@ -63,6 +66,7 @@ jobs:
           java -cp /tmp/vlc-premiere-tests org.videolan.vlc.premiere.SeriesUXTest
           java -cp /tmp/vlc-premiere-tests org.videolan.vlc.premiere.LibraryPositionTest
           java -cp /tmp/vlc-premiere-tests org.videolan.vlc.premiere.LaunchScanGateTest
+          java -cp /tmp/vlc-premiere-tests org.videolan.vlc.premiere.ArtworkStorageTest
       - uses: android-actions/setup-android@v3
         with:
           packages: 'platforms;android-30'

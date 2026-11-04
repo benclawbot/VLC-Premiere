@@ -368,7 +368,21 @@ final class Artwork {
   private static Bitmap decodeFile(File file)throws Exception{if(!file.isFile()||file.length()>8*1024*1024)return null;try(InputStream in=new FileInputStream(file)){return decode(bytes(in,8*1024*1024));}}
   private static Bitmap decode(byte[] data){BitmapFactory.Options o=new BitmapFactory.Options();o.inJustDecodeBounds=true;BitmapFactory.decodeByteArray(data,0,data.length,o);if(o.outWidth<=0||o.outHeight<=0||o.outWidth>12000||o.outHeight>12000)return null;o.inSampleSize=1;while(o.outWidth/o.inSampleSize>720||o.outHeight/o.inSampleSize>1080)o.inSampleSize*=2;o.inJustDecodeBounds=false;return BitmapFactory.decodeByteArray(data,0,data.length,o);}
   private static byte[] bytes(InputStream in,int max)throws Exception{ByteArrayOutputStream out=new ByteArrayOutputStream();byte[] buffer=new byte[8192];int n,total=0;while((n=in.read(buffer))!=-1){total+=n;if(total>max)throw new IOException("Response limit");out.write(buffer,0,n);}return out.toByteArray();}
-  private static File cache(Context c){File f=new File(c.getCacheDir(),"premiere-art");f.mkdirs();return f;}
+  private static final Object migrationLock=new Object();
+  private static volatile boolean artworkMigrated;
+  private static File cache(Context c){
+    File durable=new File(c.getNoBackupFilesDir(),"premiere-art");
+    if(!artworkMigrated)synchronized(migrationLock){
+      if(!artworkMigrated)try{
+        ArtworkStorage.migrate(new File(c.getCacheDir(),"premiere-art"),durable);
+        artworkMigrated=true;
+      }catch(IOException migrationFailure){
+        android.util.Log.w("PremiereArtwork","Legacy artwork migration will retry",migrationFailure);
+      }
+    }
+    if(!durable.isDirectory()&&!durable.mkdirs())throw new IllegalStateException("Private artwork folder unavailable");
+    return durable;
+  }
   private static String read(File f)throws Exception{try(InputStream in=new FileInputStream(f)){return new String(bytes(in,65536),"UTF-8");}}
   private static void write(File f,String s)throws Exception{File tmp=new File(f.getPath()+".tmp");try(FileOutputStream out=new FileOutputStream(tmp)){out.write(s.getBytes("UTF-8"));out.getFD().sync();}if(!tmp.renameTo(f)){tmp.delete();throw new IOException("Atomic write failed");}}
   private static void saveBitmap(File f,Bitmap bitmap)throws Exception{File tmp=new File(f.getPath()+".tmp");try(FileOutputStream out=new FileOutputStream(tmp)){bitmap.compress(Bitmap.CompressFormat.JPEG,88,out);out.getFD().sync();}if(!tmp.renameTo(f)){tmp.delete();throw new IOException("Atomic image write failed");}}
