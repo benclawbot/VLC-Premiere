@@ -60,9 +60,10 @@ After the release-signed APKs have been built, install **those exact files** on
 the target Android handset and emulator. Retain device logs and acceptance
 evidence for the scenarios in [issue #5](https://github.com/benclawbot/VLC-Premiere/issues/5).
 Publish the matching signed ARM64/Universal APKs and `SHA256SUMS` only after
-all hardware scenarios pass. This repository does not automatically publish
-release packages from CI, and signature/checksum validation alone does not
-satisfy device acceptance.
+all hardware scenarios pass. Marked master commits can publish only after pinned release signing, the
+publication issue gate, prior-release certificate/version compatibility checks,
+and CI Android 16 acceptance. Signature/checksum validation alone does not
+satisfy physical-device acceptance.
 
 ## Two-stage production APK signing
 
