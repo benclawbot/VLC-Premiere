@@ -80,7 +80,9 @@ owned by `benclawbot` with full `repo` scope, including private repositories.
 Fine-grained and GitHub App tokens are intentionally rejected because their
 repository selection cannot prove full owner coverage.
 
-**Publication is a separate manual step**; no script can prevent someone from
-manually uploading a candidate APK. Never publish a candidate-stage APK.
+Only publication-stage APKs may be distributed. For a marked master commit,
+the release workflow uses publication-stage signing and verifies the latest
+release's APK signing identity before publishing. Manual uploads are not
+protected by CI, so never publish a candidate-stage APK.
 Reverify the final publication-stage artifacts and their certificate/checksums
 before manual distribution. Do not expose the token in logs or CI.
