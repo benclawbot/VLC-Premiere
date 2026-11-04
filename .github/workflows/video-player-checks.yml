@@ -52,6 +52,8 @@ jobs:
             android-premiere/native/org/videolan/vlc/premiere/PlaybackUX.java \
             android-premiere/native/org/videolan/vlc/premiere/SeriesUX.java \
             android-premiere/native/org/videolan/vlc/premiere/LibraryPosition.java \
+            android-premiere/native/org/videolan/vlc/premiere/LaunchScanGate.java \
+            android-premiere/tests/LaunchScanGateTest.java \
             android-premiere/tests/VideoSeekTest.java \
             android-premiere/tests/PlaybackUXTest.java \
             android-premiere/tests/SeriesUXTest.java \
@@ -60,6 +62,7 @@ jobs:
           java -cp /tmp/vlc-premiere-tests org.videolan.vlc.premiere.PlaybackUXTest
           java -cp /tmp/vlc-premiere-tests org.videolan.vlc.premiere.SeriesUXTest
           java -cp /tmp/vlc-premiere-tests org.videolan.vlc.premiere.LibraryPositionTest
+          java -cp /tmp/vlc-premiere-tests org.videolan.vlc.premiere.LaunchScanGateTest
       - uses: android-actions/setup-android@v3
         with:
           packages: 'platforms;android-30'

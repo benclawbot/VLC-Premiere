@@ -2,6 +2,8 @@
 
 Updated 2026-10-11 (Europe/Paris). The selected Premiere presentation and VLC engine are retained.
 
+On each fresh app process launch, Première now requests one VLC media-library reload after the native library initializes, provided **Settings → Media library → Auto rescan** is enabled (the default). This runs off the UI thread and does not restart when returning from playback or opening settings. The existing media callbacks then refresh both video and audio collections, and the artwork sweep processes new or changed thumbnails and covers using the private cache. If Auto rescan is off, the app still checks artwork in the already indexed library without scanning storage.
+
 Artwork lookup now starts automatically from VLC's scanned video/audio library. The complete array is processed in bounded background work through the same cache and matching pipeline used for visible cards. A newer scan interrupts the current pass and is picked up first; media-library IDs prioritize newly added items. The sweep resumes at the next application start, and settings, metadata changes, cache clearing, and transient network retries re-queue candidates. Music chooses the closest plausible match instead of requiring a unique exact title. Visible artwork jobs move ahead of background jobs in both metadata and network queues. Movie matches retain their title/year safeguards. Current build and handset evidence is recorded in VERIFICATION.md.
 
 ## Actual matching behaviour

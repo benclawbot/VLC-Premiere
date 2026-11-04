@@ -23,6 +23,7 @@ public final class Premiere {
   private static final Map<Activity, UI> live = new WeakHashMap<>();
   private static final ExecutorService images = Executors.newFixedThreadPool(2);
   private static final ExecutorService mediaQueries = Executors.newSingleThreadExecutor();
+  private static final LaunchScanGate launchScanGate = new LaunchScanGate();
   private static final Map<Class<?>, Method[]> methodCache = new ConcurrentHashMap<>();
   private static final android.util.LruCache<String, Bitmap> cache =
       new android.util.LruCache<String, Bitmap>(16 * 1024 * 1024) {
@@ -548,7 +549,8 @@ public final class Premiere {
       mediaQueries.execute(
           () -> {
             Object lib = library();
-            if (!Boolean.TRUE.equals(invoke(lib, "isInitiated"))) {
+            boolean libraryReady = Boolean.TRUE.equals(invoke(lib, "isInitiated"));
+            if (!libraryReady) {
               handler.post(() -> {
                 mediaQueryPending = false;
                 if (!a.isDestroyed() && !a.isFinishing())
@@ -589,6 +591,13 @@ public final class Premiere {
                   if (changed || renderRequested) {
                     Artwork.sweep(a.getApplicationContext(), newVideos, newAudios);
                     render();
+                  }
+                  // Show the cached library first, then ask VLC to discover changed files.
+                  // The registered media callbacks refresh both video and audio artwork.
+                  // Do not rescan for player/settings resumes or when Auto rescan is off.
+                  if (a.getClass().getName().equals("org.videolan.vlc.gui.MainActivity")
+                      && launchScanGate.claim(prefs.getBoolean("auto_rescan", true), libraryReady)) {
+                    mediaQueries.execute(() -> invoke(library(), "reload"));
                   }
                   if(mediaQueryDirty){mediaQueryDirty=false;refresh(false);}
                 });

@@ -4,7 +4,7 @@ VLC Premiere is a native Android redesign of VLC's phone interface, built over t
 
 [Download the packaged release](https://github.com/benclawbot/VLC-Premiere/releases/tag/premiere-2026.10.11) · [ARM64 APK](https://github.com/benclawbot/VLC-Premiere/releases/download/premiere-2026.10.11/VLC-Premiere-arm64.apk) · [Universal APK](https://github.com/benclawbot/VLC-Premiere/releases/download/premiere-2026.10.11/VLC-Premiere-Universal.apk)
 
-Artwork searches start automatically after VLC discovers media, using both filenames and tags with fuzzy matching. Music covers use MusicBrainz, Deezer and matching YouTube thumbnails; movie/TV posters use a personal TMDB read token entered in **More → Settings → Artwork**. Images are cached privately on the phone. Catalogue coverage and match accuracy vary.
+On launch, Première starts a background VLC library rescan (when **Auto rescan** is enabled) and checks video posters and audio covers for new or changed media. The existing cached library appears immediately; playback resumes do not trigger duplicate rescans. Artwork searches start automatically after VLC discovers media, using both filenames and tags with fuzzy matching. Music covers use MusicBrainz, Deezer and matching YouTube thumbnails; movie/TV posters use a personal TMDB read token entered in **More → Settings → Artwork**. Images are cached privately on the phone. Catalogue coverage and match accuracy vary.
 
 ## Screenshots
 
